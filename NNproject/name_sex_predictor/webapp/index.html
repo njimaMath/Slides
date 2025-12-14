@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>名前から性別を予測</title>
+    <style>
+        body {
+            font-family: 'Hiragino Kaku Gothic Pro', 'メイリオ', Arial, sans-serif;
+            margin: 2rem;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        form {
+            margin-bottom: 1rem;
+        }
+        input[type="text"] {
+            padding: 0.5rem;
+            width: 100%;
+            max-width: 400px;
+            font-size: 1rem;
+        }
+        button {
+            margin-top: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 1rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>名前から性別を予測 🔮</h1>
+    <p>日本人の名前をローマ字で入力してください（例：HARUTO、SAKURA）<br>
+        ニューラルネットワークで学習したモデルが性別を予測します（精度：約82%）</p>
+    <form id="predict-form">
+        <input type="text" id="name-input" placeholder="例：HARUTO" required>
+        <button type="submit">予測する</button>
+    </form>
+    <div id="result"></div>
+    <script src="script.js"></script>
+</body>
+</html>
