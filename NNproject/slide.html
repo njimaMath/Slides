@@ -2180,7 +2180,8 @@
         const BITS_PER_CHAR = 10;
         const TOTAL_BITS = NAME_LENGTH * BITS_PER_CHAR;
 
-        let weights = null;
+        // Embedded model weights (87% accuracy)
+        let weights = [-5.06831, -5.06831, -5.06831, -5.06831, -5.06831, 76.050134, 116.216974, 138.038458, -180.428494, 59.574598, -5.06831, -5.06831, -5.06831, -5.06831, -5.06831, 38.60611, 24.245642, -4.79399, -41.248402, -1.37437, -5.06831, -5.06831, -5.06831, -5.06831, -5.06831, 8.613918, 1.661382, 2.64451, -16.628294, 0.55379, -5.06831, -5.06831, -5.06831, -5.06831, -5.06831, 16.93877, -10.07817, 5.407174, 17.130326, -7.502466, -5.06831, -5.06831, -5.06831, -5.06831, -5.06831, 11.301514, -2.919082, 8.297446, 11.180902, 11.101282, -5.06831, -5.06831, -5.06831, -5.06831, -5.06831, 16.822554, -11.838978, 5.159886, 23.577998, -35.490386, -5.06831, -5.06831, -5.06831, -5.06831, -5.06831, -10.82379, -40.591962, -27.638782, -31.869194, -6.350622, -5.06831, -5.06831, -5.06831, -5.06831, -5.06831, -29.466162, -2.934962, 30.790582, -35.59117, 59.111858];
 
         function letterToBits(letter) {
             if (!letter || letter.length !== 1) {
@@ -2215,9 +2216,6 @@
         }
 
         function predict(name) {
-            if (!weights) {
-                throw new Error('Model weights have not been loaded.');
-            }
             const v = encodeName(name);
             const v2 = v.map((bit) => bit * 2 - 1);
             let dot = 0;
@@ -2227,22 +2225,8 @@
             return dot >= 0 ? 'male' : 'female';
         }
 
-        async function loadModel() {
-            try {
-                const response = await fetch('name_sex_predictor/webapp/model.json');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch model.json');
-                }
-                weights = await response.json();
-                console.log('Model loaded: ' + weights.length + ' weights');
-            } catch (err) {
-                console.error('Could not load model:', err);
-                weights = new Array(TOTAL_BITS).fill(1);
-            }
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
-            loadModel();
+            console.log('Model loaded: ' + weights.length + ' weights (embedded)');
             const form = document.getElementById('demo-predict-form');
             const input = document.getElementById('demo-name-input');
             const resultDiv = document.getElementById('demo-result');
