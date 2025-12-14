@@ -19,8 +19,8 @@
 
         .slide {
             width: 100vw;
-            height: 85vw;
-            max-height: 140vh;
+            height: 70vw;
+            max-height: 120vh;
             max-width: 177.78vh;
             margin: 0 auto;
             display: flex;
@@ -620,9 +620,10 @@
             flex: 1;
             background: #fff;
             border-radius: 12px;
-            padding: 3vh 2vw;
+            padding: 3vh 3vw;
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             border-top: 4px solid;
+            min-width: 35vw;
         }
 
         .impl-card.data {
@@ -1042,7 +1043,7 @@
 
         .deep-nn-svg {
             width: 100%;
-            max-width: 45vw;
+            max-width: 65vw;
             margin: 2vh auto;
             display: block;
         }
@@ -1676,17 +1677,17 @@
                 <h3>モデル</h3>
                 <p>
                     パーセプトロンを実装<br>
-                    <strong>w</strong> は<span class="highlight">シミュレーテッドアニーリング</span>で探索<br><br>
+                    <strong>w</strong> は<span class="highlight">モンテカルロ</span>で探索<br><br>
                     <small style="color: #888;">精度：約87%</small>
                 </p>
             </div>
         </div>
         
         <div class="algorithm-box">
-            <span class="comment"># シミュレーテッドアニーリングの概要</span><br>
+            <span class="comment"># モンテカルロの概要</span><br>
             <span class="keyword">for</span> t = 1, 2, ..., T:<br>
             &nbsp;&nbsp;&nbsp;&nbsp;w' ← wの1成分をランダムに反転<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> E(w') < E(w) <span class="keyword">or</span> random() < exp(−β(E(w')−E(w))):<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> E(w') ≤ E(w):　<span class="comment"># 誤分類が減ったら採用</span><br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;w ← w'<br>
             <span class="comment"># E(w) = 誤分類の数（モデルが間違えた予測の個数）</span>
         </div>
@@ -1714,11 +1715,11 @@
         </div>
         
         <div class="formula-box" style="margin-top: 2vh; font-size: 0.9vw; max-width: 700px; margin-left: auto; margin-right: auto;">
-            <strong>学習された重みベクトル \( \mathbf{w} \in \mathbb{R}^{80} \)：</strong><br>
+            <strong>学習された重みベクトル \( \mathbf{w} \in \mathbb{R}^{50} \)：</strong><br>
             <div style="font-family: monospace; font-size: 0.7vw; max-height: 8vh; overflow-y: auto; background: #f8f9fa; padding: 1vh; border-radius: 4px; margin-top: 1vh; word-break: break-all;">
                 w = [-5.07, -5.07, -5.07, -5.07, -5.07, 76.05, 116.22, 138.04, -180.43, 59.57, -5.07, -5.07, -5.07, -5.07, -5.07, 38.61, 24.25, -4.79, -41.25, -1.37, -5.07, -5.07, -5.07, -5.07, -5.07, 8.61, 1.66, 2.64, -16.63, 0.55, -5.07, -5.07, -5.07, -5.07, -5.07, 16.94, -10.08, 5.41, 17.13, -7.50, -5.07, -5.07, -5.07, -5.07, -5.07, 11.30, -2.92, 8.30, 11.18, 11.10, -5.07, -5.07, -5.07, -5.07, -5.07, 16.82, -11.84, 5.16, 23.58, -35.49, -5.07, -5.07, -5.07, -5.07, -5.07, -10.82, -40.59, -27.64, -31.87, -6.35, -5.07, -5.07, -5.07, -5.07, -5.07, -29.47, -2.93, 30.79, -35.59, 59.11]
             </div>
-            <small style="color: #666;">※ 8文字 × 10bit = 80次元。正の重みは男性、負の重みは女性に寄与</small>
+            <small style="color: #666;">※ 10文字 × 5bit = 50次元。</small>
         </div>
         
         <div class="note" style="margin-top: 2vh;">
@@ -1731,7 +1732,7 @@
     <!-- Slide 12: 一般のパーセプトロンのモデル -->
     <div class="slide">
         <span class="section-label">Section 5</span>
-        <h1><span>パーセプトロンの確率モデル</span></h1>
+        <h1><span>一般のパーセプトロンのモデル</span></h1>
         
         <div class="definition-box">
             <h3>📐 設定</h3>
@@ -1762,7 +1763,8 @@
         <div class="formula-box conclusion">
             <strong>解の存在:</strong> 次を満たす \( \mathbf{w} = (w_1, \ldots, w_N) \in \{-1, 1\}^N \) が存在するとき<br>
             <span class="highlight">\( \mathbf{1}\{ \mathbf{w} \cdot \mathbf{x} \ge 0 \} = y_{\mathbf{x}} \)</span>　　∀ \( \mathbf{x} \in \Sigma \)<br>
-            モデルは<span class="highlight-blue">「解をもつ」</span>という
+            モデルは<span class="highlight-blue">「解をもつ」</span>という<br>
+            <small style="color: #e74c3c;">※ \( \mathbf{w} \) を見つける問題は<strong>NP困難</strong></small>
         </div>
         
         <span class="page-num">12 / 15</span>
@@ -1863,7 +1865,7 @@
         <div class="definition-box">
             <h3>📐 設定</h3>
             <p>
-                \( (\mathbf{x}^1, \mathbf{y}^1), (\mathbf{x}^2, \mathbf{y}^2), \ldots, (\mathbf{x}^M, \mathbf{y}^M) \subset \{-1, 1\}^N \times \{-1, 1\}^K \)<br>
+                \( (\mathbf{x}^1, \mathbf{y}^1), (\mathbf{x}^2, \mathbf{y}^2), \ldots, (\mathbf{x}^M, \mathbf{y}^M) \in \{-1, 1\}^N \times \{-1, 1\}^K \)<br>
                 <small>\( \mathbf{x}^i \in \{-1,1\}^N \)、\( \mathbf{y}^i \in \{-1,1\}^K \) を<span class="highlight">一様・独立</span>に選ぶ</small>
             </p>
         </div>
@@ -1987,13 +1989,13 @@
                     = \inf_{q \in [0,1]} \sup_{r \ge 0}
                     \Big\{
                         -\frac{r}{2}\log(1-q)
-                        + \alpha \, \mathbb{E}_{Z_1}\big[\log \mathbb{P}_{Z_2}\big(\sqrt{\tfrac{q}{1-q}}\,Z_1 \geq Z_2\big)\big]
-                        + \mathbb{E}_{Z}\big[\log 2\cosh(\sqrt{r}\,Z)\big]
+                        + \alpha \, \mathbb{E}\Big[\log \mathbb{P}\Big(Z_2\geq \sqrt{\tfrac{q}{1-q}}\,Z_1\Big|~Z_1\Big)\Big]
+                        + \mathbb{E}\big[\log 2\cosh(\sqrt{r}\,Z_1)\big]
                     \Big\}
                 \]
             </p>
             <p style="font-size: 1.0vw; color: #555; text-align: center; margin-top: 1vh;">
-                ここで \(Z_1, Z_2, Z\) は独立な標準正規分布に従う確率変数
+                ここで \(Z_1, Z_2\) は独立な標準正規分布に従う確率変数
             </p>
         </div>
         
@@ -2080,10 +2082,10 @@
             <h3>定理 (Nakajima-Sun 2024)</h3>
             <div class="authors">S. Nakajima & N. Sun (2024)</div>
             <div class="statement">
-                任意の \( N \) に対して、ある定数 <span class="highlight">\( \alpha_c(N) \)</span> が存在して、<br>
+                ある数列 <span class="highlight">\( (\alpha_c(N))_{N\in \mathbb{N}} \)</span> が存在して、
                 任意の \( \delta > 0 \) に対して、
                 <div class="formula-box" style="margin: 2vh 0; border-left-color: #27ae60; text-align: center;">
-                    \[ \mathbb{P}\left( \left| \alpha_{N,\beta N} - \alpha_c(N) \right| > \delta \right) \to 0 \]
+                    \[ \mathbb{P}\left( \left| \alpha_{N,\beta N} - \alpha_c(N) \right| > \delta \right) \to 0, \quad N\to \infty\]
                 </div>
             </div>
         </div>
