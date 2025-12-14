@@ -20,19 +20,20 @@
       font-family: "Helvetica Neue", "Hiragino Sans", sans-serif;
       background: #fafafa;
       color: #222;
+      min-height: 100vh;
     }
 
     .slide {
       --w: min(100vw, 177.78vh);
       width: var(--w);
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 16 / 12;
       height: auto;
       max-height: 100svh;
 
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       padding: clamp(24px, 6vmin, 64px) clamp(24px, 8vmin, 96px);
       position: relative;
       background: #fff;
@@ -127,20 +128,6 @@
             font-size: 1vw;
             color: #bbb;
             letter-spacing: 0.1em;
-        }
-        
-        /* Next button */
-        .next-btn {
-            position: absolute;
-            bottom: calc(16px + env(safe-area-inset-bottom));
-            right: calc(80px + env(safe-area-inset-right));
-            font-size: 1vw;
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
         }
         
         /* Section label */
@@ -1141,6 +1128,79 @@
             color: rgba(255,255,255,0.5);
             letter-spacing: 0.1em;
         }
+
+        /* Slide navigation */
+        .slide {
+            display: none;
+        }
+
+        .slide.is-active {
+            display: flex;
+        }
+
+        .nav-bar {
+            position: fixed;
+            bottom: calc(12px + env(safe-area-inset-bottom));
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: rgba(20, 20, 20, 0.75);
+            color: #fff;
+            border-radius: 999px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+        }
+
+        .nav-button {
+            border: none;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 10px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+            min-width: 90px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            touch-action: manipulation;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            box-shadow: none;
+            background: #7f8c8d;
+        }
+
+        .nav-status {
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+            color: #e6e6e6;
+            min-width: 110px;
+            text-align: center;
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
     </style>
     <script>
         window.MathJax = {
@@ -1154,8 +1214,14 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
+    <div class="nav-bar" role="group" aria-label="スライド操作">
+        <button class="nav-button" id="prev-slide" type="button">Prev</button>
+        <div class="nav-status"><span id="slide-counter">1 / 28</span></div>
+        <button class="nav-button" id="next-slide" type="button">Next</button>
+    </div>
+    <div id="nav-live" class="visually-hidden" aria-live="polite"></div>
     <!-- Title Slide -->
-    <div class="slide title-slide">
+    <div class="slide title-slide is-active">
         <div class="main-title">パーセプトロンってなに？</div>
         <div class="subtitle">ニューラルネットの基礎と確率の話</div>
         <div class="author">中島 秀太</div>
@@ -1195,7 +1261,6 @@
             </div>
         </div>
         <span class="page-num">01 / 22</span>
-        <button class="next-btn">次へ</button>
     </div>
 
     <!-- Slide 2 -->
@@ -1223,7 +1288,6 @@
             </div>
         </div>
         <span class="page-num">02 / 22</span>
-        <button class="next-btn">次へ</button>
     </div>
 
     <!-- Slide 3 -->
@@ -1240,7 +1304,6 @@
             </div>
         </div>
         <span class="page-num">03 / 22</span>
-        <button class="next-btn">次へ</button>
     </div>
 
     <!-- Slide 4 -->
@@ -1269,7 +1332,6 @@
             </div>
         </div>
         <span class="page-num">04 / 22</span>
-        <button class="next-btn">次へ</button>
     </div>
 
     <!-- Slide 5: アルファベットの数字化 -->
@@ -1306,7 +1368,6 @@
         </div>
         
         <span class="page-num">05 / 22</span>
-        <button class="next-btn">次へ</button>
     </div>
 
     <!-- Slide 5.5: アルファベットと数字の対応表 -->
@@ -1357,7 +1418,6 @@
         </div>
         
         <span class="page-num">05.5 / 22</span>
-        <button class="next-btn">次へ</button>
     </div>
 
     <!-- Slide 6: 文章のベクトル化 -->
@@ -1393,7 +1453,6 @@
         </div>
         
         <span class="page-num">06 / 22</span>
-        <button class="next-btn">次へ</button>
     </div>
 
     <!-- Slide 7: 二進数化 -->
@@ -1442,7 +1501,6 @@
         </div>
         
         <span class="page-num">07 / 22</span>
-        <button class="next-btn">次へ</button>
     </div>
 
     <!-- Slide 7.5: 数字→二進数変換表 -->
@@ -1501,7 +1559,6 @@
         </div>
         
         <span class="page-num">08 / 22</span>
-        <button class="next-btn">次へ</button>
     </div>
 
     <!-- Slide 8: 文章の二進数化 -->
@@ -1539,7 +1596,6 @@
         </div>
         
         <span class="page-num">09 / 22</span>
-        <button class="next-btn">次へ</button>
     </div>
 
     <!-- Slide 9: 名前から男/女判定 -->
@@ -1577,7 +1633,6 @@
         </div>
         
         <span class="page-num">10 / 22</span>
-        <button class="next-btn">次へ</button>
     </div>
 
     <!-- Slide 10: パーセプトロンのモデル -->
@@ -1619,7 +1674,6 @@
         </div>
         
         <span class="page-num">11 / 22</span>
-        <button class="next-btn">次へ</button>
     </div>
 
     <!-- Slide 10.5: 判定の仕組み -->
@@ -1675,7 +1729,6 @@
         </div>
         
         <span class="page-num">11.5 / 22</span>
-        <button class="next-btn">次へ</button>
     </div>
 
     <!-- Slide 11: 実装 -->
@@ -1721,7 +1774,6 @@
         </div>
         
         <span class="page-num">12 / 22</span>
-        <button class="next-btn">次へ</button>
     </div>
 
     <!-- Slide 11.5: デモ -->
@@ -1756,7 +1808,6 @@
         </div>
         
         <span class="page-num">12.5 / 22</span>
-        <button class="next-btn">次へ</button>
     </div>
 
     <!-- Slide 12: 一般のパーセプトロンのモデル -->
@@ -1798,7 +1849,6 @@
         </div>
         
         <span class="page-num">13 / 22</span>
-        <button class="next-btn">次へ</button>
     </div>
 
     <!-- Slide 13: ニューラルネットの数学的モデル -->
@@ -1884,7 +1934,6 @@
         </div>
         
         <span class="page-num">14 / 22</span>
-        <button class="next-btn">次へ</button>
     </div>
 
     <!-- Slide 14: ニューラルネットの確率モデル -->
@@ -1918,7 +1967,6 @@
         </div>
         
         <span class="page-num">15 / 22</span>
-        <button class="next-btn">次へ</button>
     </div>
 
     <!-- Slide 15: 解の個数の定義 -->
@@ -1962,7 +2010,6 @@
         </div>
         
         <span class="page-num">16 / 22</span>
-        <button class="next-btn">次へ</button>
     </div>
 
     <!-- Slide 16: 歴史 -->
@@ -2008,7 +2055,6 @@
         </div>
         
         <span class="page-num">17 / 22</span>
-        <button class="next-btn">次へ</button>
     </div>
 
     <!-- Slide 17: 予想（RS公式） -->
@@ -2288,6 +2334,80 @@
         
         <span class="page-num">Thank you!</span>
     </div>
+
+    <script>
+    (() => {
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = Array.from(document.querySelectorAll('.slide'));
+            const total = slides.length;
+            if (!total) {
+                return;
+            }
+
+            const prevBtn = document.getElementById('prev-slide');
+            const nextBtn = document.getElementById('next-slide');
+            const counter = document.getElementById('slide-counter');
+            const liveRegion = document.getElementById('nav-live');
+
+            let current = slides.findIndex((slide) => slide.classList.contains('is-active'));
+            if (current < 0) {
+                current = 0;
+            }
+
+            const update = (index) => {
+                const clamped = Math.min(Math.max(index, 0), total - 1);
+                current = clamped;
+
+                slides.forEach((slide, idx) => {
+                    const active = idx === current;
+                    slide.classList.toggle('is-active', active);
+                    slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+                });
+
+                const label = (current + 1) + ' / ' + total;
+                if (counter) counter.textContent = label;
+                if (prevBtn) prevBtn.disabled = current === 0;
+                if (nextBtn) nextBtn.disabled = current === total - 1;
+                if (liveRegion) liveRegion.textContent = 'スライド ' + label;
+
+                window.scrollTo({ top: 0 });
+            };
+
+            const goNext = () => {
+                if (current < total - 1) update(current + 1);
+            };
+
+            const goPrev = () => {
+                if (current > 0) update(current - 1);
+            };
+
+            prevBtn?.addEventListener('click', goPrev);
+            nextBtn?.addEventListener('click', goNext);
+
+            document.addEventListener('keydown', (event) => {
+                const activeTag = document.activeElement && document.activeElement.tagName;
+                const isFormFocus = activeTag && ['INPUT', 'TEXTAREA', 'BUTTON', 'SELECT'].includes(activeTag);
+                if (isFormFocus) return;
+
+                if (event.key === 'ArrowRight' || event.key === 'PageDown') {
+                    event.preventDefault();
+                    goNext();
+                } else if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+                    event.preventDefault();
+                    goPrev();
+                } else if (event.key === 'Home') {
+                    event.preventDefault();
+                    update(0);
+                } else if (event.key === 'End') {
+                    event.preventDefault();
+                    update(total - 1);
+                }
+            });
+
+            update(current);
+        });
+    })();
+    </script>
 
     <!-- デモ用JavaScript -->
     <script>
