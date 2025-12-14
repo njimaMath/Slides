@@ -1312,7 +1312,7 @@
                 <div class="content current">慶應義塾大学　准教授</div>
             </div>
         </div>
-        <span class="page-num">01 / 22</span>
+        <span class="page-num">01 / 23</span>
     </div>
 
     <!-- Slide 2 -->
@@ -1339,7 +1339,7 @@
                 </p>
             </div>
         </div>
-        <span class="page-num">02 / 22</span>
+        <span class="page-num">02 / 23</span>
     </div>
 
     <!-- Slide 3 -->
@@ -1355,7 +1355,7 @@
                 <img src="nnimage.png" alt="ニューラルネットワークの図">
             </div>
         </div>
-        <span class="page-num">03 / 22</span>
+        <span class="page-num">03 / 23</span>
     </div>
 
     <!-- Slide 4 -->
@@ -1383,7 +1383,7 @@
                 <div class="content-text">研究の内容と今後の展開</div>
             </div>
         </div>
-        <span class="page-num">04 / 22</span>
+        <span class="page-num">04 / 23</span>
     </div>
 
     <!-- Slide 5: アルファベットの数字化 -->
@@ -1419,7 +1419,7 @@
             📝 自分の下の名前をベクトルで表せ
         </div>
         
-        <span class="page-num">05 / 22</span>
+        <span class="page-num">05 / 23</span>
     </div>
 
     <!-- Slide 5.5: アルファベットと数字の対応表 -->
@@ -1469,7 +1469,7 @@
             </div>
         </div>
         
-        <span class="page-num">05.5 / 22</span>
+        <span class="page-num">05.5 / 23</span>
     </div>
 
     <!-- Slide 6: 文章のベクトル化 -->
@@ -1504,7 +1504,7 @@
             <div class="diagram-box">ベクトルの集合</div>
         </div>
         
-        <span class="page-num">06 / 22</span>
+        <span class="page-num">06 / 23</span>
     </div>
 
     <!-- Slide 7: 二進数化 -->
@@ -1552,7 +1552,7 @@
             <div class="diagram-box">\( \{0, 1\}^5 \)</div>
         </div>
         
-        <span class="page-num">07 / 22</span>
+        <span class="page-num">07 / 23</span>
     </div>
 
     <!-- Slide 7.5: 数字→二進数変換表 -->
@@ -1610,7 +1610,7 @@
             <div class="diagram-box">\( \{0, 1\}^5 \)</div>
         </div>
         
-        <span class="page-num">08 / 22</span>
+        <span class="page-num">08 / 23</span>
     </div>
 
     <!-- Slide 8: 文章の二進数化 -->
@@ -1643,12 +1643,47 @@
             </div>
         </div>
         
-        <div class="question">
-            📝 自分の名前を二進数化せよ
-        </div>
         
-        <span class="page-num">09 / 22</span>
+        <span class="page-num">09 / 23</span>
     </div>
+<!-- Slide 9: 名前の二進数化（50ビット固定） -->
+<div class="slide">
+    <span class="section-label">Section 3</span>
+    <h1><span>名前の二進数化</span></h1>
+
+    <p style="margin-bottom: 2vh; font-size: 1.6vw;">
+        名前を <span class="highlight">5ビット × 10文字 = 50ビット</span> のベクトルに変換する
+    </p>
+
+    <p style="margin-bottom: 3vh; font-size: 1.5vw; color: #c0392b;">
+        ★ 名前が10文字未満のときは，<br>
+        <span class="highlight">最初に 00000 を必要な個数だけ加えて</span> 50ビットにそろえる
+    </p>
+
+    <div class="diagram" style="margin-bottom: 3vh;">
+        <div class="diagram-box">名前</div>
+        <span class="diagram-arrow">→</span>
+        <div class="diagram-box" style="background:#fff3cd;">Binary</div>
+        <span class="diagram-arrow">→</span>
+        <div class="diagram-box">\( \{0,1\}^{50} \)</div>
+    </div>
+
+    <h2>例</h2>
+    <div style="font-family:'Courier New', monospace; font-size:1.6vw;">
+        SHUTA（5文字）<br>
+        ↓<br>
+        <span style="color:#e74c3c;">
+        \( \underbrace{00000\cdots00000}_{\text{最初に5文字分}}
+        \;10011\,01000\,10101\,10100\,00001 \)
+        </span>
+    </div>
+
+    <div class="question" style="margin-top: 3vh;">
+        📝 自分の名前を 50ビットにせよ
+    </div>
+
+    <span class="page-num">10 / 23</span>
+</div>
 
     <!-- Slide 9: 名前から男/女判定 -->
     <div class="slide">
@@ -1684,7 +1719,7 @@
             </div>
         </div>
         
-        <span class="page-num">10 / 22</span>
+        <span class="page-num">10 / 23</span>
     </div>
 
     <!-- Slide 10: パーセプトロンのモデル -->
@@ -1725,7 +1760,7 @@
             <span class="highlight">\( \mathbf{1}\{ \mathbf{w} \cdot (2\mathbf{x} - \mathbf{1}) \ge 0 \} = y_{\mathbf{x}} \)</span>　　∀ \( \mathbf{x} \in \Sigma \)
         </div>
         
-        <span class="page-num">11 / 22</span>
+        <span class="page-num">11 / 23</span>
     </div>
 
     <!-- Slide 10.5: 判定の仕組み -->
@@ -1780,7 +1815,7 @@
             💡 学習で見つけた <strong>w</strong> を使って、未知のデータを分類できる！
         </div>
         
-        <span class="page-num">11.5 / 22</span>
+        <span class="page-num">11.5 / 23</span>
     </div>
 
     <!-- Slide 11: 実装 -->
@@ -1825,7 +1860,7 @@
             <span class="comment"># E(w) = 誤分類の数（モデルが間違えた予測の個数）</span>
         </div>
         
-        <span class="page-num">12 / 22</span>
+        <span class="page-num">12 / 23</span>
     </div>
 
     <!-- Slide 11.5: デモ -->
@@ -1859,7 +1894,7 @@
             💡 試してみよう：YUKI、HARUKA、TSUBASA など中性的な名前はどう判定される？
         </div>
         
-        <span class="page-num">12.5 / 22</span>
+        <span class="page-num">12.5 / 23</span>
     </div>
 
     <!-- Slide 12: 一般のパーセプトロンのモデル -->
@@ -1900,7 +1935,7 @@
             <small style="color: #e74c3c;">※ \( \mathbf{w} \) を見つける問題は<strong>NP困難</strong></small>
         </div>
         
-        <span class="page-num">13 / 22</span>
+        <span class="page-num">13 / 23</span>
     </div>
 
     <!-- Slide 13: ニューラルネットの数学的モデル -->
@@ -1985,7 +2020,7 @@
             </div>
         </div>
         
-        <span class="page-num">14 / 22</span>
+        <span class="page-num">14 / 23</span>
     </div>
 
     <!-- Slide 14: ニューラルネットの確率モデル -->
@@ -2018,7 +2053,7 @@
             ニューラルネットは<span class="highlight-blue">「解をもつ」</span>という
         </div>
         
-        <span class="page-num">15 / 22</span>
+        <span class="page-num">15 / 23</span>
     </div>
 
     <!-- Slide 15: 解の個数の定義 -->
@@ -2061,7 +2096,7 @@
             💡 データが多すぎると（\( \alpha > \alpha_c \)）、すべてを正しく分類する重み \( \mathbf{W} \) は存在しなくなる！
         </div>
         
-        <span class="page-num">16 / 22</span>
+        <span class="page-num">16 / 23</span>
     </div>
 
     <!-- Slide 16: 歴史 -->
@@ -2106,7 +2141,7 @@
             </div>
         </div>
         
-        <span class="page-num">17 / 22</span>
+        <span class="page-num">17 / 23</span>
     </div>
 
     <!-- Slide 17: 予想（RS公式） -->
@@ -2142,7 +2177,7 @@
             統計物理のレプリカ法から導かれる公式
         </div>
         
-        <span class="page-num">18 / 22</span>
+        <span class="page-num">18 / 23</span>
     </div>
 
     <!-- Slide 18: 予想（解の数の漸近挙動） -->
@@ -2167,7 +2202,7 @@
             💡 この予想が正しければ、臨界値 \(\alpha_c^*\) で<span class="highlight">シャープな相転移</span>が起こる
         </div>
         
-        <span class="page-num">19 / 22</span>
+        <span class="page-num">19 / 23</span>
     </div>
 
     <!-- Slide 19: Talagrandの定理 -->
@@ -2203,7 +2238,7 @@
             </div>
         </div>
         
-        <span class="page-num">20 / 22</span>
+        <span class="page-num">20 / 23</span>
     </div>
 <!-- Slide: alpha_{N,K}の定義（解の個数 版） -->
 <div class="slide" style="font-size:1.5em;">
@@ -2229,7 +2264,7 @@
         データ密度 \(\alpha = M/N\) を増やしていき、<b>まだ解が少なくとも1つ存在する最大の値</b>。<br>
     </div>
 
-    <span class="page-num" style="color:#2980b9;font-size:1em;">21 / 22</span>
+    <span class="page-num" style="color:#2980b9;font-size:1em;">21 / 23</span>
 </div>
 
     <!-- Slide 19: Nakajima-Sunの定理 -->
@@ -2271,7 +2306,7 @@
             <small>※ \( K = 1 \) の場合は Xu (2021) が同じ定理を証明</small>
         </div>
         
-        <span class="page-num">22 / 22</span>
+        <span class="page-num">22 / 23</span>
     </div>
 
     <!-- Slide 20: さらなる展開 -->
@@ -2365,7 +2400,7 @@
             <text x="250" y="20" text-anchor="middle" fill="#e67e22" font-size="20" font-weight="bold">?</text>
         </svg>
         
-        <span class="page-num">20 / 22</span>
+        <span class="page-num">20 / 23</span>
     </div>
 
     <!-- ボーナス: ご清聴ありがとうございました -->
