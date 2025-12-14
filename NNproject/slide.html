@@ -787,7 +787,7 @@
             display: flex;
             flex-direction: column;
             position: relative;
-            padding: 1vh 1.5vw;
+            padding: 1vh 2vw;
         }
 
         .matrix::before,
@@ -796,12 +796,21 @@
             position: absolute;
             top: 0;
             bottom: 0;
-            width: 3px;
-            background: #9b59b6;
+            width: 0.4vw;
+            border: 3px solid #9b59b6;
+            background: transparent;
         }
 
-        .matrix::before { left: 0; }
-        .matrix::after { right: 0; }
+        .matrix::before { 
+            left: 0; 
+            border-right: none;
+            border-radius: 1vw 0 0 1vw;
+        }
+        .matrix::after { 
+            right: 0; 
+            border-left: none;
+            border-radius: 0 1vw 1vw 0;
+        }
 
         .matrix-row {
             display: flex;
