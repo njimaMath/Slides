@@ -1129,6 +1129,52 @@
             letter-spacing: 0.1em;
         }
 
+        .title-slide .qr-card {
+            position: absolute;
+            top: clamp(18px, 6vmin, 56px);
+            right: clamp(18px, 6vmin, 56px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+            backdrop-filter: blur(8px);
+        }
+
+        .title-slide .qr-card img {
+            width: clamp(90px, 16vw, 150px);
+            height: auto;
+            display: block;
+            border-radius: 10px;
+            background: #fff;
+            padding: 6px;
+        }
+
+        .title-slide .qr-card .qr-text {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            color: #f4f8ff;
+            text-align: left;
+            max-width: 200px;
+        }
+
+        .title-slide .qr-card .qr-text small {
+            font-size: 0.95vw;
+            color: rgba(255,255,255,0.8);
+            letter-spacing: 0.08em;
+        }
+
+        .title-slide .qr-card .qr-link {
+            font-size: 0.95vw;
+            color: #e6f2ff;
+            line-height: 1.4;
+            word-break: break-all;
+        }
+
         /* Slide navigation */
         .slide {
             display: none;
@@ -1227,6 +1273,13 @@
         <div class="author">中島 秀太</div>
         <div class="affiliation">慶應義塾大学 理学学部 数理科学科</div>
         <div class="date">2025年</div>
+        <div class="qr-card" aria-label="スライドURLのQRコード">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=360x360&data=https%3A%2F%2Fnjimamath.github.io%2FSlides%2FNNproject%2Fslide.html" alt="スライドへのリンクQRコード">
+            <div class="qr-text">
+                <small>アクセス用QR</small>
+                <span class="qr-link">https://njimamath.github.io/Slides/NNproject/slide.html</span>
+            </div>
+        </div>
     </div>
 
     <!-- Slide 1 -->
