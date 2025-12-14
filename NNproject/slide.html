@@ -2229,7 +2229,7 @@
 
         async function loadModel() {
             try {
-                const response = await fetch('../name_sex_predictor/webapp/model.json');
+                const response = await fetch('name_sex_predictor/webapp/model.json');
                 if (!response.ok) {
                     throw new Error('Failed to fetch model.json');
                 }
