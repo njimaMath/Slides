@@ -5,9 +5,9 @@ from typing import List, Tuple
 
 
 # Dimension constants
-NAME_LENGTH = 5           # Characters for first name
+NAME_LENGTH = 8           # Characters for first name (increased from 5 for better accuracy)
 BITS_PER_CHAR = 10        # Bits per character (A-Z encoded as 1-26)
-TOTAL_BITS = NAME_LENGTH * BITS_PER_CHAR  # 50 bits total
+TOTAL_BITS = NAME_LENGTH * BITS_PER_CHAR  # 80 bits total
 
 
 def letter_to_bits(letter: str) -> List[int]:

@@ -10,9 +10,9 @@
 
 (() => {
   // Constants matching train_model.py
-  const NAME_LENGTH = 5;          // Characters for first name
+  const NAME_LENGTH = 8;          // Characters for first name (increased for better accuracy)
   const BITS_PER_CHAR = 10;       // Bits per character (A-Z encoded as 1-26)
-  const TOTAL_BITS = NAME_LENGTH * BITS_PER_CHAR;  // 50 bits total
+  const TOTAL_BITS = NAME_LENGTH * BITS_PER_CHAR;  // 80 bits total
 
   // Store the weights globally after loading
   let weights = null;
