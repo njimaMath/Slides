@@ -1,57 +1,58 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Section 1 - 自己紹介</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Section 1 - 自己紹介</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Helvetica Neue', 'Hiragino Sans', sans-serif;
-            background: #fafafa;
-            color: #222;
-        }
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
 
-        .slide {
-            width: 100vw;
-            height: 70vw;
-            max-height: 120vh;
-            max-width: 177.78vh;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: clamp(24px, 6vmin, 64px) clamp(24px, 8vmin, 96px);
-            position: relative;
-            background: #fff;
-        }
+    body {
+      font-family: "Helvetica Neue", "Hiragino Sans", sans-serif;
+      background: #fafafa;
+      color: #222;
+    }
 
-        .slide::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 12%;
-            right: 12%;
-            height: 3px;
-            background: linear-gradient(90deg, #e74c3c, #3498db);
-        }
+    .slide {
+      --w: min(100vw, 177.78vh);
+      width: var(--w);
+      aspect-ratio: 16 / 9;
+      height: auto;
+      max-height: 100svh;
 
-        h1 {
-            font-size: 3.5vw;
-            font-weight: 300;
-            letter-spacing: 0.1em;
-            margin-bottom: 6svh; /* 6vh -> 6svh */
-            color: #333;
-        }
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(24px, 6vmin, 64px) clamp(24px, 8vmin, 96px);
+      position: relative;
+      background: #fff;
+    }
 
-        h1 span {
-            font-weight: 600;
-        }
+    @supports not (aspect-ratio: 16 / 9) {
+      .slide { height: calc(var(--w) * 9 / 16); }
+    }
+
+    h1 {
+      font-size: clamp(24px, calc(var(--w) * 0.035), 56px);
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      margin-bottom: clamp(14px, calc(var(--w) * 0.04), 48px);
+      color: #333;
+    }
+
+    h1 span {
+      font-weight: 600;
+    }
 
         /* Slide 1 */
         .timeline {
