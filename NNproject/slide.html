@@ -2075,7 +2075,7 @@
             <h3>📐 設定</h3>
             <p>
                 \( (\mathbf{x}^1, \mathbf{y}^1), (\mathbf{x}^2, \mathbf{y}^2), \ldots, (\mathbf{x}^M, \mathbf{y}^M) \in \{-1, 1\}^N \times \{-1, 1\}^K \)<br>
-                <small>\( \mathbf{x}^i \in \{-1,1\}^N \)、\( \mathbf{y}^i \in \{-1,1\}^K \) を<span class="highlight">一様・独立</span>に選ぶ</small>
+                <small>\( \mathbf{x}^i \in \{-1,1\}^N \)、\( \mathbf{y}^i \in \{0,1\}^K \) を<span class="highlight">一様・独立</span>に選ぶ</small>
             </p>
         </div>
         
@@ -2107,7 +2107,7 @@
             <p>
                 \( \alpha, \beta > 0 \) を固定する<br>
                 \( M = \alpha N \)（データ数）、\( K = \beta N \)（出力次元）<br>
-                \( \mathbf{x}^i \in \{-1,1\}^N \)、\( \mathbf{y}^i \in \{-1,1\}^K \) を <span class="highlight">一様・独立</span> に選ぶ
+                \( \mathbf{x}^i \in \{-1,1\}^N \)、\( \mathbf{y}^i \in \{0,1\}^K \) を <span class="highlight">一様・独立</span> に選ぶ
             </p>
         </div>
         
@@ -2230,7 +2230,7 @@
             <h3 style="color: #2c3e50; font-size: 1.4vw; margin-bottom: 1vh;"> 予想：解の数の漸近挙動</h3>
             <p style="font-size: 1.6vw; color: #333; text-align: center; padding: 1vh 0;">
                 \(\alpha < \alpha_c^*\) のとき：
-                \[ \lim_{N \to \infty} N^{-1} \log Z_{N, \alpha N} = f_{\mathrm{RS}}(\alpha) \]
+                \[ \lim_{N \to \infty} (KN)^{-1} \log Z_{N, \alpha N,K} = f_{\mathrm{RS}}(\alpha) \]
             </p>
             <p style="font-size: 1.6vw; color: #333; text-align: center; padding: 1vh 0;">
                 \(\alpha > \alpha_c^*\) のとき：
@@ -2503,9 +2503,9 @@
   </svg>
 
   <div class="definition-box" style="margin-top: 2vh;">
-    <h3>定義（例）</h3>
+    <h3>定義</h3>
     <p style="font-size: 1.6vw;">
-      入力 \(h^{(0)}=g \in \{-1,1\}^N\) とし，
+      入力 \(h^{(0)}=g \in \{-1,1\}^N\)と重み$W_\ell\in \{-1,1\}^{N_\ell \times N_{\ell-1}}$に対し，
       \[h^{(\ell)}={\rm sgn}\!\left(W^{(\ell)} h^{(\ell-1)}\right),\quad \ell=1,\dots,L,\]
       \[\hat y={\rm sgn}\!\left(W^{(L+1)} h^{(L)}\right).\]
     </p>
