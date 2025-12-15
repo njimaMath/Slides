@@ -1200,6 +1200,46 @@
             z-index: 1000;
         }
 
+        .jump-panel {
+            position: fixed;
+            bottom: calc(76px + env(safe-area-inset-bottom));
+            right: calc(12px + env(safe-area-inset-right));
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(46px, 1fr));
+            gap: 6px;
+            padding: 10px;
+            max-width: 340px;
+            background: rgba(20, 20, 20, 0.7);
+            color: #fff;
+            border-radius: 14px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+        }
+
+        .jump-button {
+            border: 1px solid rgba(255,255,255,0.18);
+            background: linear-gradient(135deg, #5dade2, #2c82c9);
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 6px 0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.12s, box-shadow 0.12s, opacity 0.12s;
+            min-width: 44px;
+        }
+
+        .jump-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+        }
+
+        .jump-button.is-active {
+            background: linear-gradient(135deg, #27ae60, #1e8449);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+        }
+
         .nav-button {
             border: none;
             background: linear-gradient(135deg, #3498db, #2980b9);
@@ -1264,6 +1304,7 @@
         <div class="nav-status"><span id="slide-counter">1 / 28</span></div>
         <button class="nav-button" id="next-slide" type="button">Next</button>
     </div>
+    <div class="jump-panel" id="jump-panel" aria-label="ページジャンプボタン群"></div>
     <div id="nav-live" class="visually-hidden" aria-live="polite"></div>
     <!-- Title Slide -->
     <div class="slide title-slide is-active">
@@ -2402,6 +2443,187 @@
         
         <span class="page-num">20 / 23</span>
     </div>
+<!-- Slide A1: MLPとは -->
+<div class="slide">
+  <span class="section-label">Section 7</span>
+  <h1><span>多層パーセプトロン</span>（MLP）</h1>
+
+  <p style="margin-bottom: 2vh;">
+    パーセプトロンを <span class="highlight">層として積み重ねた</span>もの。$\ell$層の長さを$N_\ell\in \mathbb N$と置く。
+  </p>
+
+  <svg class="deep-nn-svg" viewBox="0 0 520 170" style="max-width: 70vw;">
+    <!-- input -->
+    <circle cx="60" cy="40" r="12" fill="#3498db"></circle>
+    <circle cx="60" cy="80" r="12" fill="#3498db"></circle>
+    <circle cx="60" cy="120" r="12" fill="#95a5a6"></circle>
+    <text x="60" y="155" text-anchor="middle" fill="#888" font-size="11">入力 \( g \)</text>
+
+    <!-- hidden1 -->
+    <circle cx="180" cy="55" r="12" fill="#9b59b6"></circle>
+    <circle cx="180" cy="95" r="12" fill="#9b59b6"></circle>
+    <circle cx="180" cy="135" r="12" fill="#9b59b6"></circle>
+    <text x="180" y="155" text-anchor="middle" fill="#888" font-size="11">層 1</text>
+
+    <!-- hidden2 -->
+    <circle cx="300" cy="55" r="12" fill="#9b59b6"></circle>
+    <circle cx="300" cy="95" r="12" fill="#9b59b6"></circle>
+    <circle cx="300" cy="135" r="12" fill="#9b59b6"></circle>
+    <text x="300" y="155" text-anchor="middle" fill="#888" font-size="11">層 2</text>
+
+    <!-- output -->
+    <circle cx="440" cy="75" r="12" fill="#27ae60"></circle>
+    <circle cx="440" cy="115" r="12" fill="#27ae60"></circle>
+    <text x="440" y="155" text-anchor="middle" fill="#888" font-size="11">出力 \( \hat y \)</text>
+
+    <!-- connections -->
+    <g stroke="#ccc" stroke-width="1" opacity="0.5">
+      <line x1="72" y1="40" x2="168" y2="55"></line>
+      <line x1="72" y1="40" x2="168" y2="95"></line>
+      <line x1="72" y1="80" x2="168" y2="55"></line>
+      <line x1="72" y1="80" x2="168" y2="95"></line>
+      <line x1="72" y1="120" x2="168" y2="95"></line>
+      <line x1="72" y1="120" x2="168" y2="135"></line>
+
+      <line x1="192" y1="55" x2="288" y2="55"></line>
+      <line x1="192" y1="55" x2="288" y2="95"></line>
+      <line x1="192" y1="95" x2="288" y2="55"></line>
+      <line x1="192" y1="95" x2="288" y2="95"></line>
+      <line x1="192" y1="95" x2="288" y2="135"></line>
+      <line x1="192" y1="135" x2="288" y2="95"></line>
+      <line x1="192" y1="135" x2="288" y2="135"></line>
+
+      <line x1="312" y1="55" x2="428" y2="75"></line>
+      <line x1="312" y1="95" x2="428" y2="75"></line>
+      <line x1="312" y1="95" x2="428" y2="115"></line>
+      <line x1="312" y1="135" x2="428" y2="115"></line>
+    </g>
+
+    <text x="240" y="22" text-anchor="middle" fill="#9b59b6" font-size="13">重み \( W^{(1)}, W^{(2)}, \dots \)</text>
+  </svg>
+
+  <div class="definition-box" style="margin-top: 2vh;">
+    <h3>定義（例）</h3>
+    <p style="font-size: 1.6vw;">
+      入力 \(h^{(0)}=g \in \{-1,1\}^N\) とし，
+      \[h^{(\ell)}={\rm sgn}\!\left(W^{(\ell)} h^{(\ell-1)}\right),\quad \ell=1,\dots,L,\]
+      \[\hat y={\rm sgn}\!\left(W^{(L+1)} h^{(L)}\right).\]
+    </p>
+  </div>
+
+  <span class="page-num">A1 / A4</span>
+</div>
+
+<!-- Slide A2: ランダムデータでの学習問題 -->
+<div class="slide">
+  <span class="section-label">Section 7</span>
+  <h1><span>多層パーセプトロン</span>の学習問題</h1>
+
+  <div class="two-col" style="margin-top: 1vh;">
+    <div>
+      <h2>データ</h2>
+      <p style="font-size: 1.8vw;">
+        \(N=\sum_{\ell=1}^{L} N_{\ell}N_{\ell+1}\)とおく。<br>
+        \( M \) 個の入力とラベル<br>
+        \[(g^i, y^i),\ i=1,\dots,M.\]
+        典型的に \( M=\alpha N \)（データ数は次元に比例）。
+      </p>
+
+      <div class="note" style="margin-top: 2vh;">
+        💡 このスライド以降では<br>
+        <span class="highlight">入力 \( g^i \) とラベル \( y^i \) は独立に\( \{-1,1\}^{N_1\times N_{L+1}} \)上の一様測度から選ぶ。</span>
+      </div>
+    </div>
+
+    <div>
+      <h2>予測</h2>
+      <div class="flow-diagram" style="margin: 2vh 0;">
+        <div class="flow-box input">
+          入力<br><small>\( g^i \)</small>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box process">
+          MLP<br><small>\( W^{(1)},\dots,W^{(L+1)} \)</small>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box output">
+          出力<br><small>\( \hat y^i \)</small>
+        </div>
+      </div>
+
+      <div class="formula-box">
+        目標：全ての \( i \) で
+        <span class="highlight">\( \hat y^i = y^i \)</span>
+        を満たす重みを見つける。
+      </div>
+    </div>
+  </div>
+
+  <span class="page-num">A2 / A4</span>
+</div>
+
+<!-- Slide A3: 解の個数と相転移 -->
+<div class="slide">
+  <span class="section-label">Section 7</span>
+  <h1><span>解の個数</span>と相転移</h1>
+
+  <div class="definition-box">
+    <h3>解の個数（深さ \( L \)）</h3>
+    <p style="font-size: 1.55vw;">
+      重みを \( \{-1,1\} \) に制限して（離散化して）数える：
+      \[Z_{N,M}^{(L)}=\#\Bigl\{(W^{(1)},\dots,W^{(L+1)}) : \hat y^i=y^i,\ \forall i\Bigr\}.\]
+      深さや中間層幅の取り方で \( Z_{N,M}^{(L)} \) の典型挙動が変わる。
+    </p>
+  </div>
+
+  <div class="phase-diagram" style="margin-top: 4vh;">
+    <div class="phase sat">
+      <div class="phase-label">$\alpha < \alpha_c^{(L)}$</div>
+      <div class="phase-prob">$Z_{N,\alpha N}^{(L)} > 0$ が起こりやすい</div>
+      <div style="font-size: 2vw; margin-top: 1vh;">✓</div>
+    </div>
+    <div class="phase critical" style="width: 2vw; padding: 0;">
+      $\alpha_c^{(L)}$
+    </div>
+    <div class="phase unsat">
+      <div class="phase-label">$\alpha > \alpha_c^{(L)}$</div>
+      <div class="phase-prob">$Z_{N,\alpha N}^{(L)} = 0$ が起こりやすい</div>
+      <div style="font-size: 2vw; margin-top: 1vh;">✗</div>
+    </div>
+  </div>
+
+  <div class="axis-label">$\alpha = M/N$（データ密度）→</div>
+
+  <span class="page-num">A3 / A4</span>
+</div>
+
+<!-- Slide A4: 予想（gとyは一様±1） -->
+<div class="slide">
+  <span class="section-label">Section 7</span>
+  <h1><span>最終的な予想</span>（ランダムMLP）</h1>
+
+  <div class="conjecture-box">
+    <h3>予想：自由エネルギーの極限と臨界点</h3>
+    <div class="statement" style="font-size: 1.5vw;">
+      深さ $L$ を固定し，$M=\alpha N$ とする。<br><br>
+      データ $(g^i,y^i)_{i=1}^{M}$ は
+      <span class="highlight">独立に \( \{-1,1\}^{N_1\times N_{L+1}} \)の一様測度から選ぶ。</span><br><br>
+
+      このとき，ある定数関数 \( f^{(L)}(\alpha) \) が存在して
+      \[\frac{1}{N}\log Z_{N,\alpha N}^{(L)} \ \to\ f^{(L)}(\alpha)\quad \text{in probability},\]
+      さらに
+      \[\alpha_c^{(L)}=\sup\{\alpha>0:\ f^{(L)}(\alpha)>0\}\]
+      でシャープな相転移が起こる。
+    </div>
+  </div>
+
+  <div class="note" style="margin-top: 3vh;">
+    💡 ポイント：ここでは <span class="highlight">\( g \) と \( y \) を一様 \( \{-1,1\} \)</span> に取るモデル。
+    深さ \( L \) や活性化 \( \varphi \) の違いが \( \alpha_c^{(L)} \) をどう動かすかが中心問題。
+  </div>
+
+  <span class="page-num">A4 / A4</span>
+</div>
 
     <!-- ボーナス: ご清聴ありがとうございました -->
     <div class="slide">
@@ -2435,11 +2657,29 @@
             const nextBtn = document.getElementById('next-slide');
             const counter = document.getElementById('slide-counter');
             const liveRegion = document.getElementById('nav-live');
+            const jumpPanel = document.getElementById('jump-panel');
+            let jumpButtons = [];
 
             let current = slides.findIndex((slide) => slide.classList.contains('is-active'));
             if (current < 0) {
                 current = 0;
             }
+
+            const buildJumpButtons = () => {
+                if (!jumpPanel) return;
+                const frag = document.createDocumentFragment();
+                slides.forEach((_, idx) => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'jump-button';
+                    btn.textContent = String(idx + 1);
+                    btn.setAttribute('aria-label', `スライド ${idx + 1} に移動`);
+                    btn.addEventListener('click', () => update(idx));
+                    frag.appendChild(btn);
+                });
+                jumpPanel.appendChild(frag);
+                jumpButtons = Array.from(jumpPanel.querySelectorAll('.jump-button'));
+            };
 
             const update = (index) => {
                 const clamped = Math.min(Math.max(index, 0), total - 1);
@@ -2451,6 +2691,12 @@
                     slide.setAttribute('aria-hidden', active ? 'false' : 'true');
                 });
 
+                if (jumpButtons.length) {
+                    jumpButtons.forEach((btn, idx) => {
+                        btn.classList.toggle('is-active', idx === current);
+                    });
+                }
+
                 const label = (current + 1) + ' / ' + total;
                 if (counter) counter.textContent = label;
                 if (prevBtn) prevBtn.disabled = current === 0;
@@ -2459,6 +2705,8 @@
 
                 window.scrollTo({ top: 0 });
             };
+
+            buildJumpButtons();
 
             const goNext = () => {
                 if (current < total - 1) update(current + 1);
