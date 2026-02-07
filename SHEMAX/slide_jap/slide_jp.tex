@@ -1,0 +1,533 @@
+% !TeX program = pdflatex
+\documentclass{beamer}
+\usetheme{metropolis}
+
+% Japanese typesetting (pdfLaTeX)
+\usepackage[T1]{CJKutf8}
+
+\usepackage{tabularx}
+\usepackage{amsmath, amssymb}    % minimum pour les maths
+\usepackage{amsthm}	% permet de faire des théorèmes etc...
+\usepackage{stmaryrd}
+\usepackage{graphicx}
+\usepackage{xcolor} % pour mettre un texte en couleur avec \textcolor ou \color
+
+\newcommand{\maybeincludegraphics}[2][]{%
+  \IfFileExists{#2}{\includegraphics[#1]{#2}}{\fbox{\texttt{#2}}}%
+}
+
+
+
+\newcommand{\IP}{{\mathbb P}}
+\newcommand{\DP}{{\mathrm P}}
+\newcommand{\DE}{{\mathrm E}}
+\newcommand{\EEP}{\mathbb E}
+\newcommand{\IE}{\mathbb E}
+\newcommand{\EP}{{\mathrm E}}
+\newcommand{\kU}{\mathscr{U}}
+
+\newcommand*\Z{Z_{n}^\omega(\beta)}
+\newcommand{\sZ}{\mathbf{\mathcal{Z}}}
+\renewcommand{\b}{\beta}
+\newcommand*\Hn{H_n^\omega}
+\newcommand*\Zc{\mathcal{Z}}
+\newcommand*\R{\mathbb{R}}
+\newcommand*\Skn{\mathcal{S}_k^n}
+\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+\newcommand{\cvlaw}{\stackrel{{ (d)}}{\longrightarrow}}
+\newcommand{\cvLone}{\stackrel{{L^1}}{\longrightarrow}}
+\newcommand{\cvIP}{\stackrel{{\IP}}{\longrightarrow}}
+\newcommand{\eqlaw}{\stackrel{\rm{ law}}{=}}
+\newcommand*\cvLdeux{\overset{L^2}{\longrightarrow}}
+
+\newcommand{\cvto}[2]{\underset{#1 \to #2}{\longrightarrow}}
+\newcommand{\om}{\omega}
+\newcommand{\rmd}{\mathrm{d}}
+\def\P{{\mathbb P}}
+
+\newcommand{\e}{\varepsilon}
+\newcommand{\dd}{\mathrm{d}}
+\def\P{{\mathbb P}}
+
+\bibliographystyle{amsplain}  
+
+\title{二次元有向ポリマーの最大値に関する問題}
+\author{中島修太（慶應義塾大学）}
+\institute{Cl\'ement Cosco, Ofer Zeitouni との共同研究}
+\date[KPT 2004] % (optional)
+
+\metroset{block=fill,numbering = fraction}
+
+\begin{document}
+\begin{CJK*}{UTF8}{min}
+\frame{\titlepage}
+\begin{frame}
+\frametitle{自己紹介}
+\begin{itemize}
+    \item 名古屋大学　学部生　(2010-2014) <- 4年生のときに吉田先生の授業を受けた\\ 
+    \item 京都大学　修士、博士  (2014-2019) <- 指導教員は福島先生 \\
+    \item 2015年にComets-Fukushima-Yoshida-Nakajimaでジャンプつき有向ポリマーの論文を発表 \\
+    \item 2019年から2020年まで名古屋大学でポスドク (中島-中島完成)
+\end{itemize}
+\end{frame}
+
+\section{モデルと主結果}
+\begin{frame}{有向ポリマーとは？}
+\begin{itemize}
+    \item \textbf{有向ポリマー（Directed polymer）}は，さまざまな物理現象をモデル化する：
+    \begin{itemize}
+        \item \textbf{無秩序環境}における\textbf{ランダムなポリマー成長}
+        \item 乱流系における\textbf{界面成長}
+        \item 確率的（ランダム）システムにおける\textbf{経路最適化}
+    \end{itemize}
+    \item \textbf{主な特徴：}
+    \begin{itemize}
+        \item ポリマーの経路は\textbf{特定の方向（時間方向）}に沿って進む．
+        \item 環境は各配置にランダムな\textbf{エネルギー}を割り当てる．
+        \item 系は\textbf{エネルギー最小化}と\textbf{エントロピー最大化}のバランスを取る．
+    \end{itemize}
+    \item これらは，以下のようなより広い確率構造とも結び付く：
+    \begin{itemize}
+        \item \textbf{分枝過程}
+        \item さまざまな成長過程を記述する\textbf{KPZ普遍性クラス}
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{有向ポリマー}
+\begin{itemize}
+    \item $\DP_x$ を $\mathbb{Z}^d$ 上で $x$ から始まる単純ランダムウォーク（SRW）の測度とする．
+    \item $(\omega(n, x))_{n\in\mathbb N,x\in \mathbb Z^d}$ を平均0の i.i.d.\ 確率変数とし，次を仮定する：
+  $$\mathbb{E}[\omega(n, x)^2] = 1,\quad 
+  \Lambda(\beta) := \log \mathbb{E}[e^{\beta \omega(n, x)}] < \infty,\,\forall \beta > 0.$$
+\end{itemize}
+\pause
+\begin{figure}
+    \centering
+\maybeincludegraphics[width=0.75\linewidth]{rb.png}
+\end{figure}
+~\\
+\vspace{-10mm}
+{\color{red}$\bullet$}: $\omega=0$，{\color{blue}$\bullet$}: $\omega=1$
+\end{frame}
+
+\begin{frame}
+\frametitle{有向ポリマー}
+\begin{itemize}
+    \item $\DP_x$ を $\mathbb{Z}^d$ 上で $x$ から始まる単純ランダムウォーク（SRW）の測度とする．
+    \item $(\omega(n, x))_{n\in\mathbb N,x\in \mathbb Z^d}$ を平均0の i.i.d.\ 確率変数とし，次を仮定する：
+  $$\mathbb{E}[\omega(n, x)^2] = 1,\quad 
+  \Lambda(\beta) := \log \mathbb{E}[e^{\beta \omega(n, x)}] < \infty,\,\forall \beta > 0.$$
+\end{itemize}
+\begin{figure}
+    \centering
+\maybeincludegraphics[width=0.75\linewidth]{rbsrw.png}
+\end{figure}
+\end{frame}
+\begin{frame}
+\frametitle{有向ポリマー}
+\begin{itemize}
+\item $\DP_x$ は $\mathbb Z^d$ 上で $x$ から始まる単純ランダムウォークの測度，
+\item $\omega(n,x),\, n\in \mathbb N,\,x\in \mathbb Z^d$ は平均0の i.i.d.\ 確率変数で
+  $\IE[\omega(n,x)^2]=1$，かつ 
+  $$\Lambda(\beta):=\log \IE[e^{\beta \omega(n,x)}]<\infty,\quad \forall \beta>0.$$
+\end{itemize}
+\begin{block}{ポリマー分配関数}
+\begin{equation*} 
+W_N(\beta,x):=\DE_x\left[e^{\sum_{n=1}^N \left(\beta \omega(n,S_n) -\Lambda(\beta)\right)}\right], \ x\in \mathbb Z^d.
+\end{equation*} 
+\end{block}
+\pause
+\begin{block}{ポリマー測度}
+\[P^{polymer}_{N,\beta}((S_n)_{n=0}^N) := \frac{e^{\sum_{n=1}^N (\beta \omega(n,S_n) - \Lambda(\beta))}}{W_N( \beta,0)} \DP_0((S_n)_{n= 0}^N).
+\]
+\end{block}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{弱・強無秩序（Weak/Strong disorder）}
+\begin{block}{ポリマー分配関数}
+\begin{equation*} 
+W_N(x) : = W_N(\beta,x):=\DE_x\left[e^{\sum_{n=1}^N \left(\beta \omega(n,S_n) -\Lambda(\beta)\right)}\right], \ x\in \mathbb Z^d.
+\end{equation*} 
+\end{block}
+\begin{block}{相転移}
+ある $\beta_c\in [0,\infty]$ が存在して：
+
+$\b > \beta_c$ なら $W_N(\b,x) \to 0$（局在相），
+
+$\b < \beta_c$ なら $W_N(\b,x) \to W_\infty(\b,x)>0$（拡散相）．
+\end{block}
+\pause[2]
+\begin{itemize}
+\item $d=1,2$ では $\beta_c = 0$（常に局在）．(Carmona-Hu 02, Comets-Shiga-Yoshida 03)
+\item $d\geq 3$ では $\beta_c >0$（相転移が存在）．(Comets-Yoshida 06)
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{KPZ方程式との関係}
+  \textcolor{blue}{$W_N(\beta,x)$ は次の離散版を満たす：}
+  \begin{block}
+  {確率熱方程式（stochastic heat equation）：}
+  \begin{equation*} 
+  \frac{\partial}{\partial t} u(t,x) = \frac12 \Delta u(t,x) +
+   \beta u(t,x) \xi(t,x),
+  \end{equation*}
+  ここで $\xi(t,x)$ は $(t,x)\in \mathbb R_+ \times \mathbb R^d$ 上のホワイトノイズである．
+  \end{block}
+  \pause[2] 
+  Hopf--Cole変換：$h(t,x)=\log u(t,x)$. \textcolor{blue}{（$\log W_N(\beta,x)$ に対応）}
+  \begin{block}
+  {Kardar--Parisi--Zhang（KPZ）方程式：}
+  \begin{equation*} 
+  \frac{\partial}{\partial t} h(t,x) = \frac12 \Delta h(t,x) +  \frac12   |\nabla h(t,x) |^2+
+   \beta  \xi(t,x).
+  \end{equation*}
+  \end{block}
+  \pause[3]
+$d\geq 2$ では，これらの方程式は（そのままでは）良定義ではない！
+\end{frame}
+
+\begin{frame}
+\frametitle{中間領域}
+中間領域（$d=1$）：
+\begin{block}{Theorem (Alberts-Khanin-Quastel 14)}
+Let $d=1$. For $\beta_N = \frac{\hat \beta}{N^{1/4}}$: \ $\log W_{tN}(\beta_N,x\sqrt N) \cvlaw \mathrm{KPZ}_{\hat{\beta}}(t,x)$
+\end{block}
+\pause[2]
+中心極限定理（$d=2$）．
+$\lambda(\hat \beta)^2 := \log \frac{1}{1-\hat{\beta}^2}$ とおく．
+\begin{block}{Theorem (Caravenna-Sun-Zygouras 17, Caravenna-Cottini 22, Cosco-Donadini 23+)}
+Let $d=2$. For $\beta_N = \frac{\sqrt{\pi}\hat \beta}{\sqrt{\log N}}:$
+  \begin{align*}
+ (i) &\ \forall \hat{\b}<1:\quad \log W_N(\beta_N,0) \cvlaw \mathcal N\left(-\frac {\lambda^2} 2,\lambda^2\right),\\
+ (ii) &\ \forall \hat{\beta} \geq 1: \quad W_N(\beta_N,0)\to 0.
+  \end{align*}
+\end{block}
+\end{frame}
+\begin{frame}{中間領域}
+\begin{block}{Theorem (Caravenna-Sun-Zygouras 17, Caravenna-Cottini 22, Cosco-Donadini 23+)}
+Let $d=2$. For $\beta_N = \frac{\sqrt{\pi}\hat \beta}{\sqrt{\log N}}:$
+  \begin{align*}
+ (i) &\ \forall \hat{\b}<1:\quad \log W_N(\beta_N,0) \cvlaw \mathcal N\left(-\frac {\lambda^2} 2,\lambda^2\right),\\
+ (ii) &\ \forall \hat{\beta} \geq 1: \quad W_N(\beta_N,0)\to 0.
+  \end{align*}
+\end{block}
+\begin{itemize}
+    \item 臨界点 $\hat{\beta}=1$ では，場 $(W_{tN}(\beta_N,\lfloor \sqrt N x\rfloor))_{t\geq 0,\,x\in [-1,1]^2}$ が分布の意味で，いわゆる\textbf{Critical Stochastic Heat Flow}に収束することが知られている．
+\end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{CLTの証明（Cosco--Donadini）}
+$\hat \beta<1$ とする．示したいのは $\log W_N(\beta_N,0) \cvlaw \mathcal N\left(-\frac {\lambda^2} 2,\lambda^2\right)$ である．
+\begin{itemize}
+  \item<1-> ステップ1（decoupling）：任意の $M>0$ に対し，$W_N\underset{N\to\infty}{\approx} \prod_{k=1}^M W_{k,M}$ が $L^2$ で成り立つ．ここで
+  \[W_{k,M} := \DE\left[e^{\sum_{n=N^{k/M}}^{N^{(k+1)/M}} \left(\beta_N \omega(n,S_n) - \Lambda(\beta_N)\right)}\right].\]
+  \item ステップ2（Taylor展開：$\log (1+x)\approx x-x^2/2$ + CLT）：
+  \begin{align*}
+    \sum_{k=1}^M \log W_{k,M} & \underset{M\to\infty}{\approx} \sum_{k=1}^M (W_{k,M}-1) - \frac{1}{2}(W_{k,M}-1)^2 \\
+    &\underset{N\to\infty,M\to\infty}{\longrightarrow} \mathcal N(0,\lambda^2) -\frac{\lambda^2}{2}.
+  \end{align*}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{対数相関場}
+$\beta_N = \hat{\beta}\sqrt{\pi/\log N}$ を思い出す．次を定義する：
+$$ h_N(x):=\sqrt{\log N} \left(\log W_N(\beta_N,x\sqrt N) - \IE \log W_N(\beta_N,x\sqrt{N})\right).$$
+\begin{block}{Theorem (Caravenna-Sun-Zygouras 20)}
+  As $N\to\infty$,
+\begin{align*} \label{eq:GFFlimit}
+\forall \hat{\b}<1: \ h_N(x)& \cvlaw \sqrt{\frac {\hat {\b}^2} {1-{\hat \b}^2}} G(x),
+\end{align*}
+with $G(x)$ a log-correlated Gaussian field on $\mathbb R^2$ independent of $\hat{\beta}$, i.e., when $|x-y|\to 0$,\ $$\IE[G(x)G(y)]\sim \log \frac{1}{|x-y|}.$$ 
+\end{block} 
+\end{frame}
+
+
+\begin{frame}{主結果}
+$h_N(x):=\sqrt{\log N} \left(\log W_N(\beta_N,x\sqrt N) - \IE \log W_N(\beta_N,x\sqrt{N})\right)$ と定義する．
+\begin{block}{Cosco-N.-Zeitouni, 2025+}
+  For all $\hat \beta < 1$, as $N\to\infty$,
+\[\ \lim_{N\to\infty}(\log N)^{-1}\max_{|x|\leq N^{1/2}} h_N(x) = \int_{0}^1 \sigma(t) {\rm d}t,
+\]
+where 
+$$\sigma(t) :=  \sqrt{\frac{\hat\beta^2}{1-\hat\beta^2 (1-t)}}.$$
+\end{block}
+\begin{itemize}
+\item<2-> 方針：不均一BBMとの比較．
+\item<3-> 必要：$q = O(\sqrt{\log N})$ の範囲で $\IE[(W_N(x))^q]$（delta-bose gas）の評価．
+\end{itemize}
+\end{frame}
+
+
+\section{関連研究}
+
+\begin{frame}{分枝ブラウン運動（BBM）}
+
+\textbf{定義：}
+\begin{itemize}
+    \item \(t = 0\) に原点の1粒子から開始する．
+    \item 粒子は（独立な）指数分布に従うランダム時刻まで\textbf{ブラウン運動}を行う（{\color{red}指数時計}）．
+    \item 分枝時刻に粒子は2つの独立な粒子に分裂する．
+    \item 各子孫は独立にブラウン運動する．
+    \item 以降も独立な指数時計により同様に分枝を繰り返す．
+    \item \( \mathcal{N}(t) \)：時刻 \( t \) に生存している粒子の集合．
+\end{itemize}
+%\pause[2]
+%\textbf{Key Properties:}
+%\begin{itemize}
+    %\item 
+%    \item \( |\mathcal N(t)|e^{-t} \): A \textbf{martingale}, converging almost surely %to $1$.
+%\end{itemize}
+
+\end{frame}
+\begin{frame}{BBMのシミュレーション}
+~\\
+\vspace{-10mm}
+\begin{figure}
+    \centering
+    \maybeincludegraphics[width=0.8\linewidth]{BBM.png}
+    \label{fig:enter-label}
+\end{figure}    
+\url{https://njima091.github.io/Lectures/miscellany/Bbm.html}
+\end{frame}
+\begin{frame}{分枝過程の最大値}
+分枝ブラウン運動の最大値：
+\begin{block}{Bramson 83, Bramson-Zeitouni 09
+  }
+  \[\max_{v \in \mathcal N(t)} B^v_t \approx \sqrt 2 t -\frac{3}{2\sqrt 2} \log t + X,\]
+  where $X$ follows a shifted Gumbel distribution.
+\end{block}
+\pause[2]
+同様の現象は，多くの（ガウス）対数相関場（Gaussian free field，cover times，random matrices，ゼータ関数，…）でも現れる．
+\end{frame}
+
+\begin{frame}{不均一BBM}
+
+\textbf{定義：}
+\begin{itemize}
+    \item 古典的BBMの\textbf{時間依存分散}版：
+    \[
+    \sigma_T^2(t) := \sigma^2(t/T),
+    \]
+    ここで：
+    \begin{itemize}
+        \item \( \sigma \) は \( [0, 1] \) 上の\textbf{滑らかで狭義単調減少}な関数．
+        \item \( \sigma \) の導関数は\textbf{負の定数}で上から抑えられる．
+    \end{itemize}
+    \item 粒子：
+    \begin{itemize}
+        \item 分散 \( \int_0^{\cdot} \sigma_T^2(s)\, \mathrm{d}s\) をもつ\textbf{ブラウン運動}を行う．
+        \item 独立な指数時計で分枝する．
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+\begin{frame}{不均一BBMの最大値}
+不均一分枝ブラウン運動の最大値：
+\begin{block}{Feng-Zeitouni 13}
+Suppose that $\sigma:[0,1]\to (0,\infty)$ is a smooth function such that $\sup_{x\in [0,1]}\sigma'(x)<0$. As $T\to\infty$, 
+  \[\max_{v \in \mathcal N(T)} B^v_T = v_\sigma T - \Omega(T^{1/3}),\]
+  where we define
+  $$v_\sigma := \sqrt 2 \int_0^1 \sigma(s) {\rm d} s.$$
+\end{block}
+\pause[2]
+主要項の係数や次の次数が古典的BBMとは異なる．
+\end{frame}
+
+
+
+
+
+
+\section{モーメント評価}
+\begin{frame}
+\frametitle{モーメント公式}
+再掲：$W_N(\beta_N)=\DE_0\big[\exp\big\{\sum_{n=1}^N (\beta_N \omega(n,S_n) - \Lambda(\beta_N))\big\}\big]$．
+\begin{block}{モーメント公式}
+  $\omega(n,x)\sim \mathcal N(0,1)$ とする．このとき
+\[
+\IE\left[W_N^q\right] = \DE^{\otimes q}_0\left[e^{\beta_N^2\sum_{n=1}^N \sum_{1\leq i<j \leq q} \mathbf{1}_{S_n^{i} = S_n^j}} \right],
+\]
+ここで $(S^i_n)_{i\leq q}$ は SRW の独立なコピーである．
+\end{block}
+\begin{itemize}
+  \item Delta-Bose gas（$\delta$-Bose gas）．
+  \item 非ガウスの場合は公式があまりきれいにならない．
+\end{itemize}
+% \pause[2]
+% Proof strategy: the main contribution will come from trajectories with successive pairwise interactions.
+\end{frame}
+
+\begin{frame}
+\frametitle{上からの評価}
+$W_N = W_N(\beta_N,0)$ と書き，$\beta_N =\hat{\beta}\sqrt{\pi/\log N}$ とおく．
+\begin{block}{Theorem (Cosco-Zeitouni 22)}
+Assume $\omega(i,x) \sim \mathcal N(0,1)$. For any $\hat \beta$ small enough, if $\binom q 2\leq \textcolor{blue}{\frac{1}{3}}\frac{\hat \beta^2}{1-\hat \beta^2}\log N$, then we have 
+\[\IE\left[(W_N)^q\right] \leq e^{\lambda^2 \binom{q}{2} + o(q^2)},
+\]
+where $\lambda^2:=\lambda(\hat \beta)^2 := \log \frac{1}{1-\hat{\beta}^2}$.
+\end{block}
+\begin{itemize}
+\item<2-> $q^2=o(\log N / \log \log N)$ なら，全ての $\hat \beta <1$ に対して成り立つ．
+\item<3-> $q\in \mathbb N$ を固定すると，$\hat \beta < 1$ の領域で $W_N$ は全てのモーメントをもつ（Lygkonis--Zygouras 21）．
+\item<4-> 改良点：$\hat{\beta_0} \to 1$，$1/3\to 1$，および $o(q^2) \to o(1)$．
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}
+  \frametitle{改良}
+$t\leq 1$ に対して次を定義する：
+  $$
+  W_{tN}:=\DE_0\left[e^{\sum_{n=1}^{tN} \left(\beta_N \omega(n,S_n) -\Lambda(\beta_N)\right)}\right],\quad \lambda_{t}^2 := \log \left(\frac{1}{1-\hat{\beta}^2 t }\right).$$
+
+  \begin{block}{Theorem (Cosco-N, 2025+)}
+For any $\hat \beta < 1$, $\alpha< 1$, and $t\leq 1$, if  $ \binom q 2\leq \alpha \frac{\hat \beta^2}{1-t \hat \beta^2} \log N$, 
+  \[\IE\left[(W_{tN})^q\right] \leq e^{\lambda_{t}^2 \binom{q}{2} + o(q^2)},
+  \]
+  where $o(q^2)$ depends only on $N,\alpha$.
+  \end{block}
+  \fbox{\textbf{ポイント}}
+  \begin{itemize}
+      \item 有限回の交差を許す
+      %\item Analogous formula to Chen's chaos expansion
+      \item 一般の重み
+  \end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}
+  \frametitle{下からの評価}
+  \begin{block}{Theorem (Cosco-Zeitouni 23)}
+    (i) For any $\hat{\beta} <1$, $\binom q 2=O(\log N)$, 
+    \[\IE\left[W_N^q\right] \geq e^{\lambda^2 \binom{q}{2} - o(q^2)}.
+    \]
+    (ii) If $\binom q 2 \geq (\log N)^2$, $\IE[W_N^q] \geq e^{cN/\log N}$.
+    \end{block}
+    % \begin{itemize}
+    %   \item Different argument: decoupling on dyadic times
+    % \end{itemize}
+\end{frame}
+
+\section{証明方針}
+\iffalse
+\begin{frame}{Proof Strategy (Overview)}
+\small
+Our proof strategy to approximate $ \log W_N(x)$ by an \emph{inhomogeneous BBM} approach involves the following steps:
+\begin{itemize}
+    \item \textbf{Hierarchical Decomposition:} Decompose $\log W_N(x)$ into (approximately) independent components corresponding to different time intervals.
+    \item \textbf{Chaining:} Analyze correlations and independence between these components based on spatial and temporal scales.
+    \item \textbf{Variance and Log-Correlation:} Relate the variance of these components to a log-correlated Gaussian structure.
+    \item \textbf{Comparison with Inhomogeneous BBM:} Show that the hierarchical decomposition mirrors the structure of inhomogeneous BBM, allowing us to use known results on the maximum of such branching systems.
+\end{itemize}
+Each step is detailed in the following slides.
+\end{frame}
+\fi
+\begin{frame}{階層分解}
+\small
+$\log W_N(x)$ を次のように分解する：
+\[
+    \log W_N(x) \;=\; \sum_{k=1}^K \log W_{N,k}(x),
+\]
+ここで各成分は，ある時間区間に対応する分配関数で：
+\[
+    W_{N,k}(x) 
+    :=\; 
+    \frac{W_{N^{(k+1)/K}}(x)}{W_{N^{k/K}}(x)}.
+\]
+この分解は，次のスライドで見るような\emph{階層構造}を示唆している．
+\end{frame}
+
+\begin{frame}{Chaining argument}
+\small
+空間・時間方向の相関を次のように評価する：
+\begin{enumerate}
+    \item \textbf{近い点：} $|x-y| \le N^{k/(2K) - \epsilon}$ なら
+\[
+       \log W_{N,k}(x) \;\approx\; \log W_{N,k}(y).
+\]
+    \item \textbf{遠い点：} $|x-y| \ge N^{k/(2K) + \epsilon}$ なら
+\[
+       \log W_{N,k}(x) \;\perp\; \log W_{N,k}(y).
+\]
+    \item \textbf{異なるレベル：} $k_1 \neq k_2$ のとき，$\log W_{N,k_1}(x)$ と $\log W_{N,k_2}(y)$ は近似的に独立．
+\end{enumerate}
+これらは分枝過程に現れる階層的な相関構造を表す: すなわち
+$$\text{$|x-y| \approx N^{k/(2K)}$ のとき，分岐時刻は $N^{k/K}$ に対応する．}$$
+\end{frame}
+
+\begin{frame}{分散と対数相関}
+\small
+各成分の分散は，関数 $f(t)$ により近似的に
+\[
+    \mathrm{Var}\bigl(\log W_{N,k}(x)\bigr) 
+    \;\sim\; 
+    \frac{f\bigl(\tfrac{k}{K}\bigr)}{K \,\log N},
+    \quad
+    \text{where}
+    \quad
+    f(t) \;=\; \frac{\hat{\beta}^2}{1 - \hat{\beta}^2\,t}.
+\]
+$k$ で足し上げると，場
+\[
+    h_N(x) := \sqrt{\log N}\,(\log W_N(\sqrt{N} x)-\IE \log W_N(\sqrt{N} x))
+\]
+は\emph{対数相関}ガウス場になる：
+\[
+    \mathrm{Cov}\bigl(h_N(x), h_N(y)\bigr)
+    \;\approx\; 
+    \int_{-2 \log |x-y|}^1 f(t) \, \mathrm{d}t,
+\]
+これは $N\to\infty$ で不均一BBMの挙動を反映している．
+\end{frame}
+
+\begin{frame}{不均一BBMとの比較}
+\small
+不均一分枝ブラウン運動（BBM）との類比により：
+\begin{itemize}
+    \item 分解の「レベル」$k$ は，時間依存の分枝イベントに対応する．
+    \item 分散プロファイル $f(t)$ は，BBMの時間依存拡散係数に対応する．
+    \item 不均一BBMの最大値に関する既知の結果（例：Feng--Zeitouni）より
+\[
+        \max_{|x|\le 1} \;h_N(x)
+        \;=\;
+        \max_{|x|\le 1} \;\sqrt{\log N}\,\log W_N(x)
+        \;\longrightarrow\;
+        \int_0^1 \sqrt{f(t)}\,\mathrm{d}t.
+\]
+\end{itemize}
+従って，　$h_N(x)$ の最大値は，不均一BBMの最大値解析と並行する方法で導ける．
+
+{\color{red}{厳密な証明では，十分良い近似のためにモーメント評価に関する鋭い条件が必要になる．}}
+\end{frame}
+
+\section{今後の課題}
+
+\begin{frame}
+
+
+\frametitle{今後の課題}
+\begin{itemize}
+\item<1-> $\hat \beta = 1$：臨界2次元 Stochastic Heat Flow\\
+（Caravenna--Sun--Zygouras 23，Liu--Zygouras 24+）
+\end{itemize}
+\end{frame}
+\begin{frame}{最後に}
+
+
+{\Large  吉田先生，ご還暦おめでとうございます．今後のご研究，そしてご執筆のますますのご発展を心よりお祈り申し上げます．}
+\end{frame}
+\end{CJK*}
+\end{document}

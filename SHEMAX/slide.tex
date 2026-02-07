@@ -1,0 +1,529 @@
+\documentclass{beamer}
+\usetheme{metropolis}
+\usepackage{tabularx}
+\usepackage{amsmath, amssymb}    % minimum pour les maths
+\usepackage{amsthm}	%permet de faire des théorèmes etc...
+\usepackage{ stmaryrd }
+\usepackage[utf8]{inputenc}   
+\usepackage[T1]{fontenc}
+\usepackage{ruby}
+
+
+\usepackage[utf8]{inputenc}		% ou latin1 ou macroman à la place de utf8, pour encodage des caractères
+\usepackage[T1]{fontenc}		 %encodage des caractères plus évolué (accents dans le pdf,polices)
+
+\usepackage{graphicx}
+
+
+\usepackage{xcolor} % pour mettre un texte en couleur avec \textcolor ou \color
+
+
+
+\newcommand{\IP}{{\mathbb P}}
+\newcommand{\DP}{{\mathrm P}}
+\newcommand{\DE}{{\mathrm E}}
+\newcommand{\EEP}{\mathbb E}
+\newcommand{\IE}{\mathbb E}
+\newcommand{\EP}{{\mathrm E}}
+\newcommand{\kU}{\mathscr{U}}
+
+\newcommand*\Z{Z_{n}^\omega(\beta)}
+\newcommand{\sZ}{\mathbf{\mathcal{Z}}}
+\renewcommand{\b}{\beta}
+\newcommand*\Hn{H_n^\omega}
+\newcommand*\Zc{\mathcal{Z}}
+\newcommand*\R{\mathbb{R}}
+\newcommand*\Skn{\mathcal{S}_k^n}
+\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+\newcommand{\cvlaw}{\stackrel{{ (d)}}{\longrightarrow}}
+\newcommand{\cvLone}{\stackrel{{L^1}}{\longrightarrow}}
+\newcommand{\cvIP}{\stackrel{{\IP}}{\longrightarrow}}
+\newcommand{\eqlaw}{\stackrel{\rm{ law}}{=}}
+\newcommand*\cvLdeux{\overset{L^2}{\longrightarrow}}
+
+\newcommand{\cvto}[2]{\underset{#1 \to #2}{\longrightarrow}}
+\newcommand{\om}{\omega}
+\newcommand{\rmd}{\mathrm{d}}
+\def\P{{\mathbb P}}
+
+\newcommand{\e}{\varepsilon}
+\newcommand{\dd}{\mathrm{d}}
+\def\P{{\mathbb P}}
+
+\bibliographystyle{amsplain}  
+
+\title{The Maximum of 2D Directed Polymers in the Subcritical Regime and Inhomogeneous Branching Brownian Motion}
+\author{Shuta Nakajima (Meiji University)}
+\institute{ Joint work with Cl\'ement Cosco and Ofer Zeitouni}
+\date[KPT 2004] % (optional)
+
+\metroset{block=fill,numbering = fraction}
+
+\begin{document}
+\frame{\titlepage}
+\begin{frame}{Summary of the Talk}
+\begin{itemize}
+    \item This talk examines the behavior of the maximum free energy of 2D directed polymers in the subcritical regime.
+    \item The main result identifies the leading coefficient of this maximum, which is linked to Inhomogeneous Branching Brownian Motion (Inhomogeneous BBM).
+    \item We expect that this work lays the groundwork for further understanding the intermediate regime of directed polymers through BBM-based approaches.
+\end{itemize}
+\end{frame}
+
+\section{Model and Main Results}
+\begin{frame}{What are Directed polymers?}
+\begin{itemize}
+    \item \textbf{Directed polymers} model various physical phenomena, including:
+    \begin{itemize}
+        \item \textbf{Random polymer growth} in disordered environments.
+        \item \textbf{Interface growth} in turbulent systems.
+        \item \textbf{Path optimization} in stochastic or random systems.
+    \end{itemize}
+    \item \textbf{Key Features:}
+    \begin{itemize}
+        \item The polymer path evolves \textbf{in a specific direction}.
+        \item The environment assigns random \textbf{energy values} to different configurations.
+        \item The system seeks a balance between \textbf{energy minimization} and \textbf{entropy maximization}.
+    \end{itemize}
+    \item These models connect to broader probabilistic structures, e.g.,
+    \begin{itemize}
+        \item \textbf{Branching processes.}
+        \item \textbf{KPZ universality class}, which describes various growth processes.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Directed polymers}
+\begin{itemize}
+    \item Let $\DP_x$ denote the measure of SRW starting at $x$ on $\mathbb{Z}^d$.
+    \item Let $(\omega(n, x))_{n\in\mathbb N,x\in \mathbb Z^d}$  be centered i.i.d.\ RVs with
+  $$\mathbb{E}[\omega(n, x)^2] = 1,\quad 
+  \Lambda(\beta) := \log \mathbb{E}[e^{\beta \omega(n, x)}] < \infty,\,\forall \beta > 0.$$
+\end{itemize}
+\pause
+\begin{figure}
+    \centering
+\includegraphics[width=0.75\linewidth]{rb.png}
+\end{figure}
+~\\
+\vspace{-10mm}
+{\color{red}$\bullet$}: $\omega=0$; {\color{blue}$\bullet$}: $\omega=1$
+\end{frame}
+
+\begin{frame}
+\frametitle{Directed polymers}
+\begin{itemize}
+    \item Let $\DP_x$ denote the measure of SRW starting at $x$ on $\mathbb{Z}^d$.
+    \item Let $(\omega(n, x))_{n\in\mathbb N,x\in \mathbb Z^d}$  be centered i.i.d.\ RVs with
+  $$\mathbb{E}[\omega(n, x)^2] = 1,\quad 
+  \Lambda(\beta) := \log \mathbb{E}[e^{\beta \omega(n, x)}] < \infty,\,\forall \beta > 0.$$
+\end{itemize}
+\begin{figure}
+    \centering
+\includegraphics[width=0.75\linewidth]{rbsrw.png}
+\end{figure}
+\end{frame}
+\begin{frame}
+\frametitle{Directed polymers}
+\begin{itemize}
+\item $\DP_x$ is the measure of simple random walk started at $x$ on $\mathbb Z^d$,
+\item $\omega(n,x), n\in \mathbb N,x\in \mathbb Z^d$ are centered i.i.d.\ random variables with $\IE[\omega(n,x)^2]=1$,  $\Lambda(\beta):=
+\log \IE[e^{\beta \omega(n,x)}]<\infty$ for all $\beta>0$.
+\end{itemize}
+\begin{block}{Polymer partition function:}
+\begin{equation*} 
+W_N(\beta,x):=\DE_x\left[e^{\sum_{n=1}^N \left(\beta \omega(n,S_n) -\Lambda(\beta)\right)}\right], \ x\in \mathbb Z^d.
+\end{equation*} 
+\end{block}
+\pause
+\begin{block}{Polymer measure:}
+\[P^{polymer}_{N,\beta}((S_n)_{n=0}^N) := \frac{e^{\sum_{n=1}^N (\beta \omega(n,S_n) - \Lambda(\beta))}}{W_N( \beta,0)} \DP_0((S_n)_{n= 0}^N).
+\]
+\end{block}
+\pause
+Reference: Comets - Saint-Flour notes
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Weak/Strong disorder}
+\begin{block}{Polymer partition function:}
+\begin{equation*} 
+W_N(x) : = W_N(\beta,x):=\DE_x\left[e^{\sum_{n=1}^N \left(\beta \omega(n,S_n) -\Lambda(\beta)\right)}\right], \ x\in \mathbb Z^d.
+\end{equation*} 
+\end{block}
+\begin{block}{Phase transition:}
+There exists $\beta_c\in [0,\infty]$ such that:
+
+$W_N(\beta,x) \to 0$ if $\b > \beta_c$ (localized phase),
+
+$W_N(\b,x) \to W_\infty(\b,x)>0$ if $\b < \beta_c$ (diffusive phase).
+\end{block}
+\pause[2]
+\begin{itemize}
+\item If $d=1,2$, $\b_c = 0$ (always localized),
+\item If $d\geq 3$, $\b_c >0$ (phase transition).
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Link to the KPZ equation}
+  \textcolor{blue}{$W_N(\beta,x)$ satisfies a discrete version of}
+  \begin{block}
+  {The stochastic heat equation:}
+  \begin{equation*} 
+  \frac{\partial}{\partial t} u(t,x) = \frac12 \Delta u(t,x) +
+   \beta u(t,x) \xi(t,x),
+  \end{equation*}
+  with $\xi(t,x)$ a white noise on $(t,x)\in \mathbb R_+ \times \mathbb R^d$.
+  \end{block}
+  \pause[2] 
+  The Hopf-Cole transform: $h(t,x)=\log u(t,x)$. \textcolor{blue}{($\log W_N(\beta,x)$)}
+  \begin{block}
+  {The Kardar-Parisi-Zhang (KPZ) equation:}
+  \begin{equation*} 
+  \frac{\partial}{\partial t} h(t,x) = \frac12 \Delta h(t,x) +  \frac12   |\nabla h(t,x) |^2+
+   \beta  \xi(t,x).
+  \end{equation*}
+  \end{block}
+  \pause[3]
+The two equations are not well defined when $d\geq 2$!
+\end{frame}
+
+\begin{frame}
+\frametitle{Intermediate regime}
+Intermediate regime ($d=1$):
+\begin{block}{Theorem (Alberts-Khanin-Quastel 14)}
+Let $d=1$. For $\beta_N = \frac{\hat \beta}{N^{1/4}}$: \ $\log W_{tN}(\beta_N,x\sqrt N) \cvlaw \mathrm{KPZ}_{\hat{\beta}}(t,x)$
+\end{block}
+\pause[2]
+Central Limit Theorem ($d=2$).
+Let $\lambda(\hat \beta)^2 := \log \frac{1}{1-\hat{\beta}^2}$.
+\begin{block}{Theorem (Caravenna-Sun-Zygouras 17, Caravenna-Cottini 22, Cosco-Donadini 23+)}
+Let $d=2$. For $\beta_N = \frac{\sqrt{\pi}\hat \beta}{\sqrt{\log N}}:$
+  \begin{align*}
+ (i) &\ \forall \hat{\b}<1:\quad \log W_N(\beta_N,0) \cvlaw \mathcal N\left(-\frac {\lambda^2} 2,\lambda^2\right),\\
+ (ii) &\ \forall \hat{\beta} \geq 1: \quad W_N(\beta_N,0)\to 0.
+  \end{align*}
+\end{block}
+\end{frame}
+\begin{frame}{Intermediate regime}
+\begin{block}{Theorem (Caravenna-Sun-Zygouras 17, Caravenna-Cottini 22, Cosco-Donadini 23+)}
+Let $d=2$. For $\beta_N = \frac{\sqrt{\pi}\hat \beta}{\sqrt{\log N}}:$
+  \begin{align*}
+ (i) &\ \forall \hat{\b}<1:\quad \log W_N(\beta_N,0) \cvlaw \mathcal N\left(-\frac {\lambda^2} 2,\lambda^2\right),\\
+ (ii) &\ \forall \hat{\beta} \geq 1: \quad W_N(\beta_N,0)\to 0.
+  \end{align*}
+\end{block}
+\begin{itemize}
+    \item At criticality, $\hat{\beta}=1$, it is known that the field $(W_{tN}(\beta_N,\lfloor \sqrt N x\rfloor))_{t\geq 0,\,x\in [-1,1]^2}$ converges to the so-called \textbf{Critical Stochastic Heat Flow} in a distributional sense.
+\end{itemize}
+\end{frame}
+\begin{frame}
+  \frametitle{Proof of the CLT (Cosco-Donadini)}
+Let $\hat \beta<1$. We want to prove $\log W_N(\beta_N,0) \cvlaw \mathcal N\left(-\frac {\lambda^2} 2,\lambda^2\right).$
+\begin{itemize}
+  \item<1-> Step 1 (decoupling): $\forall M>0$, $W_N\underset{N\to\infty}{\approx} \prod_{k=1}^M W_{k,M}$ in $L^2$, where 
+  \[W_{k,M} := \DE\left[e^{\sum_{n=N^{k/M}}^{N^{(k+1)/M}} \left(\beta_N \omega(n,S_n) - \Lambda(\beta_N)\right)}\right].\]
+  \item Step 2 ([Taylor: $\log (1+x)\approx x-x^2/2$] + CLT): 
+  \begin{align*}
+    \sum_{k=1}^M \log W_{k,M} & \underset{M\to\infty}{\approx} \sum_{k=1}^M (W_{k,M}-1) - \frac{1}{2}(W_{k,M}-1)^2 \\
+    &\underset{N\to\infty,M\to\infty}{\longrightarrow} \mathcal N(0,\lambda^2) -\frac{\lambda^2}{2}.
+  \end{align*}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Log-correlated field}
+Recall $\beta_N = \hat{\beta}\sqrt{\pi/\log N}$. We define
+$$ h_N(x):=\sqrt{\log N} \left(\log W_N(\beta_N,x\sqrt N) - \IE \log W_N(\beta_N,x\sqrt{N})\right).$$
+\begin{block}{Theorem (Caravenna-Sun-Zygouras 20)}
+  As $N\to\infty$,
+\begin{align*} \label{eq:GFFlimit}
+\forall \hat{\b}<1: \ h_N(x)& \cvlaw \sqrt{\frac {\hat {\b}^2} {1-{\hat \b}^2}} G(x),
+\end{align*}
+with $G(x)$ a log-correlated Gaussian field on $\mathbb R^2$ independent of $\hat{\beta}$, i.e., when $|x-y|\to 0$,\ $$\IE[G(x)G(y)]\sim \log \frac{1}{|x-y|}.$$ 
+\end{block} 
+\end{frame}
+
+
+\begin{frame}{Main result}
+Define $h_N(x):=\sqrt{\log N} \left(\log W_N(\beta_N,x\sqrt N) - \IE \log W_N(\beta_N,x\sqrt{N})\right)$.
+\begin{block}{Cosco-N.-Zeitouni, 2025+}
+  For all $\hat \beta < 1$, as $N\to\infty$,
+\[\ \lim_{N\to\infty}(\log N)^{-1}\max_{|x|\leq N^{1/2}} h_N(x) = \int_{0}^1 \sigma(t) {\rm d}t,
+\]
+where 
+$$\sigma(t) :=  \sqrt{\frac{\hat\beta^2}{1-\hat\beta^2 (1-t)}}.$$
+\end{block}
+\begin{itemize}
+\item<2-> Strategy: $\text{Comparison to Inhomogeneous BBM}$.
+\item<3-> Need estimates for $\IE[(W_N(x))^q]$ (delta-bose gas) with $q = O(\sqrt{\log N})$.
+\end{itemize}
+\end{frame}
+
+
+\section{Related research}
+
+\begin{frame}{Branching Brownian Motion (BBM)}
+
+\textbf{Definition:}
+\begin{itemize}
+    \item Starts with a single particle at the origin at \( t = 0 \).
+    \item The particle performs \textbf{Brownian motion} until a (independent) random time, distributed exponentially {\color{red}(exponential clock)}.
+    \item At the random branching time, the particle splits into two independent particles.
+        \item Each offspring 
+      performs independent Brownian motion.
+            \item It continues branching in the same manner with independent exponential clocks.
+            \item \( \mathcal{N}(t) \): Set of particles alive at time \( t \).
+\end{itemize}
+%\pause[2]
+%\textbf{Key Properties:}
+%\begin{itemize}
+    %\item 
+%    \item \( |\mathcal N(t)|e^{-t} \): A \textbf{martingale}, converging almost surely %to $1$.
+%\end{itemize}
+
+\end{frame}
+\begin{frame}{Simulation of BBM}
+~\\
+\vspace{-10mm}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{BBM.png}
+    \label{fig:enter-label}
+\end{figure}    
+https://njima091.github.io/Lectures/miscellany/Bbm.html
+\end{frame}
+\begin{frame}{Maximum of Branching processes}
+Maximum of Branching Brownian Motion:
+\begin{block}{Bramson 83, Bramson-Zeitouni 09
+  }
+  \[\max_{v \in \mathcal N(t)} B^v_t \approx \sqrt 2 t -\frac{3}{2\sqrt 2} \log t + X,\]
+  where $X$ follows a shifted Gumbel distribution.
+\end{block}
+\pause[2]
+Similar phenomena for a wide range of (Gaussian) log-correlated fields (Gaussian free field, cover times, random matrices, Zeta function,...)
+\end{frame}
+
+\begin{frame}{Inhomogeneous BBM}
+
+\textbf{Definition:}
+\begin{itemize}
+    \item A variation of classical BBM with \textbf{time-dependent variance}:
+    \[
+    \sigma_T^2(t) := \sigma^2(t/T),
+    \]
+    where:
+    \begin{itemize}
+        \item \( \sigma \) is a \textbf{smooth, strictly decreasing function} on \( [0, 1] \).
+        \item The derivative of \( \sigma \) is bounded above by a \textbf{strictly negative constant}.
+    \end{itemize}
+    \item Particles:
+    \begin{itemize}
+        \item Perform \textbf{Brownian motion} with variance \( \int_0^{\cdot} \sigma_T^2(s) ds\).
+        \item Branch with independent exponential clocks.
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+\begin{frame}{Maximum of Inhomogeneous BBM}
+Maximum of Inhomogeous Branching Brownian Motion:
+\begin{block}{Feng-Zeitouni 13}
+Suppose that $\sigma:[0,1]\to (0,\infty)$ is a smooth function such that $\sup_{x\in [0,1]}\sigma'(x)<0$. As $T\to\infty$, 
+  \[\max_{v \in \mathcal N(T)} B^v_T = v_\sigma T - \Omega(T^{1/3}),\]
+  where we define
+  $$v_\sigma := \sqrt 2 \int_0^1 \sigma(s) {\rm d} s.$$
+\end{block}
+\pause[2]
+Different leading coefficients and sub-leading orders.
+\end{frame}
+
+
+
+
+
+
+\section{Moment estimates}
+\begin{frame}
+\frametitle{The moment formula}
+Recall: $W_N(\beta_N)=\DE_0\big[\exp\big\{\sum_{n=1}^N (\beta_N \omega(n,S_n) - \Lambda(\beta_N))\big\}\big]$.
+\begin{block}{The moment formula}
+  Let $\omega(n,x)\sim \mathcal N(0,1)$. We have
+\[
+\IE\left[W_N^q\right] = \DE^{\otimes q}_0\left[e^{\beta_N^2\sum_{n=1}^N \sum_{1\leq i<j \leq q} \mathbf{1}_{S_n^{i} = S_n^j}} \right],
+\]
+where $(S^i_n),i\leq q$ are independent copies of the SRW.
+\end{block}
+\begin{itemize}
+  \item Delta-Bose gas.
+  \item The formula for non-Gaussian is less nice.
+\end{itemize}
+% \pause[2]
+% Proof strategy: the main contribution will come from trajectories with successive pairwise interactions.
+\end{frame}
+
+\begin{frame}
+\frametitle{Upper bound}
+We write $W_N = W_N(\beta_N,0)$ with $\beta_N =\hat{\beta}\sqrt{\pi/\log N}$.
+\begin{block}{Theorem (Cosco-Zeitouni 22)}
+Assume $\omega(i,x) \sim \mathcal N(0,1)$. For any $\hat \beta$ small enough, if $\binom q 2\leq \textcolor{blue}{\frac{1}{3}}\frac{\hat \beta^2}{1-\hat \beta^2}\log N$, then we have 
+\[\IE\left[(W_N)^q\right] \leq e^{\lambda^2 \binom{q}{2} + o(q^2)},
+\]
+where $\lambda^2:=\lambda(\hat \beta)^2 := \log \frac{1}{1-\hat{\beta}^2}$.
+\end{block}
+\begin{itemize}
+\item<2-> if $q^2=o(\log N / \log \log N)$, then it holds for all $\hat \beta <1$,
+\item<3-> fixing $q\in \mathbb N$: $W_N$ admits all moments in the region $\hat \beta < 1$. (Lygkonis-Zygouras 21)
+\item<4-> To improve: $\hat{\beta_0} \to 1$ and $1/3\to 1$, $o(q^2) \to o(1)$.
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}
+  \frametitle{Improvement}
+For $t\leq 1$,  we define
+  $$
+  W_{tN}:=\DE_0\left[e^{\sum_{n=1}^{tN} \left(\beta_N \omega(n,S_n) -\Lambda(\beta_N)\right)}\right],\quad \lambda_{t}^2 := \log \left(\frac{1}{1-\hat{\beta}^2 t }\right).$$
+
+  \begin{block}{Theorem (Cosco-N, 2025+)}
+For any $\hat \beta < 1$, $\alpha< 1$, and $t\leq 1$, if  $ \binom q 2\leq \alpha \frac{\hat \beta^2}{1-t \hat \beta^2} \log N$, 
+  \[\IE\left[(W_{tN})^q\right] \leq e^{\lambda_{t}^2 \binom{q}{2} + o(q^2)},
+  \]
+  where $o(q^2)$ depends only on $N,\alpha$.
+  \end{block}
+  \fbox{\textbf{Key points}}
+  \begin{itemize}
+      \item Allow finite intersections
+      %\item Analogous formula to Chen's chaos expansion
+      \item General weights
+  \end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}
+  \frametitle{Lower bound}
+  \begin{block}{Theorem (Cosco-Zeitouni 23)}
+    (i) For any $\hat{\beta} <1$, $\binom q 2=O(\log N)$, 
+    \[\IE\left[W_N^q\right] \geq e^{\lambda^2 \binom{q}{2} - o(q^2)}.
+    \]
+    (ii) If $\binom q 2 \geq (\log N)^2$, $\IE[W_N^q] \geq e^{cN/\log N}$.
+    \end{block}
+    % \begin{itemize}
+    %   \item Different argument: decoupling on dyadic times
+    % \end{itemize}
+\end{frame}
+
+\section{Proof strategies}
+\iffalse
+\begin{frame}{Proof Strategy (Overview)}
+\small
+Our proof strategy to approximate $ \log W_N(x)$ by an \emph{inhomogeneous BBM} approach involves the following steps:
+\begin{itemize}
+    \item \textbf{Hierarchical Decomposition:} Decompose $\log W_N(x)$ into (approximately) independent components corresponding to different time intervals.
+    \item \textbf{Chaining:} Analyze correlations and independence between these components based on spatial and temporal scales.
+    \item \textbf{Variance and Log-Correlation:} Relate the variance of these components to a log-correlated Gaussian structure.
+    \item \textbf{Comparison with Inhomogeneous BBM:} Show that the hierarchical decomposition mirrors the structure of inhomogeneous BBM, allowing us to use known results on the maximum of such branching systems.
+\end{itemize}
+Each step is detailed in the following slides.
+\end{frame}
+\fi
+\begin{frame}{Hierarchical Decomposition}
+\small
+We decompose $\log W_N(x)$ into components:
+\[
+    \log W_N(x) \;=\; \sum_{k=1}^K \log W_{N,k}(x),
+\]
+where each component corresponds to the partition function over a time interval:
+\[
+    W_{N,k}(x) 
+    :=\; 
+    \frac{W_{N^{(k+1)/K}}(x)}{W_{N^{k/K}}(x)}.
+\]
+This decomposition captures a \emph{hierarchical} structure as in the next slide.
+\end{frame}
+
+\begin{frame}{Chaining argument}
+\small
+We analyze the correlations in space and time:
+\begin{enumerate}
+    \item \textbf{Close Points:} If $|x-y| \le N^{k/(2K) - \epsilon}$, then
+\[
+       \log W_{N,k}(x) \;\approx\; \log W_{N,k}(y).
+\]
+    \item \textbf{Far Points:} If $|x-y| \ge N^{k/(2K) + \epsilon}$, then
+\[
+       \log W_{N,k}(x) \;\perp\; \log W_{N,k}(y).
+\]
+    \item \textbf{Different Levels:} For $k_1 \neq k_2$, the components $\log W_{N,k_1}(x)$ and $\log W_{N,k_2}(y)$ are approximately independent.
+\end{enumerate}
+These properties replicate the hierarchical correlation structure seen in branching processes, i.e., $$\text{for $|x-y| \approx N^{k/(2K)}$, they split at time $N^{k/K}$.}$$
+\end{frame}
+
+\begin{frame}{Variance and Log-Correlation}
+\small
+Each component’s variance is approximately given by the function $f(t)$:
+\[
+    \mathrm{Var}\bigl(\log W_{N,k}(x)\bigr) 
+    \;\sim\; 
+    \frac{f\bigl(\tfrac{k}{K}\bigr)}{K \,\log N},
+    \quad
+    \text{where}
+    \quad
+    f(t) \;=\; \frac{\hat{\beta}^2}{1 - \hat{\beta}^2\,t}.
+\]
+Summing over $k$, the field 
+\[
+    h_N(x) := \sqrt{\log N}\,(\log W_N(\sqrt{N} x)-\IE \log W_N(\sqrt{N} x))
+\]
+becomes a \emph{log-correlated} Gaussian field:
+\[
+    \mathrm{Cov}\bigl(h_N(x), h_N(y)\bigr)
+    \;\approx\; 
+    \int_{-2 \log |x-y|}^1 f(t) \, \mathrm{d}t,
+\]
+mirroring the behavior of inhomogeneous BBM in the large-$N$ limit.
+\end{frame}
+
+\begin{frame}{Comparison with Inhomogeneous BBM}
+\small
+By analogy with inhomogeneous Branching Brownian Motion (BBM):
+\begin{itemize}
+    \item The “levels” $k$ in our decomposition resemble time-dependent branching events.
+    \item The variance profile $f(t)$ plays the role of a time-dependent diffusion coefficient in BBM.
+    \item Known results (e.g.\ Feng-Zeitouni) on inhomogeneous BBM maxima show that
+\[
+        \max_{|x|\le 1} \;h_N(x)
+        \;=\;
+        \max_{|x|\le 1} \;\sqrt{\log N}\,\log W_N(x)
+        \;\longrightarrow\;
+        \int_0^1 \sqrt{f(t)}\,\mathrm{d}t.
+\]
+\end{itemize}
+Hence, the maximum of our field $h_N(x)$ can be derived via methods parallel to the analysis of maxima in inhomogeneous BBM.
+
+{\color{red}{In a rigorous proof, a sufficiently good approximation needs a sharp condition for moment estimates.}}
+\end{frame}
+
+\section{Future works}
+
+\begin{frame}
+
+
+\frametitle{What's left}
+\begin{itemize}
+\item<1-> Inhomogeneous Gaussian Multiplicative Chaos.
+\item<2-> $\hat \beta = 1$: The critical 2d Stochastic Heat Flow (Caravenna-Sun-Zygouras 23, Liu-Zygouras 24+)
+\item<3-> What is the optimal threshold $q^2<c(\hat \beta)\log N$ in moment estimates? 
+\item<4-> $o(q^2)\to o(1)$ in moment estimates \\
+\qquad\qquad\qquad\qquad ($\Rightarrow$ sub-leading order?).
+\end{itemize}
+\end{frame}
+\end{document}
