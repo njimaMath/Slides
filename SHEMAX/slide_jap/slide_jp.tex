@@ -189,7 +189,7 @@ $\b < \beta_c$ なら $W_N(\b,x) \to W_\infty(\b,x)>0$（拡散相）．
   \end{equation*}
   \end{block}
   \pause[3]
-$d\geq 2$ では，これらの方程式は（そのままでは）良定義ではない！
+これらの方程式は（そのままでは）解をもたない！
 \end{frame}
 
 \begin{frame}
@@ -223,11 +223,11 @@ Let $d=2$. For $\beta_N = \frac{\sqrt{\pi}\hat \beta}{\sqrt{\log N}}:$
 \end{frame}
 \begin{frame}
   \frametitle{CLTの証明（Cosco--Donadini）}
-$\hat \beta<1$ とする．示したいのは $\log W_N(\beta_N,0) \cvlaw \mathcal N\left(-\frac {\lambda^2} 2,\lambda^2\right)$ である．
+$\hat \beta<1$ とする．示したいのは $\log W_N(\beta_N,0) \cvlaw \mathcal N\left(-\frac {\lambda^2} 2,\lambda^2\right)$ ．
 \begin{itemize}
   \item<1-> ステップ1（decoupling）：任意の $M>0$ に対し，$W_N\underset{N\to\infty}{\approx} \prod_{k=1}^M W_{k,M}$ が $L^2$ で成り立つ．ここで
   \[W_{k,M} := \DE\left[e^{\sum_{n=N^{k/M}}^{N^{(k+1)/M}} \left(\beta_N \omega(n,S_n) - \Lambda(\beta_N)\right)}\right].\]
-  \item ステップ2（Taylor展開：$\log (1+x)\approx x-x^2/2$ + CLT）：
+  \item ステップ2（[Taylor展開：$\log (1+x)\approx x-x^2/2$] + CLT）：
   \begin{align*}
     \sum_{k=1}^M \log W_{k,M} & \underset{M\to\infty}{\approx} \sum_{k=1}^M (W_{k,M}-1) - \frac{1}{2}(W_{k,M}-1)^2 \\
     &\underset{N\to\infty,M\to\infty}{\longrightarrow} \mathcal N(0,\lambda^2) -\frac{\lambda^2}{2}.
@@ -272,7 +272,7 @@ $$\sigma(t) :=  \sqrt{\frac{\hat\beta^2}{1-\hat\beta^2 (1-t)}}.$$
 \textbf{定義：}
 \begin{itemize}
     \item \(t = 0\) に原点の1粒子から開始する．
-    \item 粒子は（独立な）指数分布に従うランダム時刻まで\textbf{ブラウン運動}を行う（{\color{red}指数時計}）．
+    \item 粒子は（独立な）指数分布に従うランダム時刻まで\textbf{ブラウン運動}に従う（{\color{red}指数時計}）．
     \item 分枝時刻に粒子は2つの独立な粒子に分裂する．
     \item 各子孫は独立にブラウン運動する．
     \item 以降も独立な指数時計により同様に分枝を繰り返す．
@@ -374,9 +374,8 @@ Assume $\omega(i,x) \sim \mathcal N(0,1)$. For any $\hat \beta$ small enough, if
 where $\lambda^2:=\lambda(\hat \beta)^2 := \log \frac{1}{1-\hat{\beta}^2}$.
 \end{block}
 \begin{itemize}
-\item<2-> $q^2=o(\log N / \log \log N)$ なら，全ての $\hat \beta <1$ に対して成り立つ．
-\item<3-> $q\in \mathbb N$ を固定すると，$\hat \beta < 1$ の領域で $W_N$ は全てのモーメントをもつ（Lygkonis--Zygouras 21）．
-\item<4-> 改良点：$\hat{\beta_0} \to 1$，$1/3\to 1$，および $o(q^2) \to o(1)$．
+\item<2-> $q\in \mathbb N$ を固定すると，$\hat \beta < 1$ の領域で $W_N$ は全てのモーメントをもつ（Lygkonis--Zygouras 21）．
+\item<3-> 改良点：$\hat{\beta_0} \to 1$，$1/3\to 1$，および $o(q^2) \to o(1)$．
 \end{itemize}
 \end{frame}
 
@@ -498,8 +497,8 @@ $k$ で足し上げると，場
 不均一分枝ブラウン運動（BBM）との類比により：
 \begin{itemize}
     \item 分解の「レベル」$k$ は，時間依存の分枝イベントに対応する．
-    \item 分散プロファイル $f(t)$ は，BBMの時間依存拡散係数に対応する．
-    \item 不均一BBMの最大値に関する既知の結果（例：Feng--Zeitouni）より
+    \item 分散 $f(t)$ は，BBMの時間依存拡散係数に対応する．
+    \item 不均一BBMの最大値に関する既知の結果（Feng--Zeitouni）より
 \[
         \max_{|x|\le 1} \;h_N(x)
         \;=\;
@@ -510,7 +509,7 @@ $k$ で足し上げると，場
 \end{itemize}
 従って，　$h_N(x)$ の最大値は，不均一BBMの最大値解析と並行する方法で導ける．
 
-{\color{red}{厳密な証明では，十分良い近似のためにモーメント評価に関する鋭い条件が必要になる．}}
+{\color{red}{厳密な証明では，十分良い近似のためにモーメント評価に関する良い評価が必要になる．}}
 \end{frame}
 
 \section{今後の課題}
