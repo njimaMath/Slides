@@ -405,7 +405,7 @@ INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj98.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecss1000.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj4e.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj5c.tfm
-INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj4f.tfm
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj79.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj59.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmjff.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj61.tfm
@@ -486,9 +486,12 @@ INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/dmj/dmjsy.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj5c.vf
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/mc2j/mc2jkd.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/mc2j/mc2jke.tfm
-INPUT c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj4f.vf
-INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/dmj/dmjkn.tfm
+INPUT c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj79.vf
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/mc2j/mc2jkm.tfm
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/dmj/dmjks.tfm
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/dmj/dmjkt.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj59.vf
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/dmj/dmjkn.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmjff.vf
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/dmj/dmjroma.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/dmj/dmjhw.tfm
@@ -704,7 +707,6 @@ INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj8c.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcss1000.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecsx1000.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj71.tfm
-INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj79.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj5e.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj74.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj30.tfm
@@ -766,10 +768,6 @@ INPUT c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj8c.vf
 INPUT c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj71.vf
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/mc2j/mc2jkj.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/dmj/dmjkr.tfm
-INPUT c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj79.vf
-INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/mc2j/mc2jkm.tfm
-INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/dmj/dmjks.tfm
-INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/dmj/dmjkt.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj5e.vf
 INPUT c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj74.vf
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/mc2j/mc2jkk.tfm
@@ -1026,6 +1024,7 @@ INPUT c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj89.vf
 INPUT c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj96.vf
 INPUT c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj69.vf
 INPUT c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj55.vf
+INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj4f.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj70.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj30.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmjff.tfm
@@ -1041,6 +1040,7 @@ INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj5c.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj66.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj5b.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj5f.tfm
+INPUT c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj4f.vf
 INPUT c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj70.vf
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/wadalab/udmj/udmj57.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/vf/wadalab/udmj/udmj57.vf

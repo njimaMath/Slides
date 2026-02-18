@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.2.1)  16 FEB 2026 11:07
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.2.1)  16 FEB 2026 15:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1138,11 +1138,7 @@ LaTeX Font Warning: Font shape `T1/cmss/b/n' undefined
 
 ] [35
 
-]
-Overfull \vbox (8.22864pt too high) detected at line 405
- []
-
-[36
+] [36
 
 ] [37
 
@@ -1151,7 +1147,7 @@ Overfull \vbox (8.22864pt too high) detected at line 405
 ]
 
 LaTeX Font Warning: Font shape `C70/min/m/it' undefined
-(Font)              using `C70/min/m/n' instead on input line 450.
+(Font)              using `C70/min/m/n' instead on input line 449.
 
 [39
 
@@ -1190,15 +1186,15 @@ Package rerunfilecheck Info: File `slide_jp.out' has not changed.
 (rerunfilecheck)             Checksum: D3E27764B688039ECB82061E3FA8EDE7;431.
  ) 
 Here is how much of TeX's memory you used:
- 29056 strings out of 467533
- 555115 string characters out of 5423669
+ 29052 strings out of 467533
+ 555064 string characters out of 5423669
  916213 words of memory out of 5000000
- 56742 multiletter control sequences out of 15000+600000
+ 56738 multiletter control sequences out of 15000+600000
  761694 words of font info for 524 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,17n,123p,1931b,1543s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjhira.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjka.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkata.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkb.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkc.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkd.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjke.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkf.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkg.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkh.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjki.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkj.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkk.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkl.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjkp.pfb><c:/texlive/2025/texmf-dist/fonts/type1/wadalab/dmj/dmjsy.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss0500.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss0600.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss0700.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss1000.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss1095.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx1000.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx1095.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on slide_jp.pdf (45 pages, 958971 bytes).
+Output written on slide_jp.pdf (45 pages, 957952 bytes).
 PDF statistics:
  601 PDF objects out of 1000 (max. 8388607)
  387 compressed objects within 4 object streams
