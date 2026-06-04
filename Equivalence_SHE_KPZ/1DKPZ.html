@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>1D KPZ Simulation</title>
+<style>
+  body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    background: #111;
+    color: #eee;
+  }
+
+  #wrap {
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 16px;
+  }
+
+  canvas {
+    display: block;
+    width: 100%;
+    height: 700px;
+    background: #050505;
+    border: 1px solid #444;
+  }
+
+  button, input {
+    font-size: 14px;
+    margin: 4px;
+  }
+
+  pre {
+    background: #181818;
+    padding: 10px;
+    overflow-x: auto;
+  }
+</style>
+</head>
+
+<body>
+<div id="wrap">
+  <h2>1D KPZ equation on the periodic torus [-1,1]</h2>
+
+  <canvas id="canvas"></canvas>
+
+  <div>
+    <button id="toggle">Pause</button>
+    <button id="reset">Reset</button>
+
+    <label>
+      <input type="checkbox" id="renorm">
+      renormalized
+    </label>
+
+    <label>
+      steps / display:
+      <input type="number" id="spf" value="5" min="1" max="500">
+    </label>
+
+    <label>
+      display FPS:
+      <input type="number" id="fps" value="12" min="1" max="60">
+    </label>
+  </div>
+
+  <pre id="info"></pre>
+</div>
+
+<script>
+"use strict";
+
+/*
+  1D KPZ:
+      dh = 1/2 h_xx dt + 1/2 (h_x)^2 dt + beta xi^eps dt
+
+  Periodic domain [-1,1], length L = 2.
+
+  Numerical update:
+      h^{n+1} =
+          exp(0.5 dt Delta) [
+              h^n + 0.5 dt Q(h^n) + beta Delta W_eps^n
+          ]
+
+  Noise increment:
+      Delta W_eps_j =
+          sqrt(dt/dx) sum_l K_l eta_{j-l}
+
+  If renormalized = false:
+      Simulates the displayed regularized KPZ equation.
+
+  If renormalized = true:
+      Subtracts 0.5 beta^2 C_eps^N dt each step,
+      corresponding to the usual renormalized KPZ / Cole-Hopf convention.
+
+  This revised version:
+      - Clears the canvas opaquely before every draw.
+      - Draws exactly one blue polyline per displayed time.
+      - Throttles display FPS to reduce visual ghosting.
+*/
+
+// -------------------- parameters --------------------
+
+const N = 512;
+const L = 2.0;
+const dx = L / N;
+
+const T = 1.0;
+let dt = 1e-4;
+const M = Math.ceil(T / dt);
+dt = T / M;
+
+const beta = 0.7;
+const eps = 0.04;
+const seed0 = 3;
+
+if ((N & (N - 1)) !== 0) {
+  throw new Error("FFT implementation requires N to be a power of two.");
+}
+
+const x = new Float64Array(N);
+for (let j = 0; j < N; j++) {
+  x[j] = -1.0 + dx * j;
+}
+
+// -------------------- seeded random numbers --------------------
+
+function mulberry32(seed) {
+  return function() {
+    let t = seed += 0x6D2B79F5;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+let rng = mulberry32(seed0);
+let spareGaussian = null;
+
+function randn() {
+  if (spareGaussian !== null) {
+    const z = spareGaussian;
+    spareGaussian = null;
+    return z;
+  }
+
+  let u = 0.0;
+  let v = 0.0;
+
+  while (u === 0.0) u = rng();
+  while (v === 0.0) v = rng();
+
+  const r = Math.sqrt(-2.0 * Math.log(u));
+  const theta = 2.0 * Math.PI * v;
+
+  spareGaussian = r * Math.sin(theta);
+  return r * Math.cos(theta);
+}
+
+// -------------------- FFT --------------------
+
+function fft(re, im, inverse) {
+  const n = re.length;
+
+  for (let i = 1, j = 0; i < n; i++) {
+    let bit = n >> 1;
+
+    for (; j & bit; bit >>= 1) {
+      j ^= bit;
+    }
+
+    j ^= bit;
+
+    if (i < j) {
+      let tr = re[i];
+      re[i] = re[j];
+      re[j] = tr;
+
+      let ti = im[i];
+      im[i] = im[j];
+      im[j] = ti;
+    }
+  }
+
+  for (let len = 2; len <= n; len <<= 1) {
+    const angle = 2.0 * Math.PI / len * (inverse ? 1.0 : -1.0);
+    const wlenRe = Math.cos(angle);
+    const wlenIm = Math.sin(angle);
+
+    for (let i = 0; i < n; i += len) {
+      let wRe = 1.0;
+      let wIm = 0.0;
+
+      for (let j = 0; j < len / 2; j++) {
+        const uRe = re[i + j];
+        const uIm = im[i + j];
+
+        const aRe = re[i + j + len / 2];
+        const aIm = im[i + j + len / 2];
+
+        const vRe = aRe * wRe - aIm * wIm;
+        const vIm = aRe * wIm + aIm * wRe;
+
+        re[i + j] = uRe + vRe;
+        im[i + j] = uIm + vIm;
+
+        re[i + j + len / 2] = uRe - vRe;
+        im[i + j + len / 2] = uIm - vIm;
+
+        const nwRe = wRe * wlenRe - wIm * wlenIm;
+        const nwIm = wRe * wlenIm + wIm * wlenRe;
+
+        wRe = nwRe;
+        wIm = nwIm;
+      }
+    }
+  }
+
+  if (inverse) {
+    for (let i = 0; i < n; i++) {
+      re[i] /= n;
+      im[i] /= n;
+    }
+  }
+}
+
+// -------------------- periodic Gaussian mollifier --------------------
+
+function rhoPeriodic(z) {
+  const norm = 1.0 / (Math.sqrt(2.0 * Math.PI) * eps);
+  let s = 0.0;
+
+  const imageRadius = 4;
+
+  for (let m = -imageRadius; m <= imageRadius; m++) {
+    const y = z + m * L;
+    s += norm * Math.exp(-0.5 * y * y / (eps * eps));
+  }
+
+  return s;
+}
+
+const K = new Float64Array(N);
+let Ksum = 0.0;
+
+for (let l = 0; l < N; l++) {
+  K[l] = dx * rhoPeriodic(l * dx);
+  Ksum += K[l];
+}
+
+// Normalize so sum_l K_l = 1.
+for (let l = 0; l < N; l++) {
+  K[l] /= Ksum;
+}
+
+let Ceps = 0.0;
+for (let l = 0; l < N; l++) {
+  Ceps += K[l] * K[l];
+}
+Ceps /= dx;
+
+// FFT of mollifier weights.
+const KhatRe = Float64Array.from(K);
+const KhatIm = new Float64Array(N);
+fft(KhatRe, KhatIm, false);
+
+// -------------------- heat semigroup --------------------
+
+const heat = new Float64Array(N);
+
+for (let m = 0; m < N; m++) {
+  const q = m <= N / 2 ? m : m - N;
+  const k = 2.0 * Math.PI * q / L;
+  heat[m] = Math.exp(-0.5 * k * k * dt);
+}
+
+// -------------------- state --------------------
+
+const h = new Float64Array(N);
+
+const etaRe = new Float64Array(N);
+const etaIm = new Float64Array(N);
+
+const workRe = new Float64Array(N);
+const workIm = new Float64Array(N);
+
+let nstep = 0;
+let time = 0.0;
+let running = true;
+let renormalized = false;
+
+// -------------------- one KPZ time step --------------------
+
+function stepKPZ() {
+  // eta_j^n ~ N(0,1)
+  for (let j = 0; j < N; j++) {
+    etaRe[j] = randn();
+    etaIm[j] = 0.0;
+  }
+
+  // FFT convolution K * eta
+  fft(etaRe, etaIm, false);
+
+  for (let m = 0; m < N; m++) {
+    const ar = etaRe[m];
+    const ai = etaIm[m];
+    const br = KhatRe[m];
+    const bi = KhatIm[m];
+
+    etaRe[m] = ar * br - ai * bi;
+    etaIm[m] = ar * bi + ai * br;
+  }
+
+  fft(etaRe, etaIm, true);
+
+  const noiseScale = Math.sqrt(dt / dx);
+
+  const renormShift = renormalized
+    ? 0.5 * beta * beta * Ceps * dt
+    : 0.0;
+
+  for (let j = 0; j < N; j++) {
+    const jp = j + 1 === N ? 0 : j + 1;
+    const jm = j === 0 ? N - 1 : j - 1;
+
+    const Dp = (h[jp] - h[j]) / dx;
+    const Dm = (h[j] - h[jm]) / dx;
+
+    const Q = (Dp * Dp + Dp * Dm + Dm * Dm) / 3.0;
+
+    workRe[j] =
+      h[j]
+      + 0.5 * dt * Q
+      + beta * noiseScale * etaRe[j]
+      - renormShift;
+
+    workIm[j] = 0.0;
+  }
+
+  // Apply heat semigroup spectrally.
+  fft(workRe, workIm, false);
+
+  for (let m = 0; m < N; m++) {
+    workRe[m] *= heat[m];
+    workIm[m] *= heat[m];
+  }
+
+  fft(workRe, workIm, true);
+
+  for (let j = 0; j < N; j++) {
+    h[j] = workRe[j];
+  }
+
+  nstep++;
+  time = nstep * dt;
+}
+
+// -------------------- reset --------------------
+
+function resetSimulation() {
+  h.fill(0.0);
+  etaRe.fill(0.0);
+  etaIm.fill(0.0);
+  workRe.fill(0.0);
+  workIm.fill(0.0);
+
+  rng = mulberry32(seed0);
+  spareGaussian = null;
+
+  nstep = 0;
+  time = 0.0;
+  running = true;
+
+  document.getElementById("toggle").textContent = "Pause";
+}
+
+// -------------------- canvas drawing --------------------
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d", { alpha: false });
+const info = document.getElementById("info");
+
+function prepareCanvas() {
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+
+  const w = Math.max(1, Math.round(rect.width * dpr));
+  const hgt = Math.max(1, Math.round(rect.height * dpr));
+
+  if (canvas.width !== w || canvas.height !== hgt) {
+    canvas.width = w;
+    canvas.height = hgt;
+  }
+
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  return {
+    W: rect.width,
+    H: rect.height
+  };
+}
+
+function draw() {
+  const size = prepareCanvas();
+  const W = size.W;
+  const H = size.H;
+
+  // Fully opaque clear. This prevents accumulated trails.
+  ctx.save();
+  ctx.globalAlpha = 1.0;
+  ctx.globalCompositeOperation = "source-over";
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = "#050505";
+  ctx.fillRect(0, 0, W, H);
+  ctx.restore();
+
+  let rawMin = Infinity;
+  let rawMax = -Infinity;
+  let mean = 0.0;
+
+  for (let j = 0; j < N; j++) {
+    const v = h[j];
+    rawMin = Math.min(rawMin, v);
+    rawMax = Math.max(rawMax, v);
+    mean += v;
+  }
+
+  mean /= N;
+
+  let plotMin = rawMin;
+  let plotMax = rawMax;
+
+  if (plotMax - plotMin < 1e-8) {
+    plotMax = mean + 0.1;
+    plotMin = mean - 0.1;
+  }
+
+  const pad = 0.15 * (plotMax - plotMin);
+  plotMax += pad;
+  plotMin -= pad;
+
+  const left = 55;
+  const right = 20;
+  const top = 25;
+  const bottom = 45;
+
+  const plotW = W - left - right;
+  const plotH = H - top - bottom;
+
+  function sx(xval) {
+    return left + ((xval + 1.0) / 2.0) * plotW;
+  }
+
+  function sy(yval) {
+    return top + ((plotMax - yval) / (plotMax - plotMin)) * plotH;
+  }
+
+  // Grid
+  ctx.strokeStyle = "#222";
+  ctx.lineWidth = 1;
+
+  for (let gx = -1.0; gx <= 1.000001; gx += 0.5) {
+    ctx.beginPath();
+    ctx.moveTo(sx(gx), top);
+    ctx.lineTo(sx(gx), top + plotH);
+    ctx.stroke();
+  }
+
+  for (let gy = Math.ceil(plotMin); gy <= plotMax; gy++) {
+    ctx.beginPath();
+    ctx.moveTo(left, sy(gy));
+    ctx.lineTo(left + plotW, sy(gy));
+    ctx.stroke();
+  }
+
+  // Zero axis
+  if (plotMin < 0.0 && plotMax > 0.0) {
+    ctx.strokeStyle = "#444";
+    ctx.beginPath();
+    ctx.moveTo(left, sy(0.0));
+    ctx.lineTo(left + plotW, sy(0.0));
+    ctx.stroke();
+  }
+
+  // Border
+  ctx.strokeStyle = "#666";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(left, top, plotW, plotH);
+
+  // Draw exactly one interface at current time.
+  ctx.strokeStyle = "rgb(87, 213, 255)";
+  ctx.lineWidth = 2.0;
+  ctx.lineJoin = "round";
+  ctx.lineCap = "round";
+
+  ctx.beginPath();
+
+  for (let j = 0; j <= N; j++) {
+    const jj = j % N;
+    const xval = -1.0 + dx * j;
+
+    const px = sx(xval);
+    const py = sy(h[jj]);
+
+    if (j === 0) ctx.moveTo(px, py);
+    else ctx.lineTo(px, py);
+  }
+
+  ctx.stroke();
+
+  // Labels
+  ctx.fillStyle = "#ddd";
+  ctx.font = "14px monospace";
+  ctx.fillText("x", W / 2, H - 12);
+  ctx.fillText("h(t,x)", 8, 20);
+
+  info.textContent =
+`1D KPZ on [-1,1], periodic
+
+N = ${N}
+dx = ${dx.toExponential(4)}
+T = ${T}
+dt = ${dt.toExponential(4)}
+step = ${nstep} / ${M}
+t = ${time.toFixed(5)}
+
+beta = ${beta}
+eps = ${eps}
+renormalized = ${renormalized}
+C_eps^N = ${Ceps.toFixed(8)}
+
+mean(h) = ${mean.toFixed(6)}
+min(h) = ${rawMin.toFixed(6)}
+max(h) = ${rawMax.toFixed(6)}
+
+Only one interface is drawn per displayed time.
+If your monitor still shows visual persistence, reduce display FPS to 6 or steps/display to 1.`;
+}
+
+// -------------------- animation loop --------------------
+
+let lastDisplayTime = -1e100;
+
+function animate(now) {
+  requestAnimationFrame(animate);
+
+  const fpsInput = Number(document.getElementById("fps").value);
+  const displayFPS = Math.max(1, Math.min(60, fpsInput || 12));
+  const frameInterval = 1000.0 / displayFPS;
+
+  if (now - lastDisplayTime < frameInterval) {
+    return;
+  }
+
+  lastDisplayTime = now;
+
+  if (running && nstep < M) {
+    const spfInput = Number(document.getElementById("spf").value);
+    const stepsPerDisplay = Math.max(1, Math.min(500, spfInput || 5));
+
+    const todo = Math.min(stepsPerDisplay, M - nstep);
+
+    for (let s = 0; s < todo; s++) {
+      stepKPZ();
+    }
+
+    if (nstep >= M) {
+      running = false;
+      document.getElementById("toggle").textContent = "Restart";
+    }
+  }
+
+  draw();
+}
+
+// -------------------- controls --------------------
+
+document.getElementById("toggle").onclick = () => {
+  if (nstep >= M) {
+    resetSimulation();
+    return;
+  }
+
+  running = !running;
+  document.getElementById("toggle").textContent = running ? "Pause" : "Play";
+};
+
+document.getElementById("reset").onclick = () => {
+  resetSimulation();
+};
+
+document.getElementById("renorm").onchange = e => {
+  renormalized = e.target.checked;
+  resetSimulation();
+};
+
+// -------------------- start --------------------
+
+resetSimulation();
+draw();
+requestAnimationFrame(animate);
+</script>
+</body>
+</html>

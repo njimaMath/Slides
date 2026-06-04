@@ -1,0 +1,21 @@
+shuta@shuta MINGW64 ~/Documents/Github/Research (main)   
+$  cd Slide/France_Japan_2026 && (./frog.exe --n 6000 || (gcc -O3 -march=native -flto -std=c11 -fopenmp frog.c -lm -o frog.exe && ./frog.exe --n 6000))
+Frog model (one sleeping frog per site on Z^2)
+n=6000, trials=10, max_steps=800000, seed=42
+Sample mean Ehat[T_n] = 9532.800000
+Per-trial values of log|T_n - Ehat[T_n]| / log n:
+trial  1: T_n=9564  ratio=0.395472
+trial  2: T_n=9514  ratio=0.337244
+trial  3: T_n=9536  ratio=0.133703
+trial  4: T_n=9550  ratio=0.327019
+trial  5: T_n=9496  ratio=0.414448
+trial  6: T_n=9534  ratio=0.020958
+trial  7: T_n=9524  ratio=0.249985
+trial  8: T_n=9514  ratio=0.337244
+trial  9: T_n=9536  ratio=0.133703
+trial 10: T_n=9560  ratio=0.379701
+Summary across nonzero deviations (10/10 trials):        
+mean ratio   = 0.272948
+median ratio = 0.332132
+target value = 0.333333 (1/3)
+elapsed      = 73780.523 sec

@@ -1,0 +1,39 @@
+ 
+Field: 
+Mathematics/Informatics/Engineering
+
+Session Topic:
+Random Dynamics on Networks
+
+Speaker:
+Name, Affiliation 
+
+
+
+Title:	Universality over frog model and infection process
+
+　Universality is a fundamental phenomenon in mathematics and physics: the same law or behavior appears regardless of the microscopic details of a system. A classic example is the central limit theorem, which says that the sum of many small independent effects is approximately described by the normal distribution.
+
+Another type of universality appears in random growth. Various growth processes, such as the spread of a wetting front, the burning edge of a sheet of paper, and the boundary of a bacterial colony, exhibit interface fluctuations whose typical size grows like the cube root of time. In 1986, Kardar, Parisi, and Zhang proposed a theoretical framework for this behavior [1]. Systems with this type of fluctuation are said to belong to the KPZ universality class.
+
+Figure 1: Simulations of paper burning and bacterial colony growth. Although the underlying growth rules are different, the resulting patterns look similar.
+
+An interesting class of examples comes from infection processes. We consider a population consisting of healthy and infected individuals. When an infected individual meets a healthy one, the healthy individual becomes infected. The boundary of the infected region then evolves as a randomly growing interface. Numerical simulations suggest that these infection processes also belong to the KPZ universality class, although the theoretical understanding is still limited.
+
+In this talk, we consider two infection models: the frog model [2], in which only infected individuals move while healthy ones remain in place, and the KS infection model of Kesten and Sidoravicius [3], in which both types move. We present numerical evidence that both models exhibit the same universal fluctuation behavior, and we discuss related mathematical results and possible real-world applications.
+
+
+R eferences:
+[1] M. Kardar, G. Parisi, and Y.-C. Zhang, "Dynamic scaling of growing interfaces," Physical Review Letters, 56(9): 889-892, 1986.
+[2] S. Yu. Popov, "Frogs and some other interacting random walks models," Discrete Mathematics and Theoretical Computer Science, AC, 277-288, 2003.
+[3] H. Kesten and V. Sidoravicius, "A shape theorem for the spread of an infection," Annals of Mathematics, 167(3): 701-766, 2008.
+
+
+Glossary:
+- Interface (界面)
+  Definition: In growth and infection models, an interface is the boundary separating two regions (for example, infected and healthy sites), and it evolves randomly over time.
+
+- Fluctuation (揺らぎ)
+  Definition: The fluctuation of an interface is the typical size of its deviation from its mean position.
+
+

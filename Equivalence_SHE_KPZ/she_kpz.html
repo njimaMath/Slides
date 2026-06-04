@@ -1,0 +1,2669 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Equivalence of fluctuations between SHE and KPZ equation in subcritical weak disorder regime</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]'], ['$$', '$$']],
+        processEscapes: true,
+        macros: {
+          N: '\\mathbb{N}',
+          R: '\\mathbb{R}',
+          Z: '\\mathbb{Z}',
+          P: '\\mathbb{P}',
+          E: '\\mathbb{E}',
+          e: '\\epsilon',
+          kD: '\\mathcal{D}',
+          kC: '\\mathcal{C}',
+          kA: '\\mathcal{A}',
+          F: '\\mathcal{F}'
+        }
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    :root {
+      --accent: #e74c3c;
+      --accent-blue: #3498db;
+      --accent-green: #27ae60;
+      --accent-orange: #e67e22;
+      --paper: #fff;
+      --ink: #222;
+      --text: #444;
+      --muted: #888;
+      --red: #c00000;
+      --purple: #7030a0;
+      --green: #1c7c54;
+      --slide-font: clamp(18px, 1.95vw, 34px);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+      min-height: 100%;
+      background: #fafafa;
+      color: var(--ink);
+      font-family: "Helvetica Neue", "Hiragino Sans", Arial, sans-serif;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      min-height: 100dvh;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .deck {
+      width: 100vw;
+      height: 100vh;
+      height: 100svh;
+      max-width: none;
+    }
+
+    .stage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: var(--paper);
+      overflow: hidden;
+      container-type: inline-size;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: clamp(26px, 5vmin, 58px) clamp(30px, 5.8cqw, 104px);
+      padding: clamp(24px, 4.6cqw, 58px) clamp(30px, 5.8cqw, 104px);
+      font-size: var(--slide-font-size, var(--slide-font));
+      line-height: 1.36;
+      overflow: hidden;
+    }
+
+    .slide.active { display: flex; }
+
+    .slide::before {
+      content: "SHE / KPZ";
+      position: absolute;
+      top: calc(16px + env(safe-area-inset-top));
+      left: calc(16px + env(safe-area-inset-left));
+      color: #bbb;
+      font-size: 0.58em;
+      letter-spacing: 0.15em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .slide::after {
+      content: attr(data-page);
+      position: absolute;
+      right: calc(16px + env(safe-area-inset-right));
+      bottom: calc(16px + env(safe-area-inset-bottom));
+      color: #bbb;
+      font-size: 0.7em;
+      letter-spacing: 0.1em;
+      line-height: 1;
+    }
+
+    .slide-title {
+      margin: 0 0 clamp(12px, 2.4cqw, 34px);
+      color: #333;
+      font-size: 1.62em;
+      line-height: 1.18;
+      letter-spacing: 0.07em;
+      font-weight: 300;
+    }
+
+    .title-slide {
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    }
+
+    .title-slide::before {
+      content: "";
+      left: 0;
+      right: 0;
+      top: auto;
+      bottom: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), #f39c12, var(--accent-blue));
+    }
+
+    .title-slide::after { color: rgba(255,255,255,0.32); }
+
+    .title-slide h1 {
+      margin: 0 auto;
+      max-width: min(88cqw, 1480px);
+      color: #fff;
+      font-size: 2.35em;
+      line-height: 1.35;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+
+    .title-slide .author {
+      margin: clamp(34px, 6cqw, 72px) 0 0.6em;
+      color: #fff;
+      font-size: 1.08em;
+      font-weight: 400;
+    }
+
+    .title-slide .institute {
+      color: rgba(255,255,255,0.72);
+      font-size: 0.88em;
+      letter-spacing: 0.06em;
+    }
+
+    p {
+      margin: 0.38em 0;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    ul, ol {
+      margin: 0.48em 0 0.48em 1.2em;
+      padding: 0;
+      color: var(--text);
+    }
+
+    li { margin: 0.34em 0; }
+
+    .box, .screen, .theorem, .proposition, .corollary {
+      margin: 0.62em 0;
+      padding: 0.72em 0.95em;
+      border-radius: 10px;
+      background: #f8f9fa;
+      border: 0;
+      border-left: 4px solid var(--accent-blue);
+    }
+
+    .itembox {
+      background: #f8f9fa;
+      border: 0;
+      border-left: 4px solid var(--accent);
+      border-radius: 10px;
+      padding: 0.72em 0.95em;
+      margin: 0.62em 0;
+      position: relative;
+    }
+
+    .box-label {
+      display: inline-block;
+      padding: 0;
+      margin: 0.3em 0 0.38em;
+      border: 0;
+      background: transparent;
+      color: var(--accent);
+      font-size: 0.74em;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .theorem, .proposition, .corollary {
+      background: linear-gradient(135deg, #fef9e7 0%, #fdebd0 100%);
+      border: 2px solid var(--accent-orange);
+      border-radius: 12px;
+    }
+
+    .theorem .name, .proposition .name, .corollary .name {
+      color: var(--accent-orange);
+      margin-bottom: 0.35em;
+      font-size: 0.9em;
+      font-weight: 600;
+    }
+
+    .figure {
+      text-align: center;
+      margin: 0.48em auto 0.7em;
+    }
+
+    .figure img,
+    .figure-svg {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto;
+      object-fit: contain;
+    }
+
+    .figure-svg {
+      overflow: visible;
+      font-family: "Helvetica Neue", "Hiragino Sans", Arial, sans-serif;
+      color: #20303a;
+    }
+
+    .figure-svg text:not([fill]) {
+      fill: currentColor;
+    }
+
+    .figure-svg .label-box {
+      fill: #fff;
+      stroke: #cfdae3;
+      stroke-width: 2;
+      stroke-linejoin: round;
+    }
+
+    .figure-svg .interface-line {
+      fill: none;
+      stroke: #1f2a30;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .figure-svg .surface-arrow {
+      stroke: #1f2a30;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .figure-svg .figure-bg {
+      fill: #fbfcfd;
+      stroke: #d8e1e8;
+      stroke-width: 1.4;
+    }
+
+    .figure-svg .soft-grid {
+      stroke: #dce6ec;
+      stroke-width: 1;
+      opacity: 0.72;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .figure-svg .soft-axis {
+      stroke: #95a7b3;
+      stroke-width: 1.3;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .figure-svg .fig-heading {
+      fill: #1c2930;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .figure-svg .fig-subtle {
+      fill: #64747f;
+      font-size: 24px;
+    }
+
+    .figure-svg .fig-subtle.evolved-label {
+      fill: var(--accent);
+    }
+
+    .figure-svg .fig-note {
+      fill: #4d5e69;
+      font-size: 25px;
+    }
+
+    .figure-svg .accent-stroke {
+      stroke: var(--accent);
+      vector-effect: non-scaling-stroke;
+    }
+
+    .fig-growth { width: clamp(360px, 53cqw, 820px); }
+    .fig-kpz-class { width: clamp(430px, 75cqw, 1160px); }
+    .fig-relaxation { width: clamp(420px, 82cqw, 1180px); }
+    .fig-lateral,
+    .fig-noise { width: clamp(420px, 82cqw, 1180px); }
+    .beta-region-table {
+      width: min(78cqw, 1080px);
+      margin: 0 auto;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow: hidden;
+      border: 1.4px solid #cfdae3;
+      border-radius: 8px;
+      background: #fff;
+      table-layout: fixed;
+      color: #24333a;
+      font-family: "Helvetica Neue", "Hiragino Sans", Arial, sans-serif;
+      font-size: 1.02em;
+      line-height: 1.2;
+      box-shadow: 0 16px 34px rgba(31, 48, 58, 0.08);
+    }
+
+    .beta-region-table td {
+      border: 0;
+      border-left: 1px solid #d9e3ea;
+      border-top: 1px solid #d9e3ea;
+      padding: 0.42em 0.5em;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .beta-region-table td:first-child { border-left: 0; }
+    .beta-region-table tr:first-child td { border-top: 0; }
+
+    .beta-region-table tr:first-child td {
+      background: #edf4f8;
+      color: #183040;
+      font-size: 0.94em;
+      font-weight: 500;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+    }
+
+    .beta-region-table tr:nth-child(2) td {
+      background: #fff;
+      color: #31434d;
+    }
+
+    .beta-region-table tr:last-child td {
+      background: #f8fafb;
+      color: #586b76;
+      font-size: 0.84em;
+      padding-top: 0.42em;
+      padding-bottom: 0.46em;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .beta-phase-diagram {
+      position: relative;
+      width: min(82cqw, 1120px);
+      min-height: clamp(142px, 14cqw, 182px);
+      margin: 0.18em auto 0;
+      color: #24333a;
+      font-size: 0.78em;
+      line-height: 1.15;
+    }
+
+    .beta-phase-line {
+      position: absolute;
+      left: 7%;
+      right: 6%;
+      top: 42%;
+      height: 4px;
+      border-radius: 999px;
+      background: #20303a;
+    }
+
+    .beta-phase-line::after {
+      content: "";
+      position: absolute;
+      right: -14px;
+      top: 50%;
+      width: 0;
+      height: 0;
+      border-top: 9px solid transparent;
+      border-bottom: 9px solid transparent;
+      border-left: 16px solid #20303a;
+      transform: translateY(-50%);
+    }
+
+    .beta-phase-axis-label {
+      position: absolute;
+      top: calc(42% - 1.1em);
+      right: 1.5%;
+      color: #20303a;
+      font-size: 0.92em;
+    }
+
+    .beta-phase-tick {
+      position: absolute;
+      top: calc(42% - 18px);
+      height: 36px;
+      border-left: 3px solid #20303a;
+    }
+
+    .beta-phase-tick span {
+      position: absolute;
+      top: 39px;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      color: #42545e;
+      font-size: 0.86em;
+    }
+
+    .beta-phase-l2 { left: 36%; }
+    .beta-phase-c { left: 68%; }
+
+    .beta-phase-region {
+      position: absolute;
+      top: calc(42% + 48px);
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .beta-phase-region .condition {
+      display: block;
+      color: #64747f;
+      font-size: 0.74em;
+      margin-bottom: 0.2em;
+    }
+
+    .beta-phase-region .name {
+      display: inline-block;
+      min-width: 7.2em;
+      padding: 0.24em 0.7em 0.28em;
+      border-radius: 8px;
+      color: #fff;
+      letter-spacing: 0.03em;
+    }
+
+    .beta-phase-gaussian {
+      left: 7%;
+      width: 29%;
+    }
+
+    .beta-phase-gaussian .name { background: var(--green); }
+
+    .beta-phase-stable {
+      left: 36%;
+      width: 32%;
+    }
+
+    .beta-phase-stable .name { background: var(--accent-orange); }
+
+    .beta-phase-unknown {
+      left: 68%;
+      width: 26%;
+    }
+
+    .beta-phase-unknown .name {
+      background: #6d7b84;
+      letter-spacing: 0.08em;
+    }
+
+    .caption {
+      margin-top: 0.45em;
+      font-size: 0.74em;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    mjx-container[jax="SVG"] {
+      color: #222;
+      font-size: 1em;
+      outline: none;
+    }
+
+    mjx-container[jax="SVG"][display="true"] {
+      display: block;
+      width: 100%;
+      margin: 0.65em auto;
+      max-width: 100%;
+      overflow: visible;
+      text-align: center;
+    }
+
+    mjx-container[jax="SVG"][display="true"] > svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .red { color: var(--red); }
+    .purple { color: var(--purple); }
+    .blue { color: var(--accent-blue); }
+
+    .thank-you {
+      margin-top: auto;
+      margin-bottom: auto;
+      text-align: center;
+      font-size: 2.2em;
+      line-height: 1.1;
+    }
+
+    .small { font-size: 0.78em; }
+    .theorem.small { font-size: 0.88em; }
+    .tight { font-size: 0.86em; line-height: 1.24; }
+
+    .wide-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.74em;
+      color: var(--text);
+    }
+
+    .wide-table td {
+      border: 1px solid #ddd;
+      padding: 0.46em 0.6em;
+      vertical-align: middle;
+    }
+
+    .polymer-comparison .small {
+      font-size: 0.92em;
+    }
+
+    .polymer-comparison .wide-table {
+      font-size: 0.92em;
+    }
+
+    .kpz-sim-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.54em;
+      min-height: 0;
+    }
+
+    .kpz-sim-canvas-shell {
+      position: relative;
+      width: 100%;
+      min-height: 0;
+      border: 1px solid #cbd7df;
+      border-radius: 8px;
+      background: #f7fbfc;
+      overflow: hidden;
+      box-shadow: 0 20px 44px rgba(31, 48, 58, 0.12);
+    }
+
+    .kpz-sim-canvas-shell::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.52), rgba(255, 255, 255, 0) 26%),
+        linear-gradient(90deg, rgba(52, 152, 219, 0.07), rgba(231, 76, 60, 0.05));
+    }
+
+    .kpz-sim-canvas-shell-current::after {
+      content: none;
+    }
+
+    .kpz-sim-canvas-shell-current {
+      border-color: #444;
+      background: #050505;
+    }
+
+    #kpz-sim-canvas,
+    #kpz-sim2d-canvas {
+      display: block;
+      width: 100%;
+      height: min(48cqw, 49vh);
+      min-height: 300px;
+      background: #f7fbfc;
+    }
+
+    #kpz-sim-canvas {
+      background: #050505;
+      height: min(58cqw, 62vh);
+      min-height: 380px;
+    }
+
+    #kpz-sim2d-canvas {
+      height: min(62cqw, 64vh);
+      min-height: 460px;
+    }
+
+    .kpz-sim-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6em;
+      color: #536670;
+      font-size: 0.7em;
+      line-height: 1.25;
+      letter-spacing: 0.02em;
+    }
+
+    .kpz-sim-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.32em 0.72em;
+      color: #334750;
+    }
+
+    .kpz-sim-stats span {
+      white-space: nowrap;
+    }
+
+    .kpz-sim-tune {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 0.55em;
+      color: #334750;
+      font-size: 0.72em;
+      line-height: 1.2;
+    }
+
+    .kpz-sim-tune input {
+      width: 100%;
+      accent-color: var(--accent-blue);
+    }
+
+    .kpz-sim-tune output {
+      min-width: 4.2em;
+      text-align: right;
+      font-family: "SFMono-Regular", Consolas, monospace;
+    }
+
+    .kpz-sim-stat-accent {
+      color: #b73e33;
+    }
+
+    .kpz-sim-browser-hidden {
+      display: none;
+    }
+
+    .kpz-sim-meta button {
+      appearance: none;
+      border: 0;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #263844, #1d2a34);
+      color: #fff;
+      cursor: pointer;
+      font-size: 0.82em;
+      font-weight: 600;
+      padding: 0.48em 0.86em;
+      touch-action: manipulation;
+      white-space: nowrap;
+      box-shadow: 0 8px 18px rgba(31, 48, 58, 0.16);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .kpz-sim-meta button:hover {
+      background: linear-gradient(135deg, #314b5c, #243746);
+      box-shadow: 0 10px 22px rgba(31, 48, 58, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .kpz-sim-meta button:active {
+      box-shadow: 0 5px 12px rgba(31, 48, 58, 0.16);
+      transform: translateY(0);
+    }
+
+    .kpz-sim-note {
+      margin-top: 0.05em;
+      color: var(--muted);
+      font-size: 0.64em;
+      letter-spacing: 0.02em;
+    }
+
+    .controls {
+      position: fixed;
+      top: calc(12px + env(safe-area-inset-top));
+      right: calc(12px + env(safe-area-inset-right));
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: rgba(20, 20, 20, 0.75);
+      color: #fff;
+      border-radius: 999px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .controls button {
+      appearance: none;
+      border: none;
+      background: linear-gradient(135deg, var(--accent-blue), #2980b9);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      min-width: 90px;
+      font-size: 1rem;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+      touch-action: manipulation;
+    }
+
+    .controls button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+
+    .progress { display: none; }
+
+    #count {
+      min-width: 110px;
+      text-align: center;
+      color: #e6e6e6;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .jump-panel {
+      position: fixed;
+      top: calc(76px + env(safe-area-inset-top));
+      right: calc(12px + env(safe-area-inset-right));
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(46px, 1fr));
+      gap: 6px;
+      padding: 10px;
+      max-width: 340px;
+      background: rgba(20, 20, 20, 0.7);
+      color: #fff;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+    }
+
+    .jump-button {
+      border: 1px solid rgba(255,255,255,0.18);
+      background: linear-gradient(135deg, #5dade2, #2c82c9);
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 6px 0;
+      border-radius: 12px;
+      cursor: pointer;
+      min-width: 44px;
+    }
+
+    .jump-button.is-active {
+      background: linear-gradient(135deg, var(--accent-green), #1e8449);
+    }
+
+    .bar { height: 100%; width: 0%; }
+
+    @media (max-width: 760px) {
+      .deck {
+        width: 100vw;
+        height: 100vh;
+        height: 100svh;
+      }
+      .slide {
+        padding: clamp(18px, 5.4cqw, 34px) clamp(18px, 5.5cqw, 42px);
+        font-size: var(--slide-font-size, clamp(14px, 3.8cqw, 18px));
+        line-height: 1.34;
+      }
+      .slide-title {
+        font-size: 1.34em;
+        letter-spacing: 0.04em;
+      }
+      .controls {
+        gap: 8px;
+        padding: 8px 10px;
+      }
+      .controls button {
+        min-width: 68px;
+        padding: 8px 10px;
+        font-size: 0.82rem;
+      }
+      #kpz-sim-canvas,
+      #kpz-sim2d-canvas {
+        height: 52vh;
+        min-height: 280px;
+      }
+      #kpz-sim2d-canvas {
+        height: 60vh;
+        min-height: 340px;
+      }
+      #kpz-sim-canvas {
+        height: 54vh;
+        min-height: 300px;
+      }
+      .kpz-sim-meta {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      #count {
+        min-width: 74px;
+        font-size: 0.78rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck">
+    <section class="stage" aria-live="polite">
+      <article class="slide title-slide active">
+        <div>
+          <h1>Equivalence of fluctuations between SHE and KPZ equation in subcritical weak disorder regime</h1>
+          <p class="author">Shuta Nakajima (Keio University)</p>
+          <p class="institute">Joint work with Stefan Junk (Gakushuin University)</p>
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">KPZ universality</h2>
+        <div class="figure">
+          <svg class="figure-svg fig-growth" viewBox="0 0 900 470" role="img" aria-labelledby="growth-title">
+            <title id="growth-title">Random interface growth examples</title>
+            <defs>
+              <filter id="growth-shadow" x="-15%" y="-15%" width="130%" height="130%">
+                <feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#20303a" flood-opacity="0.13"/>
+              </filter>
+              <linearGradient id="growth-center" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#fff4f0"/>
+                <stop offset="100%" stop-color="#ffffff"/>
+              </linearGradient>
+              <linearGradient id="growth-node" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#f7fbfd"/>
+                <stop offset="100%" stop-color="#ffffff"/>
+              </linearGradient>
+            </defs>
+            <rect class="figure-bg" x="1" y="1" width="898" height="468" rx="16"/>
+            <g opacity="0.58">
+              <line class="soft-grid" x1="80" y1="72" x2="820" y2="72"/>
+              <line class="soft-grid" x1="80" y1="164" x2="820" y2="164"/>
+              <line class="soft-grid" x1="80" y1="256" x2="820" y2="256"/>
+              <line class="soft-grid" x1="80" y1="348" x2="820" y2="348"/>
+              <line class="soft-grid" x1="150" y1="48" x2="150" y2="420"/>
+              <line class="soft-grid" x1="300" y1="48" x2="300" y2="420"/>
+              <line class="soft-grid" x1="450" y1="48" x2="450" y2="420"/>
+              <line class="soft-grid" x1="600" y1="48" x2="600" y2="420"/>
+              <line class="soft-grid" x1="750" y1="48" x2="750" y2="420"/>
+            </g>
+            <g fill="none" stroke="#b6c4ce" stroke-width="2.2" stroke-linecap="round">
+              <path d="M 450 232 C 356 145, 238 100, 92 97"/>
+              <path d="M 450 232 C 484 148, 532 104, 599 97"/>
+              <path d="M 450 232 C 518 232, 575 232, 631 232"/>
+              <path d="M 450 232 C 344 260, 222 318, 91 365"/>
+              <path d="M 450 232 C 526 266, 584 317, 639 365"/>
+            </g>
+            <g filter="url(#growth-shadow)">
+              <circle cx="450" cy="232" r="88" fill="url(#growth-center)" stroke="#e2b3a8" stroke-width="2.4"/>
+              <text class="fig-heading" x="450" y="217" font-size="30" text-anchor="middle">KPZ</text>
+              <text class="fig-subtle" x="450" y="252" text-anchor="middle">interface growth</text>
+            </g>
+            <g filter="url(#growth-shadow)" font-size="27">
+              <g>
+                <rect class="label-box" x="56" y="58" width="282" height="78" rx="14" fill="url(#growth-node)"/>
+                <circle cx="76" cy="97" r="12" fill="#3498db"/>
+                <text x="202" y="106" text-anchor="middle">Liquid penetration</text>
+              </g>
+              <g>
+                <rect class="label-box" x="564" y="58" width="266" height="78" rx="14" fill="url(#growth-node)"/>
+                <circle cx="590" cy="97" r="12" fill="#e67e22"/>
+                <text x="697" y="106" text-anchor="middle">Paper burning</text>
+              </g>
+              <g>
+                <rect class="label-box" x="596" y="193" width="258" height="78" rx="14" fill="url(#growth-node)"/>
+                <circle cx="625" cy="232" r="12" fill="#27ae60"/>
+                <text x="727" y="241" text-anchor="middle">Infection front</text>
+              </g>
+              <g>
+                <rect class="label-box" x="56" y="326" width="238" height="78" rx="14" fill="url(#growth-node)"/>
+                <circle cx="91" cy="365" r="12" fill="#8e63ce"/>
+                <text x="176" y="374" text-anchor="middle">Cell colony</text>
+              </g>
+              <g>
+                <rect class="label-box" x="604" y="326" width="246" height="78" rx="14" fill="url(#growth-node)"/>
+                <circle cx="639" cy="365" r="12" fill="#c66b36"/>
+                <text x="727" y="374" text-anchor="middle">Coffee ring</text>
+              </g>
+            </g>
+          </svg>
+          <div class="caption">Random interface growth</div>
+        </div>
+        <div class="itembox">
+          <div class="box-label">Kardar-Parisi-Zhang (KPZ) universality conjecture (1986)</div>
+          <div>The above phenomena are described by the following equation:</div>
+          $$\partial_t h=\frac{1}{2}\Delta h+\frac{1}{2}|\nabla h|^2+\beta \xi.$$
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">KPZ universality II</h2>
+        <div class="figure">
+          <svg class="figure-svg fig-kpz-class" viewBox="0 0 1100 610" role="img" aria-labelledby="kpzclass-title">
+            <title id="kpzclass-title">KPZ universality class comparison</title>
+            <defs>
+              <filter id="kpz-shadow" x="-10%" y="-10%" width="120%" height="130%">
+                <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#20303a" flood-opacity="0.12"/>
+              </filter>
+              <marker id="kpz-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 Z" fill="#6d7f8a"/>
+              </marker>
+              <linearGradient id="kpz-left-head" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#eaf7f0"/>
+                <stop offset="100%" stop-color="#f8fbfd"/>
+              </linearGradient>
+              <linearGradient id="kpz-right-head" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#fff3e8"/>
+                <stop offset="100%" stop-color="#f8fbfd"/>
+              </linearGradient>
+            </defs>
+            <rect class="figure-bg" x="1" y="1" width="1098" height="608" rx="16"/>
+            <text class="fig-heading" x="550" y="52" font-size="31" text-anchor="middle">KPZ class: solvable examples versus generic models</text>
+            <g filter="url(#kpz-shadow)">
+              <rect x="42" y="86" width="478" height="352" rx="16" fill="#fff" stroke="#d6e1e8" stroke-width="1.5"/>
+              <path d="M 58 86 H 504 A 16 16 0 0 1 520 102 V 166 H 42 V 102 A 16 16 0 0 1 58 86 Z" fill="url(#kpz-left-head)"/>
+              <text class="fig-heading" x="281" y="126" font-size="31" text-anchor="middle">Integrable</text>
+              <text class="fig-subtle" x="281" y="158" font-size="22" text-anchor="middle">special 1 + 1 dimensional models</text>
+
+              <rect x="556" y="86" width="500" height="352" rx="16" fill="#fff" stroke="#d6e1e8" stroke-width="1.5"/>
+              <path d="M 572 86 H 1040 A 16 16 0 0 1 1056 102 V 166 H 556 V 102 A 16 16 0 0 1 572 86 Z" fill="url(#kpz-right-head)"/>
+              <text class="fig-heading" x="806" y="126" font-size="31" text-anchor="middle">Non-integrable</text>
+              <text class="fig-subtle" x="806" y="156" text-anchor="middle">general models</text>
+            </g>
+            <g font-size="28">
+              <g fill="#27ae60">
+                <circle cx="82" cy="208" r="8"/>
+                <circle cx="82" cy="258" r="8"/>
+                <circle cx="82" cy="308" r="8"/>
+                <circle cx="82" cy="358" r="8"/>
+              </g>
+              <text x="107" y="217">TASEP / ASEP</text>
+              <text x="107" y="267">Exponential or geometric LPP</text>
+              <text x="107" y="317">PNG and six-vertex models</text>
+              <text x="107" y="367">logGamma directed polymers</text>
+
+              <g fill="#e67e22">
+                <circle cx="582" cy="208" r="8"/>
+                <circle cx="582" cy="258" r="8"/>
+                <circle cx="582" cy="308" r="8"/>
+                <circle cx="582" cy="358" r="8"/>
+                <circle cx="582" cy="408" r="8"/>
+              </g>
+              <text x="607" y="217" font-size="24">First passage percolation</text>
+              <text x="607" y="267" font-size="24">Directed polymers, general disorder</text>
+              <text x="607" y="317" font-size="24">LPP with general weights</text>
+              <text x="607" y="367" font-size="24">Ballistic deposition and growth models</text>
+              <text x="607" y="417" font-size="24">Higher-dimensional KPZ</text>
+            </g>
+            <g fill="none" stroke="#6d7f8a" stroke-width="2.2" stroke-linecap="round" marker-end="url(#kpz-arrow)">
+              <path d="M 281 456 C 340 497, 423 520, 508 524"/>
+              <path d="M 806 456 C 760 497, 677 520, 592 524"/>
+            </g>
+            <g>
+              <rect x="70" y="488" width="960" height="90" rx="14" fill="#f5f8fa" stroke="#d4e0e8" stroke-width="1.4"/>
+              <text class="fig-heading" x="550" y="526" font-size="26" text-anchor="middle">Each dimension is expected to have its own KPZ class.</text>
+              <text class="fig-note" x="550" y="560" font-size="22" text-anchor="middle">Most KPZ-class models are non-integrable.</text>
+            </g>
+            <br>
+            <text x="550" y="594" font-size="24" text-anchor="middle" fill="#8a3e2b">Higher-dimensional KPZ is a central non-integrable example.</text>
+          </svg>
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">KPZ equation</h2>
+        <p>Fix $\beta>0$. The following is called the KPZ equation:</p>
+        <div class="screen">
+          <p>For $t\in[0,\infty)$ and $x\in\R^d$,</p>
+          $$\begin{aligned}
+          \partial_t h(t,x)&=\frac{1}{2}\Delta h(t,x)+\frac{1}{2}\left|\nabla h(t,x)\right|^2+\beta \xi(t,x)\\
+          &= \frac{1}{2}\sum_{i=1}^d \partial_{x_i}^2 h(t,x)+\frac{1}{2}\sum_{i=1}^d (\partial_{x_i} h(t,x))^2+\beta \xi(t,x),
+          \end{aligned}$$
+          <p>where $\xi(t,x)$ is a space-time white noise on $[0,\infty)\times \R^d$.</p>
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">The meaning of each term</h2>
+        $$\partial_t h(t,x)=\frac{1}{2}\underbrace{\Delta h(t,x)}_{\text{relaxation}}+\frac{1}{2}\underbrace{\left|\nabla h(t,x)\right|^2}_{\text{lateral growth}}+\underbrace{\beta \xi(t,x)}_{\text{noise}}$$
+        <div class="box-label">$\Delta h(t,x)$: relaxation</div>
+        <div class="figure">
+          <svg class="figure-svg fig-relaxation" viewBox="0 0 960 310" role="img" aria-labelledby="relaxation-title">
+            <title id="relaxation-title">Relaxation smooths peaks and fills valleys</title>
+            <defs>
+              <marker id="relaxation-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 Z" fill="#e74c3c"/>
+              </marker>
+              <linearGradient id="relaxation-fill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#e74c3c" stop-opacity="0.17"/>
+                <stop offset="100%" stop-color="#e74c3c" stop-opacity="0.02"/>
+              </linearGradient>
+            </defs>
+            <rect class="figure-bg" x="1" y="1" width="958" height="308" rx="16"/>
+            <g opacity="0.7">
+              <line class="soft-grid" x1="70" y1="70" x2="910" y2="70"/>
+              <line class="soft-grid" x1="70" y1="130" x2="910" y2="130"/>
+              <line class="soft-grid" x1="70" y1="190" x2="910" y2="190"/>
+              <line class="soft-grid" x1="70" y1="250" x2="910" y2="250"/>
+              <line class="soft-grid" x1="190" y1="46" x2="190" y2="268"/>
+              <line class="soft-grid" x1="330" y1="46" x2="330" y2="268"/>
+              <line class="soft-grid" x1="470" y1="46" x2="470" y2="268"/>
+              <line class="soft-grid" x1="610" y1="46" x2="610" y2="268"/>
+              <line class="soft-grid" x1="750" y1="46" x2="750" y2="268"/>
+            </g>
+            <line class="soft-axis" x1="70" y1="250" x2="910" y2="250"/>
+            <path d="M 55 172 C 112 70, 166 62, 225 108 C 288 155, 323 244, 393 232 C 461 220, 496 119, 561 128 C 637 139, 667 231, 737 214 C 815 196, 856 112, 906 92 L 906 250 L 55 250 Z" fill="url(#relaxation-fill)"/>
+            <path class="interface-line" d="M 55 172 C 112 70, 166 62, 225 108 C 288 155, 323 244, 393 232 C 461 220, 496 119, 561 128 C 637 139, 667 231, 737 214 C 815 196, 856 112, 906 92" stroke="#9aaab4" stroke-width="2.8" stroke-dasharray="10 10"/>
+            <path class="interface-line accent-stroke" d="M 55 172 C 151 108, 220 109, 303 151 C 399 200, 469 171, 548 150 C 646 128, 708 177, 774 170 C 833 162, 869 123, 906 112" stroke-width="4"/>
+            <g class="surface-arrow" stroke="#e74c3c" stroke-width="2.7" marker-end="url(#relaxation-arrow)">
+              <line x1="154" y1="80" x2="154" y2="113"/>
+              <line x1="394" y1="234" x2="394" y2="204"/>
+              <line x1="561" y1="126" x2="561" y2="151"/>
+              <line x1="739" y1="216" x2="739" y2="184"/>
+              <line x1="846" y1="125" x2="846" y2="145"/>
+            </g>
+            <g>
+              <text class="fig-subtle" x="184" y="70" text-anchor="end">initial profile</text>
+              <text class="fig-subtle evolved-label" x="672" y="134" text-anchor="start">evolved profile</text>
+            </g>
+          </svg>
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">The meaning of each term</h2>
+        $$\partial_t h(t,x)=\frac{1}{2}\underbrace{\Delta h(t,x)}_{\text{relaxation}}+\frac{1}{2}\underbrace{\left|\nabla h(t,x)\right|^2}_{\text{lateral growth}}+\underbrace{\beta \xi(t,x)}_{\text{noise}}$$
+        <div class="box-label">$\frac{1}{2}\left|\nabla h(t,x)\right|^2$: lateral growth</div>
+        <div class="figure">
+          <svg class="figure-svg fig-lateral" viewBox="0 0 960 370" role="img" aria-labelledby="lateral-title">
+            <title id="lateral-title">Lateral growth advances the interface</title>
+            <defs>
+              <marker id="lateral-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 Z" fill="#e74c3c"/>
+              </marker>
+              <linearGradient id="lateral-band" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#e74c3c" stop-opacity="0.18"/>
+                <stop offset="100%" stop-color="#3498db" stop-opacity="0.08"/>
+              </linearGradient>
+            </defs>
+            <rect class="figure-bg" x="1" y="1" width="958" height="368" rx="16"/>
+            <g opacity="0.65">
+              <line class="soft-grid" x1="80" y1="80" x2="900" y2="80"/>
+              <line class="soft-grid" x1="80" y1="150" x2="900" y2="150"/>
+              <line class="soft-grid" x1="80" y1="220" x2="900" y2="220"/>
+              <line class="soft-grid" x1="80" y1="290" x2="900" y2="290"/>
+              <line class="soft-grid" x1="200" y1="54" x2="200" y2="318"/>
+              <line class="soft-grid" x1="340" y1="54" x2="340" y2="318"/>
+              <line class="soft-grid" x1="480" y1="54" x2="480" y2="318"/>
+              <line class="soft-grid" x1="620" y1="54" x2="620" y2="318"/>
+              <line class="soft-grid" x1="760" y1="54" x2="760" y2="318"/>
+            </g>
+            <path d="M 91 276 C 126 154, 237 53, 367 48 C 501 44, 601 108, 678 202 C 740 278, 808 279, 884 231 L 862 276 C 781 334, 692 323, 638 245 C 578 154, 493 91, 363 96 C 247 100, 150 198, 120 314 Z" fill="url(#lateral-band)"/>
+            <path class="interface-line" d="M 120 314 C 150 198, 247 100, 363 96 C 493 91, 578 154, 638 245 C 692 323, 781 334, 862 276" stroke="#31434d" stroke-width="4"/>
+            <path class="interface-line accent-stroke" d="M 91 276 C 126 154, 237 53, 367 48 C 501 44, 601 108, 678 202 C 740 278, 808 279, 884 231" stroke-width="3.4"/>
+            <g class="surface-arrow" stroke="#e74c3c" stroke-width="3" marker-end="url(#lateral-arrow)">
+              <line x1="153" y1="244" x2="108" y2="203"/>
+              <line x1="235" y1="137" x2="209" y2="84"/>
+              <line x1="364" y1="96" x2="365" y2="48"/>
+              <line x1="505" y1="105" x2="530" y2="55"/>
+              <line x1="624" y1="219" x2="675" y2="180"/>
+              <line x1="767" y1="315" x2="791" y2="269"/>
+              <line x1="846" y1="287" x2="887" y2="235"/>
+            </g>
+            <g>
+              <text class="fig-subtle" x="444" y="150" text-anchor="end">initial interface</text>
+              <text class="fig-subtle evolved-label" x="540" y="34" text-anchor="end">evolved interface</text>
+            </g>
+          </svg>
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">The meaning of each term</h2>
+        $$\partial_t h(t,x)=\frac{1}{2}\underbrace{\Delta h(t,x)}_{\text{relaxation}}+\frac{1}{2}\underbrace{\left|\nabla h(t,x)\right|^2}_{\text{lateral growth}}+\underbrace{\beta \xi(t,x)}_{\text{noise}}$$
+        <div class="box-label">$\beta \xi(t,x)$: noise</div>
+        <div class="figure">
+          <svg class="figure-svg fig-noise" viewBox="0 0 960 330" role="img" aria-labelledby="noise-title">
+            <title id="noise-title">Noise adds random upward and downward kicks to the interface</title>
+            <defs>
+              <marker id="noise-arrow-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 Z" fill="#e74c3c"/>
+              </marker>
+              <marker id="noise-arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 Z" fill="#3498db"/>
+              </marker>
+            </defs>
+            <rect class="figure-bg" x="1" y="1" width="958" height="328" rx="16"/>
+            <g opacity="0.65">
+              <line class="soft-grid" x1="70" y1="72" x2="910" y2="72"/>
+              <line class="soft-grid" x1="70" y1="132" x2="910" y2="132"/>
+              <line class="soft-grid" x1="70" y1="192" x2="910" y2="192"/>
+              <line class="soft-grid" x1="70" y1="252" x2="910" y2="252"/>
+              <line class="soft-grid" x1="190" y1="46" x2="190" y2="276"/>
+              <line class="soft-grid" x1="330" y1="46" x2="330" y2="276"/>
+              <line class="soft-grid" x1="470" y1="46" x2="470" y2="276"/>
+              <line class="soft-grid" x1="610" y1="46" x2="610" y2="276"/>
+              <line class="soft-grid" x1="750" y1="46" x2="750" y2="276"/>
+            </g>
+            <path class="interface-line" d="M 56 191 C 145 95, 237 70, 328 112 C 404 147, 439 234, 528 241 C 628 250, 704 148, 788 124 C 844 108, 887 118, 914 150" stroke="#31434d" stroke-width="4"/>
+            <g class="surface-arrow" stroke-width="3">
+              <line x1="106" y1="151" x2="106" y2="102" stroke="#e74c3c" marker-end="url(#noise-arrow-red)"/>
+              <line x1="158" y1="105" x2="158" y2="159" stroke="#3498db" marker-end="url(#noise-arrow-blue)"/>
+              <line x1="233" y1="80" x2="233" y2="34" stroke="#e74c3c" marker-end="url(#noise-arrow-red)"/>
+              <line x1="304" y1="101" x2="304" y2="154" stroke="#3498db" marker-end="url(#noise-arrow-blue)"/>
+              <line x1="386" y1="140" x2="386" y2="90" stroke="#e74c3c" marker-end="url(#noise-arrow-red)"/>
+              <line x1="462" y1="211" x2="462" y2="260" stroke="#3498db" marker-end="url(#noise-arrow-blue)"/>
+              <line x1="555" y1="242" x2="555" y2="194" stroke="#e74c3c" marker-end="url(#noise-arrow-red)"/>
+              <line x1="650" y1="222" x2="650" y2="270" stroke="#3498db" marker-end="url(#noise-arrow-blue)"/>
+              <line x1="736" y1="144" x2="736" y2="94" stroke="#e74c3c" marker-end="url(#noise-arrow-red)"/>
+              <line x1="833" y1="119" x2="833" y2="169" stroke="#3498db" marker-end="url(#noise-arrow-blue)"/>
+              <line x1="895" y1="139" x2="895" y2="91" stroke="#e74c3c" marker-end="url(#noise-arrow-red)"/>
+            </g>
+            <g>
+              <rect x="82" y="28" width="224" height="38" rx="19" fill="#fff" stroke="#cfdae3"/>
+              <text class="fig-subtle" x="194" y="54" text-anchor="middle">random forcing</text>
+              <rect x="698" y="28" width="206" height="38" rx="19" fill="#f6fbff" stroke="#c6ddeb"/>
+              <text class="fig-subtle" x="801" y="54" text-anchor="middle" fill="#255c82">up and down</text>
+            </g>
+          </svg>
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Problem of the construction of solutions to the KPZ eq.</h2>
+        <div class="box-label">KPZ equation</div>
+        $$\partial_t h(t,x)=\frac{1}{2}\Delta h(t,x)+\frac{1}{2}\left|\nabla h(t,x)\right|^2+\beta \xi(t,x).$$
+        <div class="box-label">Problem</div>
+        <ul>
+          <li>$\xi$ is not a function $\Rightarrow$ $h(t,x)$ may not be a function.</li>
+          <li>How to make sense of $\left|\nabla h(t,x)\right|^2$?</li>
+        </ul>
+        <div class="box-label">Scheme</div>
+        <ul>
+          <li>Mollify the noise.</li>
+          <li>Consider a (smooth) solution to the mollified KPZ equation.</li>
+          <li>We switch off the mollification and consider the limit of solutions.</li>
+        </ul>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Regularization scheme</h2>
+        <p>Let $\phi$ be a smooth and compactly supported function on $\R^d$ satisfying $\int_{\R^2}\phi(t,x){\rm d}t{\rm d}x=1$.</p>
+        <p><span class="red">Mollify</span> the white noise $\xi(t,x)$ in space on scale $\e$:</p>
+        $$\xi^{\e} (t,x):= \int \phi^\e(x-y) \xi(t,y) {\rm d} y\Rightarrow \xi(t,x),$$
+        <p>where $\phi^{\e}(x):= \e^{-d} \phi(\e^{-1} x)$.</p>
+        <p>Let us consider:</p>
+        $$\partial_t h_{\e}(t,x)=\frac{1}{2}\Delta h_{\e}(t,x)+\frac{1}{2}\left|\nabla h_{\e}(t,x)\right|^2+\beta \xi^{\e}(t,x)$$
+        <p>Q. $h_{\epsilon}$ converges as $\e\to 0$?</p>
+        <p><span class="red">A. No! We have to modify the equation more.</span></p>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Regularization scheme</h2>
+        <p>Let $\phi$ be a smooth and compactly supported function on $\R^d$ satisfying $\int_{\R^2}\phi(t,x){\rm d}t{\rm d}x=1$.</p>
+        <p><span class="red">Mollify</span> the white noise $\xi(t,x)$ in space on scale $\e$:</p>
+        $$\xi^{\e} (t,x):= \int \phi^\e(x-y) \xi(t,y) {\rm d} y,$$
+        <p>where $\phi^{\e}(x):= \e^{-d} \phi(\e^{-1} x)$.</p>
+        <p>We introduce new parameters and consider the regularized KPZ:</p>
+        $$\partial_t h_{\e}(t,x)=\frac{1}{2}\Delta h_{\e}(t,x)+\frac{1}{2}\left|\nabla h_{\e}(t,x)\right|^2+\beta_{\e} \xi^{\e}(t,x)-C_{\e}.$$
+        <p>Can we take $\beta_{\epsilon}$ and $C_{\epsilon}$ so that $h_{\epsilon}$ converges as $\e\to 0$?</p>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Choice of $\beta_{\epsilon}$ and $C_{\epsilon}$</h2>
+        <p>Recall that $\xi^{\e} (t,x):= \int \phi^\e(x-y) \xi(t,y) {\rm d} y$.</p>
+        <div class="theorem">
+          <div class="name">The choice of $\beta_{\epsilon}$</div>
+          <p>For fixed $\hat{\beta}\in(0,\infty)$, we choose</p>
+          $$ {\color{red} \beta_{\epsilon}}=\begin{cases}
+          \hat{\beta}& \text{($d=1$)} \\
+          \hat{\beta}{\color{purple}\sqrt{\frac{2\pi}{\log \e^{-1}}}}& \text{($d=2$)} \\
+          \hat{\beta}{\color{purple} \e^{\frac{d-2}{2}}}& \text{($d\geq 3$)} .
+          \end{cases} $$
+        </div>
+        <div class="theorem">
+          <div class="name">The choice of $C_{\epsilon}$</div>
+          <p>We choose ${\color{red}C_{\epsilon}}=\frac{1}{2}\beta_{\epsilon}^2 \e^{-d} \|\phi\|_{L^2}^2$.</p>
+        </div>
+        <div class="box-label">Remark</div>
+        <ul>
+          <li>There are other choices (e.g., Family-Vicsek scaling).</li>
+          <li>This choice is related to directed polymers explained later.</li>
+        </ul>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Previous researches ($d=1$)</h2>
+        <p>We consider the solution $h_{\epsilon}$ to the mollified KPZ:</p>
+        $$\partial_t h_{\e}(t,x)=\frac{1}{2}\Delta h_{\e}(t,x)+\frac{1}{2}\left|\nabla h_{\e}(t,x)\right|^2+\beta_{\e} \xi^{\e}(t,x)-C_{\e}.$$
+        <div class="theorem">
+          <div class="name">Theorem [Bertini-Giacomin, CMP 1997]</div>
+          <p>When $d=1$, for any $\hat{\beta}\geq 0$, $h_{\epsilon}(t,x)\to \exists h(t,x)$ as $\e\to 0$.</p>
+        </div>
+      </article>
+
+      <article class="slide" id="kpz-sim-slide">
+        <h2 class="slide-title">Simulation of 1D KPZ</h2>
+        <div class="kpz-sim-layout">
+          $$\partial_t h=\frac{1}{2}\Delta h+\frac{1}{2}(\partial_x h)^2+\beta\xi^\epsilon.$$
+          <div class="kpz-sim-canvas-shell kpz-sim-canvas-shell-current">
+            <canvas id="kpz-sim-canvas" width="960" height="420" aria-label="Animated one-dimensional KPZ height profile"></canvas>
+          </div>
+          <div class="kpz-sim-meta">
+            <div class="kpz-sim-stats">
+              <span>$x\in[-1,1]$</span>
+              <span>$t=$ <span id="kpz-sim-time">0.00000</span></span>
+              <span class="kpz-sim-stat-accent kpz-sim-browser-hidden">$\bar h=$ <span id="kpz-sim-mean">0.000000</span></span>
+              <span class="kpz-sim-browser-hidden">$W=$ <span id="kpz-sim-roughness">0.000000</span></span>
+            </div>
+            <button type="button" id="kpz-sim-reset">Reset</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Previous researches ($d=2$)</h2>
+        <div class="theorem">
+          <div class="name">Theorem [Caravenna-Sun-Zygouras, AOP 2020]</div>
+          <p>When $d=2$,</p>
+          $$h_{\epsilon}(t,x)\overset{d}{\to}
+          \begin{cases}
+          \exists h(t,x)\in\R,\,&\text{$(\hat{\beta}\lt 1)$}\\
+          -\infty.\,&\text{$(\hat{\beta}> 1)$}
+          \end{cases}$$
+        </div>
+        <p>They have studied more:</p>
+        <ul>
+          <li>If $\hat{\beta}<1$, then the fluctuation converges to the EW limit (Chatterjee-Dunlap, AOP 2020; CSZ, AOP 2020);</li>
+          <li>Even if $\hat{\beta}=1$, a non-trivial limit of $\exp{(h_\e)}$ still exists in distributional sense (<span class="red">Critical Stochastic Heat Flow</span>, introduced by CSZ, Invent. Math. 2023).</li>
+          <li>At $\hat{\beta}=1$, Gu-Tsai proved a CLT for $h_\epsilon$ with suitable centering and scaling (arXiv 2026).</li>
+        </ul>
+      </article>
+
+      <article class="slide" id="kpz-sim2d-slide">
+        <h2 class="slide-title">Simulation of 2D KPZ</h2>
+        <div class="kpz-sim-layout">
+           $$\partial_t h=\frac{1}{2}\Delta h+\frac{1}{2}|\nabla h|^2+\beta\xi^\epsilon-C_\epsilon,\qquad x\in\mathbb{T}^2.$$
+          <div class="kpz-sim-canvas-shell">
+            <canvas id="kpz-sim2d-canvas" width="720" height="620" aria-label="Animated 3D surface plot of two-dimensional KPZ height field"></canvas>
+          </div>
+          <div class="kpz-sim-meta">
+            <div class="kpz-sim-stats">
+              <span>$N=48$</span>
+              <span>$L=4.00$</span>
+              <span>$dx=$ <span id="kpz-sim2d-dx">0.08333</span></span>
+              <span>$C_N=$ <span id="kpz-sim2d-counter">0.000</span></span>
+              <span>$\bar h=$ <span id="kpz-sim2d-mean">0.000</span></span>
+              <span>$t=$ <span id="kpz-sim2d-time">0.00000</span></span>
+            </div>
+            <button type="button" id="kpz-sim2d-reset">Reset</button>
+          </div>
+          <label class="kpz-sim-tune" for="kpz-sim2d-beta">
+            <span>$\beta$</span>
+            <input id="kpz-sim2d-beta" type="range" min="0" max="3" step="0.01" value="0.2">
+            <output id="kpz-sim2d-beta-value">0.20</output>
+          </label>
+        </div>
+      </article>
+
+
+      <article class="slide">
+        <h2 class="slide-title">Subcritical and $L^2$ region</h2>
+        <p>When $d\geq 3$, there are critical parameters $0<\hat{\beta}_{L^2}\leq \hat{\beta}_c$,</p>
+        <div class="figure" role="img" aria-label="Subcritical and L2 region">
+          <table class="beta-region-table">
+            <tr>
+              <td>$\hat{\beta}<\hat{\beta}_{L^2}$</td>
+              <td>$\hat{\beta}<\hat{\beta}_{c}$</td>
+              <td>$\hat{\beta}>\hat{\beta}_{c}$</td>
+            </tr>
+            <tr>
+              <td>$u_\epsilon$ is $L^2$ bounded</td>
+              <td>$u_\epsilon$ is tight</td>
+              <td>$u_\epsilon\overset{\P}{\rightarrow}0$</td>
+            </tr>
+            <tr>
+              <td>$L^2$-region</td>
+              <td>weak disorder</td>
+              <td>strong disorder</td>
+            </tr>
+          </table>
+        </div>
+        <ul>
+          <li>It is believed that $\hat{\beta}_{L^2} < \hat{\beta}_c$<br>(discrete case: Birkner-Greven-den Hollander, EJP 2011).</li>
+          <li>In the discrete case, $\beta=\beta_c$ is in weak disorder (Junk-Lacoin, arXiv 2024).</li>
+        </ul>
+        <div class="beta-phase-diagram" role="img" aria-label="Conjectural fluctuation regimes along beta hat">
+          <div class="beta-phase-line"></div>
+          <div class="beta-phase-axis-label">$\hat{\beta}$</div>
+          <div class="beta-phase-tick beta-phase-l2"><span>$\hat{\beta}_{L^2}$</span></div>
+          <div class="beta-phase-tick beta-phase-c"><span>$\hat{\beta}_c$</span></div>
+          <div class="beta-phase-region beta-phase-gaussian">
+            <span class="condition">$\hat{\beta}<\hat{\beta}_{L^2}$</span>
+            <span class="name">Gaussian</span>
+          </div>
+          <div class="beta-phase-region beta-phase-stable">
+            <span class="condition">$\hat{\beta}_{L^2}<\hat{\beta}<\hat{\beta}_c$</span>
+            <span class="name">Stable</span>
+          </div>
+          <div class="beta-phase-region beta-phase-unknown">
+            <span class="condition">$\hat{\beta}>\hat{\beta}_c$</span>
+            <span class="name">???</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Law of large numbers of $u_{\epsilon}$ for $d\geq 3$</h2>
+        <p>Recall that $u_{\epsilon}$ is the solution to 
+        $\partial_t u_{\e}=\frac{1}{2}\Delta u_{\e}+\beta_{\e} u_{\epsilon}\xi^{\e}.$ </p>
+        <p>Let $u_{\epsilon}(0,\cdot)\equiv u_0(\cdot)\in \mathcal{C}_b(\R^d)$. We define $\bar{u}(t,x)=E_x^{\rm BM}[u_0(B_t)]$.</p>
+        <div class="theorem">
+          <div class="name">Theorem [Mukherjee-Shamov-Zeitouni, ECP 2016; Cosco-Nakajima-Nakashima, SPA 2022]</div>
+          <ol>
+            <li>For all $\hat{\beta}<\hat{\beta}_c$, $f\in\mathcal{C}_c(\R^d)$ and $u_0\in \mathcal{C}_b(\R^d)$, as $\e\to 0$,
+            $$\int_{\R^d} f(x) u_{\epsilon}(t,x){\rm d} x\overset{L^1}{\rightarrow} \int_{\R^d} f(x) \bar{u}(t,x){\rm d} x.$$</li>
+            <li>For all $\hat{\beta}> \hat{\beta}_c$, $f\in\mathcal{C}_c(\R^d)$ and $u_0\in \mathcal{C}_b(\R^d)$, as $\e\to 0$, $$u_{\epsilon}(t,x)\overset{P}{\rightarrow}0.$$</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Law of large numbers of $u_{\epsilon}$ for $d\geq 3$</h2>
+        <div class="theorem">
+          <div class="name">Theorem [Mukherjee-Shamov-Zeitouni, ECP 2016; Cosco-Nakajima-Nakashima, SPA 2022]</div>
+          <ol>
+            <li>For all $\hat{\beta}<\hat{\beta}_c$, $f\in\mathcal{C}_c(\R^d)$ and $u_0\in \mathcal{C}_b(\R^d)$, as $\e\to 0$,
+            $$\int_{\R^d} f(x) u_{\epsilon}(t,x){\rm d} x\overset{L^1}{\rightarrow} \int_{\R^d} f(x) \bar{u}(t,x){\rm d} x.$$</li>
+            <li>For all $\hat{\beta}> \hat{\beta}_c$ and $u_0 \in \mathcal{C}_b(\R^d)$, as $\e\to 0$, $$u_{\epsilon}(t,x)\overset{P}{\rightarrow}0.$$</li>
+          </ol>
+        </div>
+        <div class="screen">The limit of $u_{\epsilon}$ (also $h_{\epsilon}$) is just a function <span class="red">(NOT random)</span>!</div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Fluctuation of $u_{\epsilon}$ (SHE)</h2>
+        <p>Recall that for all $\hat{\beta}<\hat{\beta}_c$,</p>
+        $$\int_{\R^d} f(x) u_{\epsilon}(t,x){\rm d} x\overset{L^1}{\rightarrow} \int_{\R^d} f(x) \bar{u}(t,x){\rm d} x.$$
+        <div class="theorem">
+          <div class="name">Theorem [GRZ, CMP 2018; Cosco-Nakajima-Nakashima, SPA 2022]</div>
+          <p>Suppose $u_{\epsilon}(0,\cdot)\equiv u_0\in \mathcal{C}_b$. For all $\hat{\beta}<\hat{\beta}_{L^2}$,</p>
+          $$\e^{-\frac{d-2}{2}}\int_{\R^d} f(x) (u_{\epsilon}(t,x)-\bar{u}(t,x)){\rm d} x\overset{(d)}{\rightarrow} \int f(x) \mathcal{U}_1(t,x){\rm d} x,$$
+          <p>where $\mathcal{U}_1(t,x)$ is the solution of $\mathcal{U}_1(0,x)\equiv 0$ and</p>
+          $$\partial_t  \mathcal{U}_1(t,x)=\frac{1}{2}\Delta \mathcal{U}_1(t,x)+\gamma(\hat{\beta})\bar{u}(t,x)\xi(t,x).\text{  (EW equation)}$$
+        </div>
+        <p>Note that $\gamma(\hat{\beta})\to \infty$ as $\hat{\beta}\to \hat{\beta}_{L^2}$.</p>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Fluctuation of $h_{\epsilon}$ (KPZ)</h2>
+        <p>Let $h_{\epsilon}(t,x):=\log{u_{\epsilon}(t,x)}$.</p>
+        <div class="theorem">
+          <div class="name">Theorem [Magnen-Unterberger, JSP 2018; Dunlap-Gu-Ryzhik-Zeitouni, PTRF 2020; Lygkonis-Zygouras, AIHP 2022; Cosco-Nakajima-Nakashima, SPA 2022]</div>
+          <p>Suppose $\|\log{u_0}\|_\infty<\infty$. For all $\hat{\beta}<\hat{\beta}_{L^2}$,</p>
+          $$\e^{-\frac{d-2}{2}}\int_{\R^d} f(x) (h_{\epsilon}(t,x)-\E h_{\epsilon}(t,x)){\rm d} x\overset{(d)}{\rightarrow} \int f(x) \mathcal{U}_2(t,x){\rm d} x,$$
+          <p>where $\mathcal{U}_2(t,x)$ is the solution of $\mathcal{U}_2(0,x)\equiv 0$ and</p>
+          $$\partial_t  \mathcal{U}_2(t,x)=\frac{1}{2}\Delta \mathcal{U}_2(t,x)+\nabla\log{\bar{u}(t,x)}\cdot \nabla \mathcal{U}_2(t,x) + \gamma(\hat{\beta})\xi(t,x).$$
+        </div>
+      </article>
+
+
+            <article class="slide">
+        <h2 class="slide-title">KPZ $\Rightarrow$ Directed Polymer (via Feynman-Kac formula)</h2>
+        <p>We define $u_{\epsilon}(t,x):=\exp{(h_{\epsilon}(t,x))}$, $V(x):= \int \phi(x-y)\phi(y) {\rm d} y$, and $C_{\epsilon}:=\frac{1}{2}\beta_{\epsilon}^2\e^{-d}V(0)$.</p>
+        <p>Assume $h_\epsilon(0,x)=0$, equivalently $u_\epsilon(0,x)=1$.</p>
+        <div class="proposition">
+          <div class="name">Proposition</div>
+          <p>The following are equivalent:</p>
+          <ul>
+            <li>$\partial_t h_{\e}(t,x)=\frac{1}{2}\Delta h_{\e}(t,x)+\frac{1}{2}\left|\nabla h_{\e}(t,x)\right|^2+\beta_{\e} \xi^{\e}(t,x)-C_{\e}$</li>
+            <li>$\partial_t u_{\epsilon}=\frac{1}{2}\Delta u_{\epsilon} +\beta_{\epsilon} \xi^{\e} (t,x)u_{\epsilon}-C_{\epsilon}u_{\epsilon}$.</li>
+          </ul>
+          <p>If $u_\e$ is the solution to the above, then $u_{\epsilon}$ can be written as</p>
+          $$\begin{aligned}
+          u_{\epsilon}(t,x)&= {\rm E}_{x}^{\rm BM}\left[\exp{\left(\beta_{\epsilon}\int_{0}^t \xi^{\e}  (t-s,B_s)ds-C_{\epsilon}t\right)}\right]\\
+          &\overset{d}{=}{\rm E}_{x}^{\rm BM}\left[\exp{\underbrace{\left(\beta_{\epsilon}\int_{0}^t \xi^{\e} (s,B_s)ds-C_{\epsilon}t\right)}_{\text{Hamiltonian of a directed polymer}}}\right].
+          \end{aligned}$$
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Some remarks</h2>
+        <ul>
+          <li>We discuss a relation between SHE and KPZ equation in weak disorder regime.</li>
+          <li>Our main result is only stated in discrete directed polymer.</li>
+          <li>From now on, we only consider the discrete model.</li>
+          <li>However, we believe that the same techniques work for continuum models.</li>
+        </ul>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Discrete polymer model</h2>
+        <ul>
+          <li>Let $(\omega(n,x))_{n\in\N,x\in\Z^d}$ be i.i.d. random variables.</li>
+          <li>We assume that the distribution of $\omega(n,x)$ has a compact support.</li>
+          <li>Let $\lambda(\beta):=\log \E[e^{\beta \omega(n,x)}]\in\R$ for any $\beta\in\R$.</li>
+          <li>Let us define the partition function $Z_N(x)$ for $x\in\Z^d$ of directed polymers:
+            $$Z_N(x):=Z_{\omega,N,\beta}(x):={\rm E}_x\left[e^{\beta\sum_{k=1}^N\omega(k,X_k)-N\lambda(\beta)}\right],$$
+            where ${\rm E}_x$ denotes the expectation of the simple random walk starting at $x$.</li>
+          <li>For simplicity of notation, we write $Z_N:=Z_N(0)$.</li>
+          <li>We call $\{\beta\geq 0|~\P(\liminf_N Z_N>0)=1\}$ <span class="red">the weak disorder regime</span>.</li>
+        </ul>
+      </article>
+
+      <article class="slide polymer-comparison">
+        <h2 class="slide-title">Discrete Polymer vs. Continuum Polymer</h2>
+        <p>Recall that</p>
+        <ul class="small">
+          <li>$u_\epsilon (t,x) \overset{d}{=}\mathrm{E}^{\text{BM}}\left[\exp\left(\hat{\beta}\int^T_0 \phi \ast \xi(s,B_s)ds  - C_\epsilon\right)\right]$ with $T=\epsilon^{-2}$ and $C_\epsilon=\frac{1}{2}\hat{\beta}^2TV(0)$.</li>
+          <li>$h_\epsilon(t,x)=\log{u_\epsilon (t,x)}$ solves $\partial_t h=\frac{1}{2}\Delta_x h+\frac{1}{2}|\nabla_x h|^2+\beta_\epsilon \xi^\epsilon-C_\epsilon$.</li>
+        </ul>
+        <table class="wide-table">
+          <tr><td></td><td>Discrete Polymer</td><td>Continuum Polymer</td></tr>
+          <tr><td>Energy</td><td>$H_N= \sum_{k=1}^N \omega(k,S_k)$</td><td>$\mathcal{H}_T=\int^T_0 \phi \ast \xi(s,B_s)ds$</td></tr>
+          <tr><td>Partition</td><td>$\mathrm{E}^{\text{SRW}}\left[\exp\left(\beta H_N-N\lambda(\beta)\right)\right]$</td><td>$\mathrm{E}^{\text{BM}}\left[\exp\left(\hat{\beta}\mathcal{H}_T  - C_\epsilon\right)\right]$</td></tr>
+          <tr><td>Critical</td><td>$\sup\{\beta>0 | \lim Z_N>0\}$</td><td>$\sup\{\hat{\beta}>0 | \lim\mathcal{Z}_T>0\}$</td></tr>
+        </table>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Tail exponent</h2>
+        <p>Let $p_*(\beta):= \sup\{p\geq 0|~ \sup_N\E[Z_N(\beta)^p]<\infty\}$ (<span class="red">tail exponent</span>).</p>
+        <div class="theorem">
+          <div class="name">Theorem [Junk, AOP 2025]</div>
+          <p>In the weak disorder regime, it holds</p>
+          $$p_*(\beta)\geq \frac{d+2}{d}.$$
+          <p>Moreover, for a certain class of weight distribution (finite support),</p>
+          $$\beta<\beta_c\Leftrightarrow p_*(\beta)> \frac{d+2}{d}.$$
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Fluctuation for SHE in weak disorder regime</h2>
+        <p>We define $p_*:=p_*(\beta)$ as before.</p>
+        <p>Let $\xi:=\xi(\beta):=- \frac{d}{2}+\frac{d+2}{2(p_*\wedge 2)}$ (<span class="red">fluctuation exponent</span>).</p>
+        <div class="theorem">
+          <div class="name">Theorem [Junk, AOP 2025]</div>
+          <p>Given a compactly supported function $f:\R^d\to \R$, we define the fluctuation of discrete SHE as</p>
+          $$\chi_N(f):= N^{-d/2}\sum_{x\in \Z^d}f(x/\sqrt{N}) (Z_N(x)-\E Z_N(x)).$$
+          <p>In the weak disorder regime, for any $\e>0$ and $f\not\equiv 0$, it holds</p>
+          $$\lim_{N\to\infty}\P( N^{-\xi-\e}<|\chi_N(f)|< N^{-\xi+\e})= 1 .$$
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Equivalence of fluctuation between SHE and KPZ</h2>
+        <p>From now on, we assume $p_*(\beta)>\frac{d+2}{d}$.</p>
+        <p>Given a compactly supported function $f:\R^d\to \R$, we define the fluctuation of discrete KPZ as</p>
+        $$\kappa_N(f):= N^{-d/2}\sum_{x\in \Z^d}f(x/\sqrt{N}) (\log{Z_N(x)}-\E \log{Z_N(x)}).$$
+        <div class="theorem">
+          <div class="name">Theorem [Junk-N, PMP 2025]</div>
+          <p>There exists $\delta>0$ such that</p>
+          $$\lim_{N\to\infty}\mathbb{P}(|\chi_N(f)-\kappa_N(f)|\leq N^{-\xi-\delta})=1.$$
+        </div>
+        <div class="box-label">Remark</div>
+        <p>This kind of claim also appears in proofs in the $L^2$ regime in other papers.</p>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Main consequence</h2>
+        <div class="theorem">
+          <div class="name">Theorem [Junk-N, PMP 2025]</div>
+          <p>There exists $\delta>0$ such that</p>
+          $$\lim_{N\to\infty}\mathbb{P}(|\chi_N(f)-\kappa_N(f)|\leq N^{-\xi-\delta})=1.$$
+        </div>
+        <p>Together with the result of [Junk, AOP 2025] ($|\chi_N(f)|=N^{-\xi+o(1)}$), we conclude:</p>
+        <div class="theorem">
+          <div class="name">Corollary [Junk-N, PMP 2025]</div>
+          <p>There exists $\delta>0$ such that</p>
+          $$\lim_{N\to\infty}\P\left(\frac{|\chi_N(f)-\kappa_N(f)|}{\min\{|\chi_N(f)|,|\kappa_N(f)|\}}\leq N^{-\delta}\right)=1.$$
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Why surprising</h2>
+        <ul>
+          <li>For $\beta\in(\beta_2,\beta_c)$, it is believed that
+          $$ N^\xi \chi_N(f):= N^{\xi-d/2}\sum_{x\in \Z^d}f(x/\sqrt{N}) (Z_N(x)-\E Z_N(x)) \to {\rm Stable}.$$</li>
+          <li>We can prove that
+          $$\begin{aligned}
+          &\bullet \sup_{N\in\N} \E[(\log Z_N)^2]<\infty\\
+          & \bullet \lim_{|x-y|\to\infty}\sup_{N\in\N} {\rm Cov}(\log Z_N(x), \log Z_N(y))=0.
+          \end{aligned}$$</li>
+          <li>Hence I originally expected that
+          $$N^\xi \kappa_N(f):= N^{\xi-d/2}\sum_{x\in \Z^d}f(x/\sqrt{N}) (\log Z_N(x)-\E \log Z_N(x)) \to {\rm Gauss}.$$</li>
+        </ul>
+        <div class="theorem">
+          <div class="name">Conjecture</div>
+          <p>For $\beta\in(\beta_2,\beta_c)$, the KPZ fluctuation satisfies</p>
+          $$N^\xi \kappa_N(f)\overset{(d)}{\longrightarrow}{\rm Stable}.$$
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Outline of the proof</h2>
+        <p> Let ${\rm E}^{\leftarrow}_{t,y}$ denotes expectation for a backward simple random walk $(\overleftarrow{X}_i)_{i=s}^{t}$ with $\overleftarrow{X}_t=y$. For $s < t$, define the backward partition function ending at $(t,y)$ by</p>
+        $$\overleftarrow{Z}_{[s,t)}((t,y)):={\rm E}^{\leftarrow}_{t,y}\left[\exp\left(\beta\sum_{i=s}^{t-1}\omega(i,\overleftarrow{X}_i)-(t-s)\lambda(\beta)\right)\right],$$
+        <p>Let $\ell_k:=k^{1/8}$ and $E_k(y):=e^{\beta \omega(k,y)-\lambda(\beta)}-1$. We define</p>
+        $$\rho_N(f):=  N^{-d/2}\sum_{x\in \Z^d}f(x/\sqrt{N})\left[\sum_{k=1}^{N}  \sum_{y\in \Z^d}
+        \overleftarrow{Z}_{[k-\ell_k,k)}((k,y))E_k(y) p_N(x,y)\right].$$
+        <p>We will prove that</p>
+        $$\begin{aligned}
+        &\chi_N(f)\approx \rho_N(f)\quad\text{(Approximation for SHE)},\\
+        &\kappa_N(f)\approx \rho_N(f)\quad\text{(Approximation for KPZ)}.
+        \end{aligned}$$
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Sketch proof (Approximation for SHE)</h2>
+        <p>Let $\ell_k:=k^{1/8}$ and $E_k(y):=e^{\beta \omega(k,y)-\lambda(\beta)}-1$. We have the following approximation for $\chi_N$:</p>
+        <div class="small">
+        $$\begin{aligned}
+        \chi_N(f)&=N^{-d/2}\sum_{x\in \Z^d}f(x/\sqrt{N}) (Z_N(x)-1)\\
+        &= N^{-d/2}\sum_{y\in \Z^d}\sum_{k=1}^{N}E_k(y) \left[\sum_{x\in \Z^d}f(x/\sqrt{N}) Z_{k}(x,y) p_k(x,y)\right]\\
+        &\approx   N^{-d/2}\sum_{y\in \Z^d}\sum_{k=1}^{N} E_k(y)\left[\sum_{x\in \Z^d}f(x/\sqrt{N})
+        \overleftarrow{Z}_{[k-\ell_k,k)}((k,y))p_N(x,y)\right]=\rho_N(f),
+        \end{aligned}$$
+        </div>
+        <p>where we have used law of large numbers (similar to $Z_k\approx Z_{\ell_k}$).</p>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Some ingredients</h2>
+        <p>As before, we assume $p_*(\beta)>\frac{d+2}{d}$.</p>
+        <p>The following play an important role in the proof below:</p>
+        <div class="theorem">
+          <div class="name">Theorem [Junk, JEMS 2025]</div>
+          <p>Let $Z_N(x,y):={\rm E}^x[e^{\beta\sum_{k=1}^{N-1}\omega(k,X_k)-(N-1)\lambda(\beta)}|~X_N=y]$. Let $\ell_N:=N^{1/8}$. For any $p\lt p_*(\beta)$ and $c>0$, it holds</p>
+          $$\lim_{N\to\infty}\sup_{x,y\in [-N^{1-c},N^{1-c}]}\E|Z_N(x,y)-Z_{\ell_N}(x) \overleftarrow{Z}_{[N-\ell_N,N)}((N,y))|^p=0.$$
+        </div>
+        <div class="theorem">
+          <div class="name">Theorem [Junk-N, PMP 2025]</div>
+          <p>There exists $C=C(\beta)>0$ such that for any $u\geq 1$ and $N\in\N$,</p>
+          $$\mathbb{P}(Z_{N}<1/u)\leq C e^{-(\log{u})^2/C}.$$
+        </div>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Some ingredients</h2>
+        <div class="screen">
+          <p>It holds:</p>
+          $$\begin{aligned}
+          &\lim_{N\to\infty}\sup_{x,y\in [-N^{1-c},N^{1-c}]}\E|Z_N(x,y)-Z_{\ell_N}(x) \overleftarrow{Z}_{[N-\ell_N,N)}((N,y))|^p=0,\\
+          &\mathbb{P}(Z_{N}<1/u)\leq C e^{-(\log{u})^2/C}.
+          \end{aligned}$$
+        </div>
+        <p>We define the polymer measure:</p>
+        $$\mu_{N}(x,y):= \frac{{\rm E}_x\left[e^{\beta\sum_{k=1}^{N-1}\omega(k,X_k)-(N-1)\lambda(\beta)}\mathbf{1}_{X_N=y}\right]}{Z_{N-1}(x)}=\frac{Z_N(x,y)p_N(x,y)}{Z_{N-1}(x)}.$$
+        <p>By $Z_k(x,y)\approx Z_{\ell_k}(x)\overleftarrow{Z}_{[k-\ell_k,k)}((k,y))$ and $Z_{\ell_k}(x), Z_k(x)\to Z_\infty(x)$, they imply</p>
+        $$\mu_k(x,y)=\frac{Z_k(x,y)p_k(x,y)}{Z_{k-1}(x)}\approx \frac{Z_{\ell_k}(x)\overleftarrow{Z}_{[k-\ell_k,k)}((k,y))p_k(x,y)}{Z_{k-1}(x)} \approx \overleftarrow{Z}_{[k-\ell_k,k)}((k,y))p_k(x,y).$$
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Sketch proof (Approximation for KPZ I)</h2>
+        <p>For $\kappa_N$, we consider the following Martingale decomposition:</p>
+        <div class="small">
+        $$\begin{aligned}
+        & \kappa_N(f)= N^{-d/2}\sum_{x\in \Z^d}f(x/\sqrt{N}) (\log{Z_N(x)}-\E[\log{Z_N(x)}])\\
+        &=N^{-d/2}\sum_{x\in \Z^d}\sum_{k=1}^N  f(x/\sqrt{N}) (\log{\frac{Z_k(x)}{Z_{k-1}(x)}}-\E[\log{\frac{Z_k(x)}{Z_{k-1}(x)}}|~\mathcal{F}_{k-1}])\\
+        &\quad+N^{-d/2}\sum_{x\in \Z^d} \sum_{k=1}^N  f(x/\sqrt{N}) (\E[\log{\frac{Z_k(x)}{Z_{k-1}(x)}}|~\mathcal{F}_{k-1}]-\E[\log{\frac{Z_k(x)}{Z_{k-1}(x)}}])\\
+        &\approx  N^{-d/2}\sum_{x\in \Z^d} \sum_{k=1}^N  f(x/\sqrt{N}) \sum_{y\in \Z^d} \mu_{k}(x,y) E_k(y).
+        \end{aligned}$$
+        </div>
+        <p class="small">where $\mu_k(x,y):=\frac{Z_k(x,y)p_k(x,y)}{Z_{k-1}(x)},\, E_k(y):=e^{\beta \omega(k,y)-\lambda(\beta)}-1$ and used $$\log{\frac{Z_k(x)}{Z_{k-1}(x)}}= \log{\Big(1+\sum_{y\in \Z^d} \mu_{k}(x,y) E_k(y)\Big)}\approx  \sum_{y\in \Z^d} \mu_{k}(x,y) E_k(y).$$</p>
+      </article>
+
+      <article class="slide">
+        <h2 class="slide-title">Sketch proof (Approximation for KPZ II)</h2>
+        <p>Let $\ell_k:=k^{1/8}$ and $E_k(y):=e^{\beta \omega(k,y)-\lambda(\beta)}-1$. Recall that</p>
+        $$\mu_k(x,y) \approx \overleftarrow{Z}_{[k-\ell_k,k)}((k,y))p_k(x,y).$$
+        <p>Hence, we have the following approximation for $\kappa_N$:</p>
+        <div class="small">
+        $$\begin{aligned}
+        \kappa_N(f)&\approx N^{-d/2}\sum_{x\in \Z^d}\sum_{k=1}^N  f(x/\sqrt{N})  \sum_{y\in \Z^d} \mu_{k}(x,y) E_k(y)\\
+        &\approx   N^{-d/2}\sum_{x\in \Z^d} \sum_{k=1}^{N} f(x/\sqrt{N})\sum_{y\in \Z^d} \left[
+        \overleftarrow{Z}_{[k-\ell_k,k)}((k,y))E_k(y) p_N(x,y)\right]=\rho_N(f).
+        \end{aligned}$$
+        </div>
+        <p>Therefore, we have $\chi_N(f)\approx \kappa_N(f)$.</p>
+        <p class="thank-you red">Thank you!</p>
+      </article>
+    </section>
+
+    <nav class="controls" aria-label="Slide controls">
+      <button type="button" id="prev">Prev</button>
+      <div class="progress" aria-hidden="true"><div class="bar" id="bar"></div></div>
+      <span id="count"></span>
+      <button type="button" id="next">Next</button>
+    </nav>
+  </main>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const count = document.getElementById('count');
+    const bar = document.getElementById('bar');
+    let index = 0;
+    let resizeFrame = null;
+    const kpzSim = createKpzSimulation();
+    const kpzSim2d = createKpz2dSimulation();
+    const jumpPanel = document.createElement('div');
+    jumpPanel.className = 'jump-panel';
+    jumpPanel.style.display = 'none';
+    document.body.appendChild(jumpPanel);
+
+    slides.forEach((slide, i) => {
+      slide.dataset.page = String(i);
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = `jump-button${i === 0 ? ' is-active' : ''}`;
+      button.textContent = String(i);
+      button.addEventListener('click', () => {
+        jumpPanel.style.display = 'none';
+        showSlide(i);
+      });
+      jumpPanel.appendChild(button);
+    });
+
+    function slideOverflows(slide) {
+      return slide.scrollHeight > slide.clientHeight + 1 || slide.scrollWidth > slide.clientWidth + 1;
+    }
+
+    function fitMathDisplays(slide) {
+      if (!slide) return;
+
+      const displays = Array.from(slide.querySelectorAll('mjx-container[jax="SVG"][display="true"]'));
+      displays.forEach((display) => display.style.removeProperty('font-size'));
+    }
+
+    function fitSlide(slide) {
+      if (!slide) return;
+      slide.style.removeProperty('--slide-font-size');
+      void slide.offsetHeight;
+
+      const baseSize = parseFloat(getComputedStyle(slide).fontSize);
+      if (!slideOverflows(slide)) return;
+
+      let low = Math.max(10, baseSize * 0.66);
+      let high = baseSize;
+
+      slide.style.setProperty('--slide-font-size', `${low.toFixed(2)}px`);
+      void slide.offsetHeight;
+      if (slideOverflows(slide)) return;
+
+      for (let i = 0; i < 10; i += 1) {
+        const mid = (low + high) / 2;
+        slide.style.setProperty('--slide-font-size', `${mid.toFixed(2)}px`);
+        void slide.offsetHeight;
+        if (slideOverflows(slide)) {
+          high = mid;
+        } else {
+          low = mid;
+        }
+      }
+
+      slide.style.setProperty('--slide-font-size', `${low.toFixed(2)}px`);
+    }
+
+    function fitSlideContent(slide) {
+      if (!slide) return;
+      slide.style.removeProperty('--slide-font-size');
+      fitMathDisplays(slide);
+      fitSlide(slide);
+    }
+
+    function typesetAndFit(slide) {
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([slide]).then(() => fitSlideContent(slide));
+      } else {
+        requestAnimationFrame(() => fitSlideContent(slide));
+      }
+    }
+
+    function createKpzSimulation() {
+      const slide = document.getElementById('kpz-sim-slide');
+      const canvas = document.getElementById('kpz-sim-canvas');
+      const resetButton = document.getElementById('kpz-sim-reset');
+      const timeLabel = document.getElementById('kpz-sim-time');
+      const meanLabel = document.getElementById('kpz-sim-mean');
+      const roughnessLabel = document.getElementById('kpz-sim-roughness');
+      if (!slide || !canvas || !resetButton || !timeLabel || !meanLabel || !roughnessLabel) {
+        return { sync: () => {}, resize: () => {} };
+      }
+
+      const ctx = canvas.getContext('2d', { alpha: false });
+      const n = 512;
+      const domainLength = 2.0;
+      const dx = domainLength / n;
+      const totalTime = 1.0;
+      let dt = 1e-4;
+      const maxStep = Math.ceil(totalTime / dt);
+      dt = totalTime / maxStep;
+      const beta = 0.7;
+      const eps = 0.04;
+      const seed0 = 3;
+      const stepsPerDisplay = 5;
+      const displayFps = 12;
+      const x = new Float64Array(n);
+      for (let j = 0; j < n; j += 1) {
+        x[j] = -1.0 + dx * j;
+      }
+
+      function mulberry32(seed) {
+        return function random() {
+          let t = seed += 0x6D2B79F5;
+          t = Math.imul(t ^ (t >>> 15), t | 1);
+          t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      let rng = mulberry32(seed0);
+      let spareGaussian = null;
+
+      function randn() {
+        if (spareGaussian !== null) {
+          const z = spareGaussian;
+          spareGaussian = null;
+          return z;
+        }
+
+        let u = 0.0;
+        let v = 0.0;
+        while (u === 0.0) u = rng();
+        while (v === 0.0) v = rng();
+
+        const r = Math.sqrt(-2.0 * Math.log(u));
+        const theta = 2.0 * Math.PI * v;
+        spareGaussian = r * Math.sin(theta);
+        return r * Math.cos(theta);
+      }
+
+      function fft(re, im, inverse) {
+        const size = re.length;
+
+        for (let i = 1, j = 0; i < size; i += 1) {
+          let bit = size >> 1;
+          for (; j & bit; bit >>= 1) {
+            j ^= bit;
+          }
+          j ^= bit;
+
+          if (i < j) {
+            const tr = re[i];
+            re[i] = re[j];
+            re[j] = tr;
+
+            const ti = im[i];
+            im[i] = im[j];
+            im[j] = ti;
+          }
+        }
+
+        for (let len = 2; len <= size; len <<= 1) {
+          const angle = 2.0 * Math.PI / len * (inverse ? 1.0 : -1.0);
+          const wlenRe = Math.cos(angle);
+          const wlenIm = Math.sin(angle);
+
+          for (let i = 0; i < size; i += len) {
+            let wRe = 1.0;
+            let wIm = 0.0;
+
+            for (let j = 0; j < len / 2; j += 1) {
+              const uRe = re[i + j];
+              const uIm = im[i + j];
+              const aRe = re[i + j + len / 2];
+              const aIm = im[i + j + len / 2];
+
+              const vRe = aRe * wRe - aIm * wIm;
+              const vIm = aRe * wIm + aIm * wRe;
+
+              re[i + j] = uRe + vRe;
+              im[i + j] = uIm + vIm;
+              re[i + j + len / 2] = uRe - vRe;
+              im[i + j + len / 2] = uIm - vIm;
+
+              const nextWRe = wRe * wlenRe - wIm * wlenIm;
+              const nextWIm = wRe * wlenIm + wIm * wlenRe;
+              wRe = nextWRe;
+              wIm = nextWIm;
+            }
+          }
+        }
+
+        if (inverse) {
+          for (let i = 0; i < size; i += 1) {
+            re[i] /= size;
+            im[i] /= size;
+          }
+        }
+      }
+
+      function rhoPeriodic(z) {
+        const norm = 1.0 / (Math.sqrt(2.0 * Math.PI) * eps);
+        let sum = 0.0;
+        const imageRadius = 4;
+
+        for (let m = -imageRadius; m <= imageRadius; m += 1) {
+          const y = z + m * domainLength;
+          sum += norm * Math.exp(-0.5 * y * y / (eps * eps));
+        }
+
+        return sum;
+      }
+
+      const kernel = new Float64Array(n);
+      let kernelSum = 0.0;
+      for (let l = 0; l < n; l += 1) {
+        kernel[l] = dx * rhoPeriodic(l * dx);
+        kernelSum += kernel[l];
+      }
+
+      for (let l = 0; l < n; l += 1) {
+        kernel[l] /= kernelSum;
+      }
+
+      const kernelHatRe = Float64Array.from(kernel);
+      const kernelHatIm = new Float64Array(n);
+      fft(kernelHatRe, kernelHatIm, false);
+
+      const heat = new Float64Array(n);
+      for (let m = 0; m < n; m += 1) {
+        const q = m <= n / 2 ? m : m - n;
+        const k = 2.0 * Math.PI * q / domainLength;
+        heat[m] = Math.exp(-0.5 * k * k * dt);
+      }
+
+      const h = new Float64Array(n);
+      const etaRe = new Float64Array(n);
+      const etaIm = new Float64Array(n);
+      const workRe = new Float64Array(n);
+      const workIm = new Float64Array(n);
+      let nstep = 0;
+      let time = 0.0;
+      let active = false;
+      let frame = null;
+      let lastDisplayTime = -1e100;
+
+      function stepKPZ() {
+        for (let j = 0; j < n; j += 1) {
+          etaRe[j] = randn();
+          etaIm[j] = 0.0;
+        }
+
+        fft(etaRe, etaIm, false);
+
+        for (let m = 0; m < n; m += 1) {
+          const ar = etaRe[m];
+          const ai = etaIm[m];
+          const br = kernelHatRe[m];
+          const bi = kernelHatIm[m];
+          etaRe[m] = ar * br - ai * bi;
+          etaIm[m] = ar * bi + ai * br;
+        }
+
+        fft(etaRe, etaIm, true);
+
+        const noiseScale = Math.sqrt(dt / dx);
+        for (let j = 0; j < n; j += 1) {
+          const jp = j + 1 === n ? 0 : j + 1;
+          const jm = j === 0 ? n - 1 : j - 1;
+          const dp = (h[jp] - h[j]) / dx;
+          const dm = (h[j] - h[jm]) / dx;
+          const q = (dp * dp + dp * dm + dm * dm) / 3.0;
+
+          workRe[j] = h[j] + 0.5 * dt * q + beta * noiseScale * etaRe[j];
+          workIm[j] = 0.0;
+        }
+
+        fft(workRe, workIm, false);
+
+        for (let m = 0; m < n; m += 1) {
+          workRe[m] *= heat[m];
+          workIm[m] *= heat[m];
+        }
+
+        fft(workRe, workIm, true);
+
+        for (let j = 0; j < n; j += 1) {
+          h[j] = workRe[j];
+        }
+
+        nstep += 1;
+        time = nstep * dt;
+      }
+
+      function resetSimulation() {
+        h.fill(0.0);
+        etaRe.fill(0.0);
+        etaIm.fill(0.0);
+        workRe.fill(0.0);
+        workIm.fill(0.0);
+        rng = mulberry32(seed0);
+        spareGaussian = null;
+        nstep = 0;
+        time = 0.0;
+        lastDisplayTime = -1e100;
+        draw();
+      }
+
+      function prepareCanvas() {
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        const cssWidth = rect.width || canvas.width / dpr || 960;
+        const cssHeight = rect.height || canvas.height / dpr || 420;
+        const width = Math.max(1, Math.round(cssWidth * dpr));
+        const height = Math.max(1, Math.round(cssHeight * dpr));
+
+        if (canvas.width !== width || canvas.height !== height) {
+          canvas.width = width;
+          canvas.height = height;
+        }
+
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        return {
+          width: cssWidth,
+          height: cssHeight
+        };
+      }
+
+      function draw() {
+        const size = prepareCanvas();
+        const width = size.width;
+        const height = size.height;
+
+        ctx.save();
+        ctx.globalAlpha = 1.0;
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = '#050505';
+        ctx.fillRect(0, 0, width, height);
+        ctx.restore();
+
+        let rawMin = Infinity;
+        let rawMax = -Infinity;
+        let mean = 0.0;
+
+        for (let j = 0; j < n; j += 1) {
+          const value = h[j];
+          rawMin = Math.min(rawMin, value);
+          rawMax = Math.max(rawMax, value);
+          mean += value;
+        }
+
+        mean /= n;
+
+        let variance = 0.0;
+        for (let j = 0; j < n; j += 1) {
+          const centered = h[j] - mean;
+          variance += centered * centered;
+        }
+        const roughness = Math.sqrt(variance / n);
+
+        timeLabel.textContent = time.toFixed(5);
+        meanLabel.textContent = mean.toFixed(6);
+        roughnessLabel.textContent = roughness.toFixed(6);
+
+        let plotMin = rawMin;
+        let plotMax = rawMax;
+        if (plotMax - plotMin < 1e-8) {
+          plotMax = mean + 0.1;
+          plotMin = mean - 0.1;
+        }
+
+        const pad = 0.15 * (plotMax - plotMin);
+        plotMax += pad;
+        plotMin -= pad;
+
+        const left = 55;
+        const right = 20;
+        const top = 25;
+        const bottom = 45;
+        const plotW = Math.max(1, width - left - right);
+        const plotH = Math.max(1, height - top - bottom);
+
+        function sx(xval) {
+          return left + ((xval + 1.0) / 2.0) * plotW;
+        }
+
+        function sy(yval) {
+          return top + ((plotMax - yval) / (plotMax - plotMin)) * plotH;
+        }
+
+        ctx.strokeStyle = '#222';
+        ctx.lineWidth = 1;
+
+        for (let gx = -1.0; gx <= 1.000001; gx += 0.5) {
+          ctx.beginPath();
+          ctx.moveTo(sx(gx), top);
+          ctx.lineTo(sx(gx), top + plotH);
+          ctx.stroke();
+        }
+
+        for (let gy = Math.ceil(plotMin); gy <= plotMax; gy += 1) {
+          ctx.beginPath();
+          ctx.moveTo(left, sy(gy));
+          ctx.lineTo(left + plotW, sy(gy));
+          ctx.stroke();
+        }
+
+        if (plotMin < 0.0 && plotMax > 0.0) {
+          ctx.strokeStyle = '#444';
+          ctx.beginPath();
+          ctx.moveTo(left, sy(0.0));
+          ctx.lineTo(left + plotW, sy(0.0));
+          ctx.stroke();
+        }
+
+        ctx.strokeStyle = '#666';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(left, top, plotW, plotH);
+
+        ctx.strokeStyle = 'rgb(87, 213, 255)';
+        ctx.lineWidth = 2.0;
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+
+        for (let j = 0; j <= n; j += 1) {
+          const jj = j % n;
+          const xval = -1.0 + dx * j;
+          const px = sx(xval);
+          const py = sy(h[jj]);
+
+          if (j === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+
+        ctx.stroke();
+
+        ctx.fillStyle = '#ddd';
+        ctx.font = '14px monospace';
+        ctx.fillText('x', width / 2, height - 12);
+        ctx.fillText('h(t,x)', 8, 20);
+      }
+
+      function tick(now) {
+        if (!active) return;
+
+        const frameInterval = 1000.0 / displayFps;
+        if (now - lastDisplayTime >= frameInterval) {
+          lastDisplayTime = now;
+
+          if (nstep < maxStep) {
+            const todo = Math.min(stepsPerDisplay, maxStep - nstep);
+            for (let s = 0; s < todo; s += 1) {
+              stepKPZ();
+            }
+          }
+
+          draw();
+        }
+
+        if (active && nstep < maxStep) {
+          frame = requestAnimationFrame(tick);
+        } else {
+          frame = null;
+        }
+      }
+
+      function start() {
+        active = true;
+        if (frame !== null || nstep >= maxStep) {
+          draw();
+          return;
+        }
+        frame = requestAnimationFrame(tick);
+      }
+
+      function stop() {
+        active = false;
+        if (frame !== null) {
+          cancelAnimationFrame(frame);
+          frame = null;
+        }
+      }
+
+      resetButton.addEventListener('click', () => {
+        resetSimulation();
+        if (slide.classList.contains('active')) start();
+      });
+
+      resetSimulation();
+
+      return {
+        sync() {
+          if (slide.classList.contains('active')) start();
+          else stop();
+        },
+        resize() {
+          draw();
+        }
+      };
+    }
+
+    function createKpz2dSimulation() {
+      const slide = document.getElementById('kpz-sim2d-slide');
+      const canvas = document.getElementById('kpz-sim2d-canvas');
+      const resetButton = document.getElementById('kpz-sim2d-reset');
+      const betaSlider = document.getElementById('kpz-sim2d-beta');
+      const betaValue = document.getElementById('kpz-sim2d-beta-value');
+      const dxLabel = document.getElementById('kpz-sim2d-dx');
+      const counterLabel = document.getElementById('kpz-sim2d-counter');
+      const meanLabel = document.getElementById('kpz-sim2d-mean');
+      const timeLabel = document.getElementById('kpz-sim2d-time');
+      if (!slide || !canvas || !resetButton || !betaSlider || !betaValue || !dxLabel || !counterLabel || !meanLabel || !timeLabel) {
+        return { sync: () => {}, resize: () => {} };
+      }
+
+      const ctx = canvas.getContext('2d');
+      const n = 48;
+      const total = n * n;
+      const domainLength = 4;
+      const dx = domainLength / n;
+      const dtFactor = 0.01;
+      const dt = dtFactor * dx * dx;
+      const stepsPerFrame = 4;
+      let h = new Float64Array(total);
+      let next = new Float64Array(total);
+      const projectedX = new Float32Array(total);
+      const projectedY = new Float32Array(total);
+      let seed = 987654321;
+      let spareGaussian = null;
+      let time = 0;
+      let mean = 0;
+      let roughness = 0;
+      let frame = null;
+      let running = false;
+      let stable = true;
+      let statusText = '';
+
+      function random() {
+        seed = (1664525 * seed + 1013904223) >>> 0;
+        return seed / 4294967296;
+      }
+
+      function gaussian() {
+        if (spareGaussian !== null) {
+          const value = spareGaussian;
+          spareGaussian = null;
+          return value;
+        }
+
+        let u = 0;
+        let v = 0;
+        while (u === 0) u = random();
+        while (v === 0) v = random();
+        const radius = Math.sqrt(-2 * Math.log(u));
+        const theta = 2 * Math.PI * v;
+        spareGaussian = radius * Math.sin(theta);
+        return radius * Math.cos(theta);
+      }
+
+      function site(x, y) {
+        return ((y + n) % n) * n + ((x + n) % n);
+      }
+
+      function beta() {
+        const value = Number(betaSlider.value);
+        return Number.isFinite(value) ? value : 1;
+      }
+
+      function counterterm() {
+        const b = beta();
+        return b * b * (n * n - 1) / (domainLength * domainLength);
+      }
+
+      function nonlinearLimit() {
+        return Math.max(48, 2.5 * counterterm());
+      }
+
+      function limitedNonlinear(rawQ, limit) {
+        return limit * Math.tanh(rawQ / limit);
+      }
+
+      function estimateMaxNonlinear(limit) {
+        const invDx = 1 / dx;
+        let maxQ = 0;
+
+        for (let y = 0; y < n; y += 1) {
+          const yp = y + 1 === n ? 0 : y + 1;
+          const ym = y === 0 ? n - 1 : y - 1;
+          for (let x = 0; x < n; x += 1) {
+            const xp = x + 1 === n ? 0 : x + 1;
+            const xm = x === 0 ? n - 1 : x - 1;
+            const id = y * n + x;
+            const center = h[id];
+            const right = h[y * n + xp];
+            const left = h[y * n + xm];
+            const up = h[yp * n + x];
+            const down = h[ym * n + x];
+            const dxp = (right - center) * invDx;
+            const dxm = (center - left) * invDx;
+            const dyp = (up - center) * invDx;
+            const dym = (center - down) * invDx;
+            const rawQ = 0.5 * (dxp * dxp + dxm * dxm + dyp * dyp + dym * dym);
+            if (!Number.isFinite(rawQ)) return Infinity;
+            maxQ = Math.max(maxQ, limitedNonlinear(rawQ, limit));
+          }
+        }
+
+        return maxQ;
+      }
+
+      function chooseInternalSteps(maxQ, limit) {
+        const b = beta();
+        const cTerm = counterterm();
+        const noisePerStep = b * Math.sqrt(dt / (dx * dx));
+        const noiseSteps = Math.ceil((noisePerStep / 0.18) * (noisePerStep / 0.18));
+        const driftScale = Math.max(maxQ, cTerm, limit);
+        const driftSteps = Math.ceil((0.5 * (driftScale + cTerm) * dt) / 0.10);
+        const requested = Math.max(1, noiseSteps, driftSteps);
+        if (!Number.isFinite(requested)) return 32;
+        return Math.min(32, requested);
+      }
+
+      function update(stepDt, limit) {
+        const invDx = 1 / dx;
+        const invDx2 = invDx * invDx;
+        const noiseScale = beta() * Math.sqrt(stepDt / (dx * dx));
+        const cTerm = counterterm();
+        let localMax = 0;
+
+        for (let y = 0; y < n; y += 1) {
+          const yp = y + 1 === n ? 0 : y + 1;
+          const ym = y === 0 ? n - 1 : y - 1;
+          for (let x = 0; x < n; x += 1) {
+            const xp = x + 1 === n ? 0 : x + 1;
+            const xm = x === 0 ? n - 1 : x - 1;
+            const id = y * n + x;
+            const center = h[id];
+            const right = h[y * n + xp];
+            const left = h[y * n + xm];
+            const up = h[yp * n + x];
+            const down = h[ym * n + x];
+            const laplacian = (right + left + up + down - 4 * center) * invDx2;
+            const dxp = (right - center) * invDx;
+            const dxm = (center - left) * invDx;
+            const dyp = (up - center) * invDx;
+            const dym = (center - down) * invDx;
+            const rawQ = 0.5 * (dxp * dxp + dxm * dxm + dyp * dyp + dym * dym);
+            const q = limitedNonlinear(rawQ, limit);
+            const value = center
+              + stepDt * (0.5 * laplacian + 0.5 * (q - cTerm))
+              + noiseScale * gaussian();
+
+            next[id] = value;
+            localMax = Math.max(localMax, Math.abs(value));
+          }
+        }
+
+        if (!Number.isFinite(localMax) || localMax > 1e6) {
+          stable = false;
+          statusText = 'unstable: lower beta and reset';
+          stop();
+          return;
+        }
+
+        const swap = h;
+        h = next;
+        next = swap;
+        time += stepDt;
+      }
+
+      function advanceOneStep() {
+        const limit = nonlinearLimit();
+        const maxQ = estimateMaxNonlinear(limit);
+        const substeps = chooseInternalSteps(maxQ, limit);
+        const subDt = dt / substeps;
+
+        for (let substep = 0; substep < substeps; substep += 1) {
+          update(subDt, limit);
+          if (!stable) return;
+        }
+      }
+
+      function updateStats() {
+        let sum = 0;
+        for (let i = 0; i < total; i += 1) {
+          sum += h[i];
+        }
+        mean = sum / total;
+
+        let variance = 0;
+        for (let i = 0; i < total; i += 1) {
+          const centered = h[i] - mean;
+          variance += centered * centered;
+        }
+        roughness = Math.sqrt(variance / total);
+      }
+
+      function reset() {
+        seed = 987654321;
+        spareGaussian = null;
+        time = 0;
+        mean = 0;
+        roughness = 0;
+        stable = true;
+        statusText = '';
+        h.fill(0);
+        next.fill(0);
+        draw();
+      }
+
+      function mix(a, b, t) {
+        return Math.round(a + (b - a) * t);
+      }
+
+      function surfaceColor(value, shade) {
+        const clamped = Math.max(-1, Math.min(1, value));
+        let r;
+        let g;
+        let b;
+        if (clamped < 0) {
+          const t = clamped + 1;
+          r = mix(43, 247, t);
+          g = mix(108, 251, t);
+          b = mix(176, 253, t);
+        } else {
+          r = mix(247, 217, clamped);
+          g = mix(251, 75, clamped);
+          b = mix(253, 61, clamped);
+        }
+        return `rgb(${mix(18, r, shade)}, ${mix(28, g, shade)}, ${mix(38, b, shade)})`;
+      }
+
+      function projectPoint(x, y, z, originX, originY, cellX, cellY, lift) {
+        const centeredX = x - (n - 1) / 2;
+        const centeredY = y - (n - 1) / 2;
+        return {
+          x: originX + (centeredX - centeredY) * cellX,
+          y: originY + (centeredX + centeredY) * cellY - z * lift
+        };
+      }
+
+      function drawDiamond(points, fillStyle, strokeStyle) {
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i += 1) {
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.closePath();
+        ctx.fillStyle = fillStyle;
+        ctx.fill();
+        if (strokeStyle) {
+          ctx.strokeStyle = strokeStyle;
+          ctx.stroke();
+        }
+      }
+
+      function draw() {
+        const pixelRatio = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        const width = Math.max(320, Math.round(rect.width));
+        const height = Math.max(220, Math.round(rect.height));
+        if (canvas.width !== Math.round(width * pixelRatio) || canvas.height !== Math.round(height * pixelRatio)) {
+          canvas.width = Math.round(width * pixelRatio);
+          canvas.height = Math.round(height * pixelRatio);
+        }
+
+        ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+        ctx.clearRect(0, 0, width, height);
+        const background = ctx.createLinearGradient(0, 0, 0, height);
+        background.addColorStop(0, '#f8fbfd');
+        background.addColorStop(0.58, '#eef5f8');
+        background.addColorStop(1, '#fbfcfd');
+        ctx.fillStyle = background;
+        ctx.fillRect(0, 0, width, height);
+
+        updateStats();
+
+        let maxAbs = Math.max(0.02, roughness * 2.6);
+        for (let i = 0; i < total; i += 1) {
+          maxAbs = Math.max(maxAbs, Math.abs(h[i] - mean));
+        }
+
+        const padX = Math.max(26, width * 0.04);
+        const padTop = Math.max(16, height * 0.035);
+        const padBottom = Math.max(58, height * 0.12);
+        const plotW = width - 2 * padX;
+        const plotH = height - padTop - padBottom;
+        const liftCells = 15.5;
+        const cellX = Math.min(
+          plotW / (2.18 * (n - 1)),
+          plotH / ((2 * 0.42 * (n - 1)) + (2.1 * liftCells))
+        );
+        const cellY = cellX * 0.42;
+        const lift = cellX * liftCells;
+        const originX = width / 2;
+        const originY = padTop + ((n - 1) * cellY) + lift;
+        const px = projectedX;
+        const py = projectedY;
+
+        for (let y = 0; y < n; y += 1) {
+          for (let x = 0; x < n; x += 1) {
+            const id = site(x, y);
+            const centeredX = x - (n - 1) / 2;
+            const centeredY = y - (n - 1) / 2;
+            const centeredHeight = h[id] - mean;
+            px[id] = originX + (centeredX - centeredY) * cellX;
+            py[id] = originY + (centeredX + centeredY) * cellY - (centeredHeight / maxAbs) * lift;
+          }
+        }
+
+        let floorPoints = [
+          projectPoint(0, 0, -1.05, originX, originY, cellX, cellY, lift),
+          projectPoint(n - 1, 0, -1.05, originX, originY, cellX, cellY, lift),
+          projectPoint(n - 1, n - 1, -1.05, originX, originY, cellX, cellY, lift),
+          projectPoint(0, n - 1, -1.05, originX, originY, cellX, cellY, lift)
+        ];
+
+        let minY = Infinity;
+        let maxY = -Infinity;
+        for (let i = 0; i < total; i += 1) {
+          minY = Math.min(minY, py[i]);
+          maxY = Math.max(maxY, py[i]);
+        }
+        floorPoints.forEach((point) => {
+          minY = Math.min(minY, point.y);
+          maxY = Math.max(maxY, point.y);
+        });
+
+        const targetTop = padTop;
+        const targetBottom = height - padBottom;
+        const shiftY = Math.min(targetTop - minY, targetBottom - maxY);
+        if (Number.isFinite(shiftY) && Math.abs(shiftY) > 0.1) {
+          for (let i = 0; i < total; i += 1) {
+            py[i] += shiftY;
+          }
+          floorPoints = floorPoints.map((point) => ({ x: point.x, y: point.y + shiftY }));
+        }
+        const shiftedOriginY = originY + (Number.isFinite(shiftY) ? shiftY : 0);
+
+        ctx.lineWidth = 1;
+        drawDiamond(floorPoints, '#edf3f6', '#d6e1e7');
+
+        ctx.lineWidth = 0.55;
+        ctx.strokeStyle = 'rgba(123, 145, 156, 0.2)';
+        for (let i = 0; i < n; i += 8) {
+          const rowStart = projectPoint(0, i, -1.05, originX, shiftedOriginY, cellX, cellY, lift);
+          const rowEnd = projectPoint(n - 1, i, -1.05, originX, shiftedOriginY, cellX, cellY, lift);
+          const colStart = projectPoint(i, 0, -1.05, originX, shiftedOriginY, cellX, cellY, lift);
+          const colEnd = projectPoint(i, n - 1, -1.05, originX, shiftedOriginY, cellX, cellY, lift);
+          ctx.beginPath();
+          ctx.moveTo(rowStart.x, rowStart.y);
+          ctx.lineTo(rowEnd.x, rowEnd.y);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(colStart.x, colStart.y);
+          ctx.lineTo(colEnd.x, colEnd.y);
+          ctx.stroke();
+        }
+
+        ctx.lineWidth = 0.42;
+        for (let sum = 0; sum <= 2 * (n - 2); sum += 1) {
+          const yStart = Math.max(0, sum - (n - 2));
+          const yEnd = Math.min(n - 2, sum);
+          for (let y = yStart; y <= yEnd; y += 1) {
+            const x = sum - y;
+            const id00 = site(x, y);
+            const id10 = site(x + 1, y);
+            const id11 = site(x + 1, y + 1);
+            const id01 = site(x, y + 1);
+            const normalizedHeight = (h[id00] + h[id10] + h[id11] + h[id01] - 4 * mean) / (4 * maxAbs);
+            const shade = 0.78 + 0.18 * ((x + y) / (2 * n));
+            ctx.beginPath();
+            ctx.moveTo(px[id00], py[id00]);
+            ctx.lineTo(px[id10], py[id10]);
+            ctx.lineTo(px[id11], py[id11]);
+            ctx.lineTo(px[id01], py[id01]);
+            ctx.closePath();
+            ctx.fillStyle = surfaceColor(normalizedHeight, shade);
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(55, 72, 82, 0.16)';
+            ctx.stroke();
+          }
+        }
+
+        ctx.lineWidth = 1.05;
+        ctx.strokeStyle = 'rgba(38, 54, 64, 0.35)';
+        for (let y = 0; y < n; y += 8) {
+          ctx.beginPath();
+          for (let x = 0; x < n; x += 1) {
+            const id = site(x, y);
+            if (x === 0) ctx.moveTo(px[id], py[id]);
+            else ctx.lineTo(px[id], py[id]);
+          }
+          ctx.stroke();
+        }
+        for (let x = 0; x < n; x += 8) {
+          ctx.beginPath();
+          for (let y = 0; y < n; y += 1) {
+            const id = site(x, y);
+            if (y === 0) ctx.moveTo(px[id], py[id]);
+            else ctx.lineTo(px[id], py[id]);
+          }
+          ctx.stroke();
+        }
+
+        const legendWidth = Math.min(210, width * 0.26);
+        const legendHeight = 8;
+        const legendX = width - padX - legendWidth;
+        const legendY = height - padBottom + 6;
+        const legend = ctx.createLinearGradient(legendX, 0, legendX + legendWidth, 0);
+        legend.addColorStop(0, '#2b6cb0');
+        legend.addColorStop(0.5, '#f7fbfd');
+        legend.addColorStop(1, '#d94b3d');
+        ctx.fillStyle = legend;
+        ctx.fillRect(legendX, legendY, legendWidth, legendHeight);
+        ctx.strokeStyle = '#c7d3dc';
+        ctx.strokeRect(legendX, legendY, legendWidth, legendHeight);
+
+        ctx.fillStyle = '#536670';
+        ctx.font = `${Math.max(12, Math.round(width * 0.016))}px Helvetica Neue, Arial, sans-serif`;
+        ctx.fillText(`48 by 48 grid, L = 4, dt = ${format(dt)}`, padX, height - 16);
+        ctx.fillText('- height', legendX, legendY + 26);
+        ctx.fillText('+ height', legendX + legendWidth - 54, legendY + 26);
+
+        if (statusText) {
+          ctx.fillStyle = 'rgba(183, 62, 51, 0.95)';
+          ctx.font = `${Math.max(14, Math.round(width * 0.02))}px Helvetica Neue, Arial, sans-serif`;
+          ctx.fillText(statusText, padX, padTop + 4);
+        }
+
+        updateLabels();
+      }
+
+      function format(value) {
+        if (!Number.isFinite(value)) return 'nan';
+        const abs = Math.abs(value);
+        if (abs !== 0 && (abs < 0.001 || abs >= 1000)) return value.toExponential(2);
+        return value.toFixed(abs < 10 ? 5 : 3);
+      }
+
+      function updateLabels() {
+        betaValue.textContent = beta().toFixed(2);
+        dxLabel.textContent = format(dx);
+        counterLabel.textContent = format(counterterm());
+        meanLabel.textContent = format(mean);
+        timeLabel.textContent = format(time);
+      }
+
+      function tick() {
+        if (!running) return;
+        for (let i = 0; i < stepsPerFrame; i += 1) {
+          advanceOneStep();
+          if (!stable) break;
+        }
+        draw();
+        if (running) {
+          frame = requestAnimationFrame(tick);
+        }
+      }
+
+      function start() {
+        if (running || !stable) return;
+        running = true;
+        frame = requestAnimationFrame(tick);
+      }
+
+      function stop() {
+        running = false;
+        if (frame !== null) {
+          cancelAnimationFrame(frame);
+          frame = null;
+        }
+      }
+
+      resetButton.addEventListener('click', () => {
+        reset();
+        if (slide.classList.contains('active')) start();
+      });
+
+      betaSlider.addEventListener('input', () => {
+        statusText = stable ? '' : statusText;
+        updateLabels();
+        draw();
+      });
+
+      reset();
+
+      return {
+        sync() {
+          if (slide.classList.contains('active')) start();
+          else stop();
+        },
+        resize() {
+          draw();
+        }
+      };
+    }
+
+    function showSlide(nextIndex) {
+      index = Math.max(0, Math.min(slides.length - 1, nextIndex));
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+      jumpPanel.querySelectorAll('.jump-button').forEach((button, i) =>
+        button.classList.toggle('is-active', i === index));
+      count.textContent = `${index + 1} / ${slides.length}`;
+      bar.style.width = `${((index + 1) / slides.length) * 100}%`;
+      typesetAndFit(slides[index]);
+      kpzSim.sync();
+      kpzSim2d.sync();
+    }
+
+    function hashSlideIndex() {
+      const match = window.location.hash.match(/\d+/);
+      if (!match) return 0;
+      const requested = Number(match[0]);
+      return Number.isFinite(requested) ? requested : 0;
+    }
+
+    document.getElementById('prev').addEventListener('click', () => showSlide(index - 1));
+    document.getElementById('next').addEventListener('click', () => showSlide(index + 1));
+    count.addEventListener('click', () => {
+      jumpPanel.style.display = jumpPanel.style.display === 'none' ? 'grid' : 'none';
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') showSlide(index + 1);
+      if (event.key === 'ArrowLeft' || event.key === 'PageUp') showSlide(index - 1);
+      if (event.key === 'Home') showSlide(0);
+      if (event.key === 'End') showSlide(slides.length - 1);
+    });
+
+    window.addEventListener('resize', () => {
+      if (resizeFrame) cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(() => {
+        resizeFrame = null;
+        fitSlideContent(slides[index]);
+        kpzSim.resize();
+        kpzSim2d.resize();
+      });
+    });
+
+    window.addEventListener('load', () => typesetAndFit(slides[index]));
+    window.addEventListener('hashchange', () => showSlide(hashSlideIndex()));
+
+    showSlide(hashSlideIndex());
+  </script>
+</body>
+</html>

@@ -1,0 +1,4170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Universality over frog model and infection process</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: "Helvetica Neue", "Hiragino Sans", sans-serif;
+      background: #fafafa;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    .slide {
+      --w: min(100vw, 177.78vh);
+      width: min(80vw, 142.22vh);
+      aspect-ratio: 16 / 13;
+      height: auto;
+      max-height: 80svh;
+      zoom: 1.25;
+
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: clamp(20px, 5vmin, 52px) clamp(20px, 6.5vmin, 77px);
+      position: relative;
+      background: #fff;
+    }
+
+    @supports not (aspect-ratio: 16 / 9) {
+      .slide { height: calc(var(--w) * 9 / 16); }
+    }
+
+    h1 {
+      font-size: clamp(24px, calc(var(--w) * 0.035), 56px);
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      margin-bottom: clamp(14px, calc(var(--w) * 0.04), 48px);
+      color: #333;
+    }
+
+    h1 span {
+      font-weight: 600;
+    }
+
+        /* Slide 1 */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5vh;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: baseline;
+            gap: 4vw;
+        }
+
+        .year {
+            font-size: 1.8vw;
+            color: #e74c3c;
+            font-weight: 500;
+            min-width: 12%;
+        }
+
+        .content {
+            font-size: 2vw;
+            color: #444;
+            line-height: 1.5;
+        }
+
+        .content small {
+            display: block;
+            font-size: 1.4vw;
+            color: #888;
+            margin-top: 0.3vh;
+        }
+
+        .current {
+            color: #e74c3c;
+            font-weight: 500;
+        }
+
+        /* Slide 2 */
+        .profile {
+            display: flex;
+            flex-direction: column;
+            gap: 5vh;
+        }
+
+        .profile-section h2 {
+            font-size: 1.5vw;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: #e74c3c;
+            margin-bottom: 1.5vh;
+            font-weight: 500;
+        }
+
+        .profile-section p {
+            font-size: 2.2vw;
+            color: #444;
+            line-height: 1.8;
+        }
+
+        .profile-section p span {
+            color: #222;
+            font-weight: 500;
+        }
+
+        /* Page number */
+        .page-num {
+            position: absolute;
+            bottom: calc(16px + env(safe-area-inset-bottom)); /* 4vh -> 固定 + safe-area */
+            right:  calc(16px + env(safe-area-inset-right));
+            font-size: 1vw;
+            color: #bbb;
+            letter-spacing: 0.1em;
+        }
+        
+        /* Section label */
+        .section-label {
+            position: absolute;
+            top:  calc(16px + env(safe-area-inset-top));      /* 4vh -> 固定 + safe-area */
+            left: calc(16px + env(safe-area-inset-left));
+            font-size: 0.9vw;
+            color: #bbb;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+        
+        /* General h2 style */
+        h2 {
+            font-size: 1.5vw;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: #e74c3c;
+            margin-bottom: 2vh;
+            font-weight: 500;
+        }
+        
+        p {
+            font-size: 2vw;
+            color: #444;
+            line-height: 1.8;
+        }
+        
+        /* Slide 3-4 styles */
+        .purpose {
+            display: flex;
+            flex-direction: column;
+            gap: 5vh;
+        }
+
+        .purpose-text {
+            font-size: 2.6vw;
+            color: #444;
+            line-height: 1.8;
+        }
+
+        .purpose-text span {
+            color: #e74c3c;
+            font-weight: 500;
+        }
+
+        .nn-image {
+            width: 80%;
+            max-width: 800px;
+            margin-top: 2vh;
+            align-self: center;
+        }
+
+        .nn-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .contents {
+            display: flex;
+            flex-direction: column;
+            gap: 3vh;
+        }
+
+        .content-item {
+            display: flex;
+            align-items: baseline;
+            gap: 3vw;
+        }
+
+        .content-num {
+            font-size: 2.4vw;
+            color: #e74c3c;
+            font-weight: 600;
+            min-width: 5%;
+        }
+
+        .content-text {
+            font-size: 2.2vw;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .content-text small {
+            display: block;
+            font-size: 1.5vw;
+            color: #888;
+            margin-top: 0.5vh;
+        }
+        
+        /* Section 3 styles */
+        .rule-box {
+            background: #f8f9fa;
+            border-left: 4px solid #e74c3c;
+            padding: 2vh 2vw;
+            margin: 2vh 0;
+            font-size: 1.9vw;
+            font-family: 'Courier New', monospace;
+        }
+
+        .examples {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5vh;
+            margin: 3vh 0;
+        }
+
+        .example {
+            display: flex;
+            align-items: center;
+            gap: 2vw;
+            font-size: 1.9vw;
+        }
+
+        .example .word {
+            font-weight: 600;
+            color: #333;
+            min-width: 8vw;
+            font-family: 'Courier New', monospace;
+        }
+
+        .example .arrow {
+            color: #e74c3c;
+        }
+
+        .example .vector {
+            color: #3498db;
+            font-family: 'Courier New', monospace;
+        }
+
+        .question {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 1.5vh 2vw;
+            border-radius: 8px;
+            font-size: 1.8vw;
+            margin-top: 3vh;
+        }
+
+        .binary-table {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2vh;
+            margin: 2vh 0;
+        }
+
+        .binary-row {
+            display: flex;
+            align-items: center;
+            gap: 2vw;
+            font-family: 'Courier New', monospace;
+            font-size: 1.8vw;
+        }
+
+        .binary-row .num {
+            min-width: 6vw;
+            color: #333;
+        }
+
+        .binary-row .eq {
+            color: #888;
+            min-width: 12vw;
+        }
+
+        .binary-row .bin {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        .diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1vw;
+            margin: 3vh 0;
+            font-size: 1.7vw;
+        }
+
+        .diagram-box {
+            background: #f0f0f0;
+            padding: 1.5vh 2vw;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .diagram-arrow {
+            font-size: 2vw;
+            color: #e74c3c;
+        }
+
+        .labeled-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        .arrow-label {
+            font-size: 1.5vw;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: -0.5vh;
+        }
+
+        .bin-table {
+            border-collapse: collapse;
+            font-size: 1.4vw;
+        }
+
+        .bin-table th, .bin-table td {
+            border: 1px solid #ddd;
+            padding: 0.4vh 0.8vw;
+            text-align: center;
+        }
+
+        .bin-table th {
+            background: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        .bin-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        .bin-table td:first-child {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .bin-table td:last-child {
+            font-family: 'Courier New', monospace;
+            color: #e74c3c;
+        }
+
+        .name-examples {
+            display: flex;
+            flex-direction: column;
+            gap: 2vh;
+            margin: 2vh 0;
+        }
+
+        .name-row {
+            display: flex;
+            align-items: center;
+            gap: 2vw;
+            font-size: 1.7vw;
+        }
+
+        .name-row .name {
+            font-family: 'Courier New', monospace;
+            min-width: 20%;
+            color: #333;
+        }
+
+        .name-row .gender {
+            padding: 0.5vh 1.5vw;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .name-row .male {
+            background: #3498db;
+            color: #fff;
+        }
+
+        .name-row .female {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        small {
+            font-size: 1.4vw;
+            color: #888;
+        }
+
+        .highlight {
+            color: #e74c3c;
+            font-weight: 500;
+        }
+
+        .highlight-blue {
+            color: #e74c3c;
+            font-weight: 500;
+        }
+
+        .highlight-green {
+            color: #27ae60;
+            font-weight: 500;
+        }
+
+        .highlight-red {
+            color: #3498db;
+            font-weight: 500;
+        }
+
+        .strike-note {
+            color: #777;
+            text-decoration: line-through;
+            text-decoration-thickness: 0.08em;
+            text-decoration-color: #777;
+        }
+
+        .two-col {
+            display: flex;
+            gap: 4vw;
+        }
+
+        .two-col > div {
+            flex: 1;
+        }
+        
+        /* Section 4 styles */
+        .formula-box {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 2.5vh 2vw;
+            margin: 2vh 0;
+            font-size: 1.8vw;
+            font-family: 'Times New Roman', serif;
+            line-height: 2;
+        }
+
+        .formula-box.conclusion {
+            background: linear-gradient(135deg, #d5f5e3 0%, #e8f8f5 100%);
+            border-left-color: #27ae60;
+        }
+
+        #slide-2 h1 {
+            font-size: 2.35vw !important;
+            margin-bottom: 2.4vh !important;
+        }
+
+        #slide-2 .purpose {
+            flex: 1;
+            min-height: 0;
+            justify-content: space-between;
+            gap: 0.7vh !important;
+            padding: 0.3vh 0 0.6vh;
+        }
+
+        #slide-2 .purpose-text {
+            font-size: 2.05vw !important;
+            line-height: 1.55 !important;
+        }
+
+        #slide-2 .examples {
+            margin: 0.2vh 0 !important;
+            display: grid !important;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.7vh 1.2vw !important;
+        }
+
+        #slide-2 .example {
+            justify-content: center;
+            gap: 0.8vw;
+            font-size: 1.65vw;
+        }
+
+        #slide-2 .example .word {
+            min-width: auto;
+        }
+
+        #slide-2 .formula-box {
+            margin: 0.35vh 0 !important;
+            padding: 2.1vh 2.2vw !important;
+            font-size: 1.72vw !important;
+            line-height: 1.7 !important;
+        }
+
+        #slide-2 .formula-box mjx-container[display="true"] {
+            font-size: 125% !important;
+            margin: 0.35em 0 !important;
+        }
+
+        #slide-2 .purpose > p:last-child {
+            margin-top: 0.35vh;
+            font-size: 1.65vw !important;
+            line-height: 1.45 !important;
+        }
+
+        .definition-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e8f4f8 100%);
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            padding: 2.5vh 2vw;
+            margin: 2vh 0;
+        }
+
+        .definition-box h3 {
+            font-size: 1.6vw;
+            color: #3498db;
+            margin-bottom: 1.5vh;
+            font-weight: 600;
+        }
+
+        .definition-box p {
+            font-size: 1.6vw;
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 2vh;
+            margin: 3vh 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5vw;
+            font-size: 1.8vw;
+        }
+
+        .step-num {
+            background: #e74c3c;
+            color: #fff;
+            width: 2.5vw;
+            height: 2.5vw;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .perceptron-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2vw;
+            margin: 4vh 0;
+        }
+
+        .input-layer {
+            display: flex;
+            flex-direction: column;
+            gap: 1vh;
+        }
+
+        .input-node {
+            width: 3vw;
+            height: 3vw;
+            background: #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1vw;
+            font-weight: 600;
+        }
+
+        .weights-line {
+            width: 6vw;
+            height: 2px;
+            background: linear-gradient(90deg, #3498db, #e74c3c);
+            position: relative;
+        }
+
+        .weights-line::after {
+            content: 'w';
+            position: absolute;
+            top: -1.5vh;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9vw;
+            color: #666;
+        }
+
+        .sum-node {
+            width: 5vw;
+            height: 5vw;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.5vw;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .output-arrow {
+            font-size: 2vw;
+            color: #e74c3c;
+        }
+
+        .output-box {
+            background: #2ecc71;
+            color: #fff;
+            padding: 1.5vh 2vw;
+            border-radius: 8px;
+            font-size: 1.6vw;
+            font-weight: 500;
+        }
+
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1vw;
+            margin: 3vh 0;
+            flex-wrap: wrap;
+        }
+
+        .flow-box {
+            background: #f0f0f0;
+            padding: 1.5vh 2vw;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.6vw;
+        }
+
+        .flow-box.input {
+            background: #e8f4f8;
+            border: 2px solid #3498db;
+        }
+
+        .flow-box.process {
+            background: #fff3cd;
+            border: 2px solid #f39c12;
+        }
+
+        .flow-box.output {
+            background: #d5f5e3;
+            border: 2px solid #2ecc71;
+        }
+
+        .flow-arrow {
+            font-size: 1.8vw;
+            color: #888;
+        }
+
+        .impl-cards {
+            display: flex;
+            gap: 3vw;
+            margin: 3vh 0;
+        }
+
+        .impl-card {
+            flex: 1;
+            background: #fff;
+            border-radius: 12px;
+            padding: 3vh 3vw;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-top: 4px solid;
+            min-width: 35vw;
+        }
+
+        .impl-card.data {
+            border-top-color: #3498db;
+        }
+
+        .impl-card.model {
+            border-top-color: #e74c3c;
+        }
+
+        .impl-card h3 {
+            font-size: 1.8vw;
+            margin-bottom: 2vh;
+            color: #333;
+        }
+
+        .impl-card p {
+            font-size: 1.5vw;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .impl-card .icon {
+            font-size: 2.5vw;
+            margin-bottom: 1vh;
+        }
+
+        .note {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 1.5vh 2vw;
+            border-radius: 8px;
+            font-size: 1.5vw;
+            margin-top: 2vh;
+        }
+
+        .algorithm-box {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 2.5vh 2vw;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.5vw;
+            line-height: 1.8;
+        }
+
+        .algorithm-box .keyword {
+            color: #e74c3c;
+        }
+
+        .algorithm-box .comment {
+            color: #7f8c8d;
+        }
+        
+        /* Section 5 styles */
+        .perceptron-simple {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2vw;
+            margin: 3vh 0;
+        }
+
+        .input-vector {
+            background: #3498db;
+            color: #fff;
+            padding: 2vh 2vw;
+            border-radius: 10px;
+            font-size: 1.8vw;
+            text-align: center;
+        }
+
+        .weight-vector {
+            background: #9b59b6;
+            color: #fff;
+            padding: 2vh 2vw;
+            border-radius: 10px;
+            font-size: 1.8vw;
+            text-align: center;
+        }
+
+        .output-single {
+            background: #27ae60;
+            color: #fff;
+            padding: 2vh 2vw;
+            border-radius: 10px;
+            font-size: 1.8vw;
+            text-align: center;
+        }
+
+        .arrow {
+            font-size: 2vw;
+            color: #888;
+        }
+
+        .nn-svg {
+            width: 100%;
+            max-width: 50vw;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .example-table {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5vh;
+            margin: 2vh 0;
+        }
+
+        .example-row {
+            display: flex;
+            align-items: center;
+            gap: 2vw;
+            font-size: 1.7vw;
+            padding: 1vh 1.5vw;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .example-row .name {
+            font-family: 'Courier New', monospace;
+            min-width: 22%;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .example-row .attributes {
+            display: flex;
+            gap: 1vw;
+        }
+
+        .attr-tag {
+            padding: 0.3vh 1vw;
+            border-radius: 15px;
+            font-size: 1.3vw;
+            font-weight: 500;
+        }
+
+        .attr-tag.male { background: #3498db; color: #fff; }
+        .attr-tag.female { background: #e74c3c; color: #fff; }
+        .attr-tag.kanto { background: #2ecc71; color: #fff; }
+        .attr-tag.kansai { background: #f39c12; color: #fff; }
+        .attr-tag.young { background: #9b59b6; color: #fff; }
+        .attr-tag.old { background: #34495e; color: #fff; }
+        .attr-tag.unknown { background: #bdc3c7; color: #333; }
+
+        .example-row .vector {
+            font-family: 'Courier New', monospace;
+            color: #9b59b6;
+            font-weight: 600;
+        }
+
+        .matrix-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2vw;
+            margin: 3vh 0;
+        }
+
+        .matrix {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            padding: 1vh 2vw;
+        }
+
+        .matrix::before,
+        .matrix::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 0.4vw;
+            border: 3px solid #9b59b6;
+            background: transparent;
+        }
+
+        .matrix::before { 
+            left: 0; 
+            border-right: none;
+            border-radius: 1vw 0 0 1vw;
+        }
+        .matrix::after { 
+            right: 0; 
+            border-left: none;
+            border-radius: 0 1vw 1vw 0;
+        }
+
+        .matrix-row {
+            display: flex;
+            gap: 1.5vw;
+            font-family: 'Courier New', monospace;
+            font-size: 1.5vw;
+            padding: 0.3vh 0;
+        }
+
+        .phase-diagram {
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+            gap: 0;
+            margin: 3vh 0;
+            height: 15vh;
+        }
+
+        .phase {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2vh 3vw;
+            font-size: 1.5vw;
+            position: relative;
+        }
+
+        .phase.sat {
+            background: linear-gradient(135deg, #d5f5e3 0%, #a9dfbf 100%);
+            border-radius: 10px 0 0 10px;
+            flex: 1;
+        }
+
+        .phase.unsat {
+            background: linear-gradient(135deg, #fadbd8 0%, #f5b7b1 100%);
+            border-radius: 0 10px 10px 0;
+            flex: 1;
+        }
+
+        .phase.critical {
+            background: #f39c12;
+            color: #fff;
+            width: 0.5vw;
+            font-size: 1.4vw;
+            font-weight: 600;
+        }
+
+        .phase-label {
+            font-weight: 600;
+            margin-bottom: 1vh;
+        }
+
+        .phase-prob {
+            font-size: 1.3vw;
+            color: #666;
+        }
+
+        .phase.sat .phase-prob { color: #27ae60; }
+        .phase.unsat .phase-prob { color: #e74c3c; }
+
+        .axis-label {
+            text-align: center;
+            margin-top: 1vh;
+            font-size: 1.4vw;
+            color: #666;
+        }
+        
+        /* Section 6 styles */
+        .theorem-box {
+            background: linear-gradient(135deg, #fef9e7 0%, #fdebd0 100%);
+            border: 2px solid #e67e22;
+            border-radius: 12px;
+            padding: 3vh 2.5vw;
+            margin: 3vh 0;
+        }
+
+        .theorem-box h3 {
+            font-size: 1.8vw;
+            color: #e67e22;
+            margin-bottom: 2vh;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 1vw;
+        }
+
+        .theorem-box h3::before {
+            content: '📜';
+            font-size: 2.2vw;
+        }
+
+        .theorem-box .authors {
+            font-size: 1.4vw;
+            color: #888;
+            margin-bottom: 1.5vh;
+            font-style: italic;
+        }
+
+        .theorem-box .statement {
+            font-size: 1.8vw;
+            font-family: 'Times New Roman', serif;
+            line-height: 2;
+            color: #333;
+        }
+
+        .conjecture-box {
+            background: linear-gradient(135deg, #e8f8f5 0%, #d5f5e3 100%);
+            border: 2px solid #27ae60;
+            border-radius: 12px;
+            padding: 3vh 2.5vw;
+            margin: 3vh 0;
+        }
+
+        .conjecture-box h3 {
+            font-size: 1.8vw;
+            color: #27ae60;
+            margin-bottom: 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 1vw;
+        }
+
+        .conjecture-box h3::before {
+            content: '🔮';
+            font-size: 2.2vw;
+        }
+
+        .conjecture-box .statement {
+            font-size: 1.6vw;
+            font-family: 'Times New Roman', serif;
+            line-height: 2;
+            color: #333;
+        }
+
+        .conjecture-box .statement-header {
+            display: flex;
+            align-items: baseline;
+            gap: 1vw;
+            margin-bottom: 0.6vh;
+            flex-wrap: wrap;
+        }
+
+        .conjecture-box .statement-lead {
+            font-size: 1.6vw;
+            font-family: 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .roadmap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2vw;
+            margin: 4vh 0;
+        }
+
+        .roadmap-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .roadmap-circle {
+            width: 5vw;
+            height: 5vw;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2vw;
+            margin-bottom: 1vh;
+        }
+
+        .roadmap-circle.done {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .roadmap-circle.current {
+            background: linear-gradient(135deg, #e67e22 0%, #f39c12 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
+        }
+
+        .roadmap-circle.future {
+            background: linear-gradient(135deg, #3498db 0%, #5dade2 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .roadmap-label {
+            font-size: 1.3vw;
+            color: #666;
+            max-width: 8vw;
+        }
+
+        .roadmap-arrow {
+            font-size: 2vw;
+            color: #bbb;
+        }
+
+        .future-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5vh;
+            margin: 3vh 0;
+        }
+
+        .future-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5vw;
+            padding: 2vh 2vw;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .future-item:hover {
+            transform: translateX(1vw);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .future-icon {
+            font-size: 2vw;
+            flex-shrink: 0;
+        }
+
+        .future-content h4 {
+            font-size: 1.8vw;
+            color: #333;
+            margin-bottom: 0.5vh;
+        }
+
+        .future-content p {
+            font-size: 1.4vw;
+            color: #666;
+        }
+
+        .deep-nn-svg {
+            width: 100%;
+            max-width: 65vw;
+            margin: 2vh auto;
+            display: block;
+        }
+
+        .questions-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 5vh 4vw;
+            text-align: center;
+            color: #fff;
+            margin: 3vh 0;
+        }
+
+        .questions-box h2 {
+            color: #fff;
+            font-size: 3vw;
+            margin-bottom: 2vh;
+            text-transform: none;
+            letter-spacing: 0.05em;
+        }
+
+        .questions-box p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.8vw;
+        }
+
+        .questions-box .emoji {
+            font-size: 4vw;
+            margin-bottom: 2vh;
+        }
+
+        /* Title slide */
+        .title-slide {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+
+        .title-slide::after {
+            background: linear-gradient(90deg, #e74c3c, #f39c12, #3498db);
+            height: 4px;
+        }
+
+        .title-slide .main-title {
+            font-size: 4vw;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: 0.05em;
+            margin-bottom: 2vh;
+            line-height: 1.4;
+        }
+
+        .title-slide .subtitle {
+            font-size: 2.2vw;
+            font-weight: 300;
+            color: rgba(255,255,255,0.85);
+            letter-spacing: 0.1em;
+            margin-bottom: 8vh;
+        }
+
+        .title-slide .author {
+            font-size: 1.8vw;
+            color: #fff;
+            font-weight: 400;
+            margin-bottom: 1vh;
+        }
+
+        .title-slide .affiliation {
+            font-size: 1.3vw;
+            color: rgba(255,255,255,0.7);
+            font-weight: 300;
+            letter-spacing: 0.1em;
+        }
+
+        .title-slide .date {
+            position: absolute;
+            bottom: 5vh;
+            font-size: 1.1vw;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 0.1em;
+        }
+
+        .title-slide .qr-card {
+            position: absolute;
+            top: clamp(18px, 6vmin, 56px);
+            right: clamp(18px, 6vmin, 56px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+            backdrop-filter: blur(8px);
+        }
+
+        .title-slide .qr-card img {
+            width: clamp(90px, 16vw, 150px);
+            height: auto;
+            display: block;
+            border-radius: 10px;
+            background: #fff;
+            padding: 6px;
+        }
+
+        .title-slide .qr-card .qr-text {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            color: #f4f8ff;
+            text-align: left;
+            max-width: 200px;
+        }
+
+        .title-slide .qr-card .qr-text small {
+            font-size: 0.95vw;
+            color: rgba(255,255,255,0.8);
+            letter-spacing: 0.08em;
+        }
+
+        .title-slide .qr-card .qr-link {
+            font-size: 0.95vw;
+            color: #e6f2ff;
+            line-height: 1.4;
+            word-break: break-all;
+        }
+
+        /* Slide navigation */
+        .slide {
+            display: none;
+        }
+
+        .slide.is-active {
+            display: flex;
+        }
+
+        .nav-bar {
+            position: fixed;
+            top: calc(12px + env(safe-area-inset-top));
+            right: calc(12px + env(safe-area-inset-right));
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: rgba(20, 20, 20, 0.75);
+            color: #fff;
+            border-radius: 999px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+        }
+
+        .jump-panel {
+            position: fixed;
+            top: calc(76px + env(safe-area-inset-top));
+            right: calc(12px + env(safe-area-inset-right));
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(46px, 1fr));
+            gap: 6px;
+            padding: 10px;
+            max-width: 340px;
+            background: rgba(20, 20, 20, 0.7);
+            color: #fff;
+            border-radius: 14px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+        }
+
+        .jump-button {
+            border: 1px solid rgba(255,255,255,0.18);
+            background: linear-gradient(135deg, #5dade2, #2c82c9);
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 6px 0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.12s, box-shadow 0.12s, opacity 0.12s;
+            min-width: 44px;
+        }
+
+        .jump-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+        }
+
+        .jump-button.is-active {
+            background: linear-gradient(135deg, #27ae60, #1e8449);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+        }
+
+        .nav-button {
+            border: none;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 10px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+            min-width: 90px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            touch-action: manipulation;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            box-shadow: none;
+            background: #7f8c8d;
+        }
+
+        .nav-status {
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+            color: #e6e6e6;
+            min-width: 110px;
+            text-align: center;
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)'], ['$', '$']],
+                displayMath: [['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<!-- ===== Slide 0: Title ===== -->
+<div class="slide title-slide is-active" id="slide-0">
+    <div class="main-title">Universality over frog model and infection process</div>
+    <div class="author">Shuta Nakajima</div>
+    <div class="affiliation">12<sup>th</sup> Japanese-French Frontiers of Science Symposium</div>
+    <div class="date">March 2026</div>
+</div>
+
+<!-- ===== Slide Intro: Introduction ===== -->
+<div class="slide" id="slide-intro">
+    <span class="section-label">Introduction</span>
+    <h1>Self-<span>Introduction</span></h1>
+
+    <div class="profile" style="gap:2.2vh; margin-top:0.5vh;">
+        <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:1.2vw;">
+            <div class="profile-section" style="padding:1.6vh 1.3vw; background:linear-gradient(180deg,#fffaf4 0%,#fff3e5 100%); border:1px solid #f2d3b3; border-radius:18px; box-shadow:0 0.45vh 1.2vh rgba(231,76,60,0.08);">
+                <h2 style="margin-bottom:1vh;">Name</h2>
+                <p style="font-size:1.9vw;">Shuta Nakajima</p>
+            </div>
+            <div class="profile-section" style="padding:1.6vh 1.3vw; background:linear-gradient(180deg,#f7fbff 0%,#eef6ff 100%); border:1px solid #cfe1f6; border-radius:18px; box-shadow:0 0.45vh 1.2vh rgba(52,152,219,0.08);">
+                <h2 style="margin-bottom:1vh;">Field</h2>
+                <p style="font-size:1.55vw; line-height:1.6;">Interface Growth / Spin Glasses</p>
+            </div>
+        </div>
+
+        <div class="profile-section" style="padding:1.8vh 1.6vw; background:linear-gradient(180deg,#fbfcfd 0%,#f1f5f8 100%); border:1px solid #d8e1e7; border-radius:20px; box-shadow:0 0.55vh 1.5vh rgba(31,52,73,0.08);">
+            <h2 style="margin-bottom:1.4vh;">Career</h2>
+            <div class="timeline" style="gap:1.05vh;">
+                 <div class="timeline-item" style="gap:1.4vw;">
+                    <div class="year" style="font-size:1.15vw; min-width:9.8vw;">2016.04 - 2019.03</div>
+                    <div class="content" style="font-size:1.32vw;">Ph.D. Program, Research Institute for Mathematical Sciences, Kyoto University</div>
+                </div>
+                <div class="timeline-item" style="gap:1.4vw;">
+                    <div class="year" style="font-size:1.15vw; min-width:9.8vw;">2019.04 - 2020.03</div>
+                    <div class="content" style="font-size:1.32vw;">JSPS Postdoctoral Researcher, Nagoya University</div>
+                </div>
+                <div class="timeline-item" style="gap:1.4vw;">
+                    <div class="year" style="font-size:1.15vw; min-width:9.8vw;">2020.04 - 2022.03</div>
+                    <div class="content" style="font-size:1.32vw;">Postdoctoral Researcher, University of Basel, Switzerland</div>
+                </div>
+                <div class="timeline-item" style="gap:1.4vw;">
+                    <div class="year" style="font-size:1.15vw; min-width:9.8vw;">2022.04 - 2025.08</div>
+                    <div class="content" style="font-size:1.32vw;">Lecturer, Meiji University</div>
+                </div>
+                <div class="timeline-item" style="gap:1.4vw;">
+                    <div class="year current" style="font-size:1.15vw; min-width:9.8vw;">2025.09 - Present</div>
+                    <div class="content current" style="font-size:1.32vw;">Associate Professor, Keio University</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <span class="page-num">1</span>
+</div>
+
+<!-- ===== Slide 1: What is Universality? ===== -->
+<div class="slide" id="slide-1">
+    <span class="section-label">Section 1 — Universality</span>
+    <h1>What is <span>Universality</span>?</h1>
+
+    <h2>The Real World is a Mess</h2>
+    <div class="examples" style="margin-bottom:3vh;">
+        <div class="example">
+            <span class="word">📈</span>
+            <span>Stock prices</span>
+        </div>
+         <div class="example">
+            <span class="word">🚗</span>
+            <span>Traffic jams</span>
+        </div>
+           <div class="example">
+            <span class="word">🤖</span>
+            <span>Neural networks and AI</span>
+        </div>
+    
+    </div>
+
+    <h2>Universality</h2>
+    <p style="font-size:1.9vw; line-height:1.8;">
+        Despite different rules, the <span class="highlight">large-scale behavior</span>
+        obeys the <span class="highlight">same law</span>.
+    </p>
+
+    <span class="page-num">1</span>
+</div>
+
+<!-- ===== Slide 2: CLT — Classical Example ===== -->
+<div class="slide" id="slide-2">
+    <span class="section-label">Section 1 — Universality</span>
+    <h1 style="font-size:2.5vw;">Classical Example: <span>Central Limit Theorem</span></h1>
+
+    <div class="purpose" style="gap:1.5vh;">
+        <p class="purpose-text" style="font-size:2.2vw;">
+            Consider different random experiments:
+        </p>
+        <div class="examples" style="margin:0;">
+            <div class="example" style="flex-direction:column; align-items:flex-start; justify-content:flex-start; gap:0.25vh; padding:0.8vh 0.9vw; background:linear-gradient(180deg,#fffaf0 0%,#fff3d9 100%); border:1px solid #f4d48b; border-radius:14px; box-shadow:0 0.35vh 0.9vh rgba(212,172,13,0.12);">
+                <div style="display:flex; align-items:center; gap:0.55vw;">
+                    <span class="word" style="font-size:1.45vw;">🪙</span>
+                    <span style="font-weight:600; color:#7d6608;">Coin flips</span>
+                </div>
+                <span style="font-size:1vw; color:#7b6a2a;">\(S_n\) = number of heads</span>
+            </div>
+            <div class="example" style="flex-direction:column; align-items:flex-start; justify-content:flex-start; gap:0.25vh; padding:0.8vh 0.9vw; background:linear-gradient(180deg,#f4f9ff 0%,#e8f3ff 100%); border:1px solid #b9d8f5; border-radius:14px; box-shadow:0 0.35vh 0.9vh rgba(52,152,219,0.12);">
+                <div style="display:flex; align-items:center; gap:0.55vw;">
+                    <span class="word" style="font-size:1.45vw;">🎲</span>
+                    <span style="font-weight:600; color:#1f618d;">Dice rolls</span>
+                </div>
+                <span style="font-size:1vw; color:#5b7083;">\(S_n\) = sum of dice</span>
+            </div>
+            <div class="example" style="flex-direction:column; align-items:flex-start; justify-content:flex-start; gap:0.25vh; padding:0.8vh 0.9vw; background:linear-gradient(180deg,#f8f8ff 0%,#eef0ff 100%); border:1px solid #d1d4f4; border-radius:14px; box-shadow:0 0.35vh 0.9vh rgba(108,92,231,0.10);">
+                <div style="display:flex; align-items:center; gap:0.55vw;">
+                    <span class="word" style="font-size:1.45vw;">📏</span>
+                    <span style="font-weight:600; color:#4a4e9c;">Experiments</span>
+                </div>
+                <span style="font-size:1vw; color:#65698c;">\(S_n\) = measurement errors</span>
+            </div>
+        </div>
+        <div class="formula-box" style="margin:0;">
+            <div style="display:flex; align-items:center; justify-content:center; gap:2.1vw; flex-wrap:wrap;">
+                <svg viewBox="0 0 520 250" role="img" aria-label="Bell curve for the Gaussian distribution" style="width:33vw; max-width:520px; min-width:320px; height:auto; display:block;">
+                    <defs>
+                        <linearGradient id="gaussianFill" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#3498db" stop-opacity="0.38" />
+                            <stop offset="100%" stop-color="#3498db" stop-opacity="0.05" />
+                        </linearGradient>
+                    </defs>
+                    <line x1="45" y1="210" x2="475" y2="210" stroke="#6c757d" stroke-width="2" />
+                    <line x1="260" y1="210" x2="260" y2="45" stroke="#95a5a6" stroke-width="2" stroke-dasharray="6 7" />
+                    <path d="M45 210 C105 209 124 198 152 167 C181 133 198 72 260 72 C322 72 339 133 368 167 C396 198 415 209 475 210 L45 210 Z" fill="url(#gaussianFill)" />
+                    <path d="M45 210 C105 209 124 198 152 167 C181 133 198 72 260 72 C322 72 339 133 368 167 C396 198 415 209 475 210" fill="none" stroke="#2980b9" stroke-width="6" stroke-linecap="round" />
+                    <circle cx="260" cy="72" r="5.5" fill="#e74c3c" />
+                    <text x="260" y="235" text-anchor="middle" font-size="22" fill="#2c3e50">0</text>
+                    <text x="151" y="235" text-anchor="middle" font-size="18" fill="#7f8c8d">-1</text>
+                    <text x="369" y="235" text-anchor="middle" font-size="18" fill="#7f8c8d">1</text>
+                    <text x="260" y="32" text-anchor="middle" font-size="22" fill="#e74c3c">Gaussian</text>
+                </svg>
+                <div style="max-width:42vw; font-size:1.65vw; line-height:1.45; text-align:left;">
+                    After rescaling, the error of the sum obeys the same limiting shape:
+                    the <span class="highlight">bell curve</span> of the Gaussian distribution.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <span class="page-num">2</span>
+</div>
+
+<!-- ===== Slide 3: Universality in Growth Processes ===== -->
+<div class="slide" id="slide-3">
+    <span class="section-label">Section 1 — Universality</span>
+    <h1>Universality in <span>Growth Processes</span></h1>
+
+    <div class="purpose" style="gap:4vh;">
+        <p class="purpose-text" style="font-size:2.1vw; text-align:center; color:#c0392b; font-weight:600; margin:0;">
+            KPZ universality conjecture (1986)
+        </p>
+        <div class="definition-box">
+            <p style="font-size:2vw; line-height:2;">
+                Random growth processes exhibit <span class="highlight">universality</span>.
+            </p>
+        </div>
+        <div class="examples" style="margin:0; gap:1vh;">
+            <div class="example" style="justify-content:flex-start; width:16vw; margin:0 auto; font-size:1.7vw; gap:0.8vw;">
+                <span class="word" style="min-width:2.2vw; width:2.2vw; text-align:center;">🧫</span>
+                <span>Cell colony</span>
+            </div>
+            <div class="example" style="justify-content:flex-start; width:16vw; margin:0 auto; font-size:1.7vw; gap:0.8vw;">
+                <span class="word" style="min-width:2.2vw; width:2.2vw; text-align:center;">🔥</span>
+                <span>Paper burning</span>
+            </div>
+            <div class="example" style="justify-content:flex-start; width:16vw; margin:0 auto; font-size:1.7vw; gap:0.8vw;">
+                <span class="word" style="min-width:2.2vw; width:2.2vw; text-align:center;">🦠</span>
+                <span>Infection spread</span>
+            </div>
+        </div>
+    </div>
+
+    <span class="page-num">3</span>
+</div>
+
+<!--
+===== Slide 4: Cell Colony Growth (Eden model animation) =====
+<div class="slide" id="slide-4">
+    <span class="section-label">Section 2 — Growth in Nature</span>
+    <h1>Cell Colony <span>Growth</span></h1>
+
+    <div style="display:flex; align-items:center; justify-content:center; flex:1; position:relative;">
+        <canvas id="colony-canvas" style="border-radius:50%; box-shadow:0 0 40px rgba(0,0,0,0.25);"></canvas>
+        <div id="colony-controls" style="position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+             display:flex; gap:1.2vw; align-items:center; z-index:10;">
+            <button id="colony-restart" style="
+                background:#e74c3c; color:#fff; border:none; border-radius:6px;
+                padding:0.5vh 1.2vw; font-size:1.1vw; cursor:pointer;
+                letter-spacing:0.08em; font-weight:500;">▶ Restart</button>
+            <span id="colony-counter" style="font-size:1vw; color:#999; letter-spacing:0.05em;">cells: 0</span>
+        </div>
+    </div>
+
+    <p style="font-size:1.4vw; color:#888; text-align:center; margin-top:1vh; line-height:1.6;">
+     A cell colony grows by randomly filling adjacent empty sites.
+    </p>
+
+    <span class="page-num">4</span>
+</div>
+
+<script>
+(function () {
+    /* ── tunables ── */
+    const GRID       = 600;           // lattice side length
+    const CELL_PX    = 1;             // 1 px per cell  (canvas = GRID × GRID)
+    const BATCH      = 180;           // cells added per animation frame
+    const MAX_CELLS  = 120000;        // stop after this many
+    const FPS        = 60;
+
+    /* ── colour palette (realistic agar + colony) ── */
+    const AGAR_CENTRE  = [58, 38, 28];    // warm dark-brown centre of agar
+    const AGAR_EDGE    = [72, 50, 38];    // lighter rim
+    const COLONY_BASE  = [235, 225, 200]; // cream / off-white base
+    const COLONY_VAR   = 18;              // per-channel noise amplitude
+
+    /* ── state ── */
+    const canvas  = document.getElementById('colony-canvas');
+    const ctx     = canvas.getContext('2d');
+    const cSize   = GRID * CELL_PX;
+    canvas.width  = cSize;
+    canvas.height = cSize;
+    canvas.style.width  = 'min(60vh, 60vw)';
+    canvas.style.height = 'min(60vh, 60vw)';
+
+    const occupied = new Uint8Array(GRID * GRID);   // 0 = empty, 1 = cell
+    let   frontier = [];          // indices of empty neighbours of colony
+    const inFrontier = new Uint8Array(GRID * GRID); // avoid duplicates
+    let   cellCount = 0;
+    let   animId    = null;
+    let   imgData   = ctx.createImageData(cSize, cSize);
+
+    const cx = GRID >> 1, cy = GRID >> 1;
+    const R  = (GRID >> 1) - 2;          // petri-dish visible radius
+
+    /* ── helpers ── */
+    const idx  = (x, y) => y * GRID + x;
+    const dirs = [[1,0],[-1,0],[0,1],[0,-1]];
+
+    function paintAgar () {
+        /* radial gradient agar background */
+        const d = imgData.data;
+        for (let y = 0; y < GRID; y++) {
+            for (let x = 0; x < GRID; x++) {
+                const dx = x - cx, dy = y - cy;
+                const r  = Math.sqrt(dx*dx + dy*dy);
+                const t  = Math.min(r / R, 1);        // 0 = centre, 1 = edge
+                const p  = (y * GRID + x) * 4;
+                if (r > R + 1) {                        // outside dish
+                    d[p] = d[p+1] = d[p+2] = 30; d[p+3] = 255;
+                } else {
+                    /* subtle agar radial gradient + fine grain noise */
+                    const n = (Math.random() - 0.5) * 8;
+                    d[p]   = AGAR_CENTRE[0] + (AGAR_EDGE[0] - AGAR_CENTRE[0]) * t + n | 0;
+                    d[p+1] = AGAR_CENTRE[1] + (AGAR_EDGE[1] - AGAR_CENTRE[1]) * t + n | 0;
+                    d[p+2] = AGAR_CENTRE[2] + (AGAR_EDGE[2] - AGAR_CENTRE[2]) * t + n | 0;
+                    d[p+3] = 255;
+                }
+            }
+        }
+    }
+
+    function paintCell (x, y) {
+        /* give each cell a slightly randomised cream tone */
+        const p = (y * GRID + x) * 4;
+        const d = imgData.data;
+        const n1 = (Math.random() - 0.5) * COLONY_VAR * 2;
+        const n2 = (Math.random() - 0.5) * COLONY_VAR * 2;
+        const n3 = (Math.random() - 0.5) * COLONY_VAR * 2;
+        /* cells near edge are slightly darker (nutrient-depleted look) */
+        const dx = x - cx, dy = y - cy;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        const edgeDim = Math.max(0, 1 - 0.15 * (dist / R));
+        d[p]   = Math.min(255, Math.max(0, (COLONY_BASE[0] + n1) * edgeDim)) | 0;
+        d[p+1] = Math.min(255, Math.max(0, (COLONY_BASE[1] + n2) * edgeDim)) | 0;
+        d[p+2] = Math.min(255, Math.max(0, (COLONY_BASE[2] + n3) * edgeDim)) | 0;
+        d[p+3] = 255;
+    }
+
+    function addCell (x, y) {
+        occupied[idx(x,y)] = 1;
+        paintCell(x, y);
+        cellCount++;
+        /* push new empty neighbours onto the frontier */
+        for (const [dx, dy] of dirs) {
+            const nx = x + dx, ny = y + dy;
+            if (nx < 0 || nx >= GRID || ny < 0 || ny >= GRID) continue;
+            const ni = idx(nx, ny);
+            if (!occupied[ni] && !inFrontier[ni]) {
+                /* stay inside the petri dish */
+                const ddx = nx - cx, ddy = ny - cy;
+                if (ddx*ddx + ddy*ddy > R*R) continue;
+                frontier.push(ni);
+                inFrontier[ni] = 1;
+            }
+        }
+    }
+
+    function reset () {
+        if (animId) { cancelAnimationFrame(animId); animId = null; }
+        occupied.fill(0);
+        inFrontier.fill(0);
+        frontier = [];
+        cellCount = 0;
+        paintAgar();
+        /* seed: small 3×3 cluster */
+        for (let dy = -1; dy <= 1; dy++)
+            for (let dx = -1; dx <= 1; dx++)
+                addCell(cx + dx, cy + dy);
+        ctx.putImageData(imgData, 0, 0);
+        document.getElementById('colony-counter').textContent = 'cells: ' + cellCount;
+    }
+
+    /* ── animation loop ── */
+    let lastTime = 0;
+    const interval = 1000 / FPS;
+
+    function frame (ts) {
+        animId = requestAnimationFrame(frame);
+        if (ts - lastTime < interval) return;
+        lastTime = ts;
+
+        if (frontier.length === 0 || cellCount >= MAX_CELLS) {
+            cancelAnimationFrame(animId); animId = null; return;
+        }
+
+        const steps = Math.min(BATCH, frontier.length);
+        for (let i = 0; i < steps; i++) {
+            /* pick random frontier site (swap-remove for O(1)) */
+            const ri = (Math.random() * frontier.length) | 0;
+            const ni = frontier[ri];
+            frontier[ri] = frontier[frontier.length - 1];
+            frontier.pop();
+            inFrontier[ni] = 0;
+
+            const fx = ni % GRID, fy = (ni / GRID) | 0;
+            if (occupied[ni]) continue;   // could have been filled already
+            addCell(fx, fy);
+        }
+        ctx.putImageData(imgData, 0, 0);
+        document.getElementById('colony-counter').textContent =
+            'cells: ' + cellCount.toLocaleString();
+    }
+
+    function start () { reset(); animId = requestAnimationFrame(frame); }
+
+    document.getElementById('colony-restart').addEventListener('click', start);
+
+    /* auto-start when slide scrolls into view */
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting && !animId) start();
+        });
+    }, { threshold: 0.5 });
+    observer.observe(document.getElementById('slide-4'));
+})();
+</script>
+-->
+
+<!--
+===== Slide 5: Infection Process (placeholder for animation) =====
+<div class="slide" id="slide-5">
+    <span class="section-label">Section 2 — Infection Process</span>
+    <h1>Infection Process <span>Animation</span></h1>
+
+    <div style="display:flex; align-items:center; justify-content:center; flex:1; position:relative;">
+        <canvas id="infection-canvas" style="border-radius:12px; box-shadow:0 4px 30px rgba(0,0,0,0.18); background:#1a1a2e;"></canvas>
+        <div id="infection-controls" style="position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+             display:flex; gap:1.2vw; align-items:center; z-index:10;">
+            <button id="infection-restart" style="
+                background:#e74c3c; color:#fff; border:none; border-radius:6px;
+                padding:0.5vh 1.2vw; font-size:1.1vw; cursor:pointer;
+                letter-spacing:0.08em; font-weight:500;">▶ Restart</button>
+            <span id="infection-counter" style="font-size:1vw; color:#999; letter-spacing:0.05em;">
+                healthy: 0 &nbsp;|&nbsp; infected: 0
+            </span>
+        </div>
+    </div>
+
+    <p style="font-size:1.4vw; color:#888; text-align:center; margin-top:1vh; line-height:1.6;">
+        <span style="color:#3498db;">●</span> Healthy, 
+        <span style="color:#e74c3c;">●</span> infected people.
+    </p>
+
+    <span class="page-num">5</span>
+</div>
+
+<script>
+(function () {
+    /* ════════════════════════════════════════════════════════════════
+       Infection Process Animation
+       ─ Rules:
+         1. People move independently via Brownian-like random walks
+         2. When an infected person comes within contact radius of
+            a healthy person, the healthy person becomes infected
+         3. Infected people are NEVER cured
+       ════════════════════════════════════════════════════════════════ */
+
+    /* ── tunables ── */
+    const N_PEOPLE        = 500;       // total population
+    const INITIAL_INFECTED = 1;        // exactly one patient zero, placed at the origin
+    const CANVAS_SIZE     = 600;       // logical pixels
+    const PERSON_RADIUS   = 3;         // draw radius (smaller to fit more people)
+    const CONTACT_RADIUS  = 8;         // infection transmission range
+    const SPEED           = 1.2;       // base speed per frame
+    const DIRECTION_NOISE = 0.3;       // angular perturbation per frame (radians)
+    const WALL_MARGIN     = 6;         // bounce margin from walls
+    const FPS             = 60;
+    const TRAIL_ALPHA     = 0.08;      // fading trails opacity
+
+    /* ── colours ── */
+    const COL_BG          = '#1a1a2e';
+    const COL_HEALTHY     = '#3498db';  // blue
+    const COL_HEALTHY_DIM = 'rgba(52,152,219,0.15)';
+    const COL_INFECTED    = '#e74c3c';  // red
+    const COL_INFECTED_DIM= 'rgba(231,76,60,0.10)';
+    const COL_FLASH       = '#f1c40f';  // yellow flash on new infection
+
+    /* ── state ── */
+    const canvas = document.getElementById('infection-canvas');
+    const ctx    = canvas.getContext('2d');
+    canvas.width  = CANVAS_SIZE;
+    canvas.height = CANVAS_SIZE;
+    canvas.style.width  = 'min(60vh, 60vw)';
+    canvas.style.height = 'min(60vh, 60vw)';
+
+    let people   = [];
+    let animId   = null;
+    let lastTime = 0;
+    let flashEffects = [];   // {x, y, age} for infection flash
+
+    /* spatial hash grid for fast neighbour queries */
+    const GRID_CELL = CONTACT_RADIUS * 2;
+    const GRID_COLS = Math.ceil(CANVAS_SIZE / GRID_CELL);
+    const GRID_ROWS = Math.ceil(CANVAS_SIZE / GRID_CELL);
+    let grid = [];
+
+    function buildGrid () {
+        grid = new Array(GRID_COLS * GRID_ROWS);
+        for (let i = 0; i < grid.length; i++) grid[i] = [];
+        for (let i = 0; i < people.length; i++) {
+            const p = people[i];
+            const gc = (p.x / GRID_CELL) | 0;
+            const gr = (p.y / GRID_CELL) | 0;
+            const gi = gr * GRID_COLS + gc;
+            if (gi >= 0 && gi < grid.length) grid[gi].push(i);
+        }
+    }
+
+    const TRAIL_LEN = 6;  // how many past positions to remember
+
+    function createPerson (x, y, infected) {
+        const angle = Math.random() * Math.PI * 2;
+        return {
+            x, y,
+            vx: Math.cos(angle) * SPEED,
+            vy: Math.sin(angle) * SPEED,
+            infected: infected,
+            justInfected: infected ? 0 : -1,  // frame counter for flash
+            trail: [],  // ring buffer of past positions
+        };
+    }
+
+    function reset () {
+        if (animId) { cancelAnimationFrame(animId); animId = null; }
+        people = [];
+        flashEffects = [];
+
+        /* place the unique infected person at the origin (canvas centre) */
+        if (INITIAL_INFECTED > 0) {
+            people.push(createPerson(CANVAS_SIZE / 2, CANVAS_SIZE / 2, true));
+        }
+
+        /* place all remaining healthy people randomly, avoiding overlap */
+        for (let i = people.length; i < N_PEOPLE; i++) {
+            let x, y, ok;
+            for (let attempt = 0; attempt < 200; attempt++) {
+                x = WALL_MARGIN + Math.random() * (CANVAS_SIZE - 2 * WALL_MARGIN);
+                y = WALL_MARGIN + Math.random() * (CANVAS_SIZE - 2 * WALL_MARGIN);
+                ok = true;
+                for (const p of people) {
+                    const dx = p.x - x, dy = p.y - y;
+                    if (dx*dx + dy*dy < (PERSON_RADIUS * 3) ** 2) { ok = false; break; }
+                }
+                if (ok) break;
+            }
+            people.push(createPerson(x, y, false));
+        }
+
+        /* clear canvas */
+        ctx.fillStyle = COL_BG;
+        ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+        updateCounter();
+    }
+
+    function updateCounter () {
+        const inf = people.filter(p => p.infected).length;
+        const hlth = people.length - inf;
+        document.getElementById('infection-counter').innerHTML =
+            '<span style="color:' + COL_HEALTHY + '">●</span> healthy: ' + hlth +
+            ' &nbsp;|&nbsp; <span style="color:' + COL_INFECTED + '">●</span> infected: ' + inf;
+    }
+
+    /* ── physics step ── */
+    function movePeople () {
+        for (const p of people) {
+            /* save current position to trail history */
+            p.trail.push({ x: p.x, y: p.y });
+            if (p.trail.length > TRAIL_LEN) p.trail.shift();
+
+            /* gentle Brownian direction change */
+            const angle = Math.atan2(p.vy, p.vx) + (Math.random() - 0.5) * DIRECTION_NOISE * 2;
+            /* vary speed slightly */
+            const spd = SPEED * (0.8 + Math.random() * 0.4);
+            p.vx = Math.cos(angle) * spd;
+            p.vy = Math.sin(angle) * spd;
+
+            p.x += p.vx;
+            p.y += p.vy;
+
+            /* bounce off walls */
+            if (p.x < WALL_MARGIN)               { p.x = WALL_MARGIN; p.vx = Math.abs(p.vx); }
+            if (p.x > CANVAS_SIZE - WALL_MARGIN)  { p.x = CANVAS_SIZE - WALL_MARGIN; p.vx = -Math.abs(p.vx); }
+            if (p.y < WALL_MARGIN)               { p.y = WALL_MARGIN; p.vy = Math.abs(p.vy); }
+            if (p.y > CANVAS_SIZE - WALL_MARGIN)  { p.y = CANVAS_SIZE - WALL_MARGIN; p.vy = -Math.abs(p.vy); }
+        }
+    }
+
+    /* ── infection logic (with spatial hash) ── */
+    function spreadInfection () {
+        buildGrid();
+        const cr2 = CONTACT_RADIUS * CONTACT_RADIUS;
+
+        for (let i = 0; i < people.length; i++) {
+            const p = people[i];
+            if (!p.infected) continue;
+
+            const gc = (p.x / GRID_CELL) | 0;
+            const gr = (p.y / GRID_CELL) | 0;
+
+            /* check 3×3 neighbourhood in grid */
+            for (let dr = -1; dr <= 1; dr++) {
+                for (let dc = -1; dc <= 1; dc++) {
+                    const ngr = gr + dr, ngc = gc + dc;
+                    if (ngr < 0 || ngr >= GRID_ROWS || ngc < 0 || ngc >= GRID_COLS) continue;
+                    const cell = grid[ngr * GRID_COLS + ngc];
+                    for (const j of cell) {
+                        if (i === j) continue;
+                        const q = people[j];
+                        if (q.infected) continue;
+                        const dx = p.x - q.x, dy = p.y - q.y;
+                        if (dx*dx + dy*dy < cr2) {
+                            q.infected = true;
+                            q.justInfected = 15;  // flash for 15 frames
+                            flashEffects.push({ x: q.x, y: q.y, age: 0 });
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /* ── rendering ── */
+    function draw () {
+        /* full clear every frame — no fading overlay, so dots never vanish */
+        ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+        ctx.fillStyle = COL_BG;
+        ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+
+        /* draw trails (fading tail from position history) */
+        for (const p of people) {
+            const col = p.infected ? '231,76,60' : '52,152,219';
+            for (let k = 0; k < p.trail.length; k++) {
+                const alpha = 0.06 + 0.10 * (k / p.trail.length);
+                ctx.fillStyle = 'rgba(' + col + ',' + alpha + ')';
+                ctx.beginPath();
+                ctx.arc(p.trail[k].x, p.trail[k].y, PERSON_RADIUS * 0.7, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        /* draw contact-radius glow for infected people */
+        for (const p of people) {
+            if (!p.infected) continue;
+            const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, CONTACT_RADIUS);
+            grad.addColorStop(0, 'rgba(231,76,60,0.08)');
+            grad.addColorStop(1, 'rgba(231,76,60,0.0)');
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, CONTACT_RADIUS, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        /* draw flash effects */
+        for (let i = flashEffects.length - 1; i >= 0; i--) {
+            const f = flashEffects[i];
+            f.age++;
+            if (f.age > 20) { flashEffects.splice(i, 1); continue; }
+            const r = CONTACT_RADIUS * (1 + f.age * 0.3);
+            const alpha = 0.5 * (1 - f.age / 20);
+            ctx.beginPath();
+            ctx.arc(f.x, f.y, r, 0, Math.PI * 2);
+            ctx.strokeStyle = 'rgba(241,196,15,' + alpha + ')';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        /* draw people — healthy first, then infected on top */
+        for (const p of people) {
+            if (p.infected) continue;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, PERSON_RADIUS, 0, Math.PI * 2);
+            ctx.fillStyle = COL_HEALTHY;
+            ctx.shadowColor = COL_HEALTHY;
+            ctx.shadowBlur = 6;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        }
+
+        for (const p of people) {
+            if (!p.infected) continue;
+
+            /* pulse effect for recently infected */
+            let r = PERSON_RADIUS;
+            let glow = COL_INFECTED;
+            if (p.justInfected > 0) {
+                r = PERSON_RADIUS + p.justInfected * 0.25;
+                glow = COL_FLASH;
+                p.justInfected--;
+            }
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+            ctx.fillStyle = COL_INFECTED;
+            ctx.shadowColor = glow;
+            ctx.shadowBlur = 10;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        }
+
+        /* small "motion blur" tail for each person */
+        for (const p of people) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p.x - p.vx * 3, p.y - p.vy * 3);
+            ctx.strokeStyle = p.infected ? 'rgba(231,76,60,0.25)' : 'rgba(52,152,219,0.18)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+    }
+
+    /* ── main loop ── */
+    const interval = 1000 / FPS;
+
+    function frame (ts) {
+        animId = requestAnimationFrame(frame);
+        if (ts - lastTime < interval) return;
+        lastTime = ts;
+
+        movePeople();
+        spreadInfection();
+        draw();
+        updateCounter();
+
+        /* stop when everyone is infected */
+        if (people.every(p => p.infected)) {
+            cancelAnimationFrame(animId); animId = null;
+        }
+    }
+
+    function start () { reset(); animId = requestAnimationFrame(frame); }
+
+    document.getElementById('infection-restart').addEventListener('click', start);
+
+    /* auto-start when slide scrolls into view */
+    const infObserver = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting && !animId) start();
+        });
+    }, { threshold: 0.5 });
+    infObserver.observe(document.getElementById('slide-5'));
+})();
+</script>
+-->
+
+<!-- ===== Slide 6: Universality over Infection Process ===== -->
+<div class="slide" id="slide-6">
+    <span class="section-label">Section 3 — KPZ Universality</span>
+    <h2>Universality over <span>random growth process</span></h1>
+
+    <div class="purpose" style="gap:1vh;">
+        <div class="definition-box" style="margin:0; padding:1.5vh 2vw;">
+            <h3>A) Growth Exponent</h3>
+            <p>
+                The spreading speed error of the infected region grows as
+                \[
+                    \text{Spreading speed error} \;\sim\; t^{\,1/3}.
+                \]
+            </p>
+        </div>
+
+        <div class="definition-box" style="border-color:#e74c3c; margin:0; padding:1.5vh 2vw;">
+            <h3 style="color:#e74c3c;">B) KPZ Equation</h3>
+            <p>
+                After proper scaling, the interface between healthy and infected
+                regions follows the
+                <span class="highlight">KPZ equation</span>:
+                \[
+                    \partial_t h \;=\; \tfrac{1}{2}\,\Delta h \;+\; \tfrac{1}{2}\,|\nabla h|^2 \;+\; \xi
+                \]
+                where \(\xi\) is a space-time white noise.
+            </p>
+        </div>
+    </div>
+
+    <span class="page-num">6</span>
+</div>
+
+<!-- ===== Slide 7: Frog Model and Infection Model ===== -->
+<div class="slide" id="slide-7" style="
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+">
+    <span class="section-label" style="color:rgba(255,255,255,0.4);">Our Models</span>
+
+    <h1 style="font-size:4.5vw; font-weight:300; letter-spacing:0.08em; color:#fff; margin-bottom:0;">
+        <span style="color:#3498db; font-weight:700;">Frog Model</span>
+        <span style="color:rgba(255,255,255,0.5); font-weight:200;"> &amp; </span>
+        <span style="color:#e74c3c; font-weight:700;">Infection Model</span>
+    </h1>
+
+    <span class="page-num" style="color:rgba(255,255,255,0.3);">7</span>
+</div>
+
+<!-- ===== Slide 8: Simple Random Walk on Grid ===== -->
+<div class="slide" id="slide-8">
+    <span class="section-label">Section 4 — Random Walk</span>
+    <h1>Simple Random Walk on <span>grid</span></h1>
+
+    <div class="purpose" style="gap:3vh;">
+        <div class="definition-box">
+            <h3>Transition Rule</h3>
+            <p>
+                     At each step, the particle moves to one of its four neighbours (up, down, left, or right) with equal probability $1/4$.
+             </p>
+        </div>
+
+        <div style="display:flex; justify-content:center; margin-top:0.3vh;">
+            <div style="background:linear-gradient(180deg,#fafdff 0%,#eef6fb 100%); border:1px solid #d7e8f3; border-radius:16px; padding:1vh 1.2vw 0.8vh; box-shadow:0 0.4vh 1vh rgba(52,73,94,0.08);">
+                <div style="font-size:1.05vw; color:#5d6d7e; text-align:center; margin-bottom:0.35vh;">
+                </div>
+                <svg viewBox="0 0 320 220" style="width:20vw; max-width:320px; min-width:240px; height:auto; display:block;">
+                    <defs>
+                        <marker id="srw-arrowhead" markerWidth="8" markerHeight="8" refX="6.2" refY="4" orient="auto">
+                            <path d="M0,0 L8,4 L0,8 Z" fill="#5dade2"></path>
+                        </marker>
+                    </defs>
+
+                    <line x1="160" y1="110" x2="160" y2="46" stroke="#5dade2" stroke-width="4" stroke-linecap="round" marker-end="url(#srw-arrowhead)"></line>
+                    <line x1="160" y1="110" x2="160" y2="174" stroke="#5dade2" stroke-width="4" stroke-linecap="round" marker-end="url(#srw-arrowhead)"></line>
+                    <line x1="160" y1="110" x2="96" y2="110" stroke="#5dade2" stroke-width="4" stroke-linecap="round" marker-end="url(#srw-arrowhead)"></line>
+                    <line x1="160" y1="110" x2="224" y2="110" stroke="#5dade2" stroke-width="4" stroke-linecap="round" marker-end="url(#srw-arrowhead)"></line>
+
+                    <circle cx="160" cy="110" r="18" fill="#2c3e50"></circle>
+                    <circle cx="160" cy="30" r="14" fill="#ebf5fb" stroke="#5dade2" stroke-width="3"></circle>
+                    <circle cx="160" cy="190" r="14" fill="#ebf5fb" stroke="#5dade2" stroke-width="3"></circle>
+                    <circle cx="80" cy="110" r="14" fill="#ebf5fb" stroke="#5dade2" stroke-width="3"></circle>
+                    <circle cx="240" cy="110" r="14" fill="#ebf5fb" stroke="#5dade2" stroke-width="3"></circle>
+
+                    <text x="160" y="116" text-anchor="middle" font-size="20" font-weight="700" fill="#ffffff">x</text>
+                    <text x="160" y="10" text-anchor="middle" font-size="15" font-weight="600" fill="#5d6d7e">up</text>
+                    <text x="160" y="218" text-anchor="middle" font-size="15" font-weight="600" fill="#5d6d7e">down</text>
+                    <text x="52" y="115" text-anchor="end" font-size="15" font-weight="600" fill="#5d6d7e">left</text>
+                    <text x="268" y="115" text-anchor="start" font-size="15" font-weight="600" fill="#5d6d7e">right</text>
+
+                    <rect x="162" y="58" width="32" height="20" rx="10" fill="#fff7f5" stroke="#f3c4bd"></rect>
+                    <rect x="162" y="148" width="32" height="20" rx="10" fill="#fff7f5" stroke="#f3c4bd"></rect>
+                    <rect x="95" y="84" width="32" height="20" rx="10" fill="#fff7f5" stroke="#f3c4bd"></rect>
+                    <rect x="193" y="84" width="32" height="20" rx="10" fill="#fff7f5" stroke="#f3c4bd"></rect>
+
+                    <text x="178" y="72" text-anchor="middle" font-size="14" font-weight="700" fill="#c0392b">1/4</text>
+                    <text x="178" y="162" text-anchor="middle" font-size="14" font-weight="700" fill="#c0392b">1/4</text>
+                    <text x="111" y="98" text-anchor="middle" font-size="14" font-weight="700" fill="#c0392b">1/4</text>
+                    <text x="209" y="98" text-anchor="middle" font-size="14" font-weight="700" fill="#c0392b">1/4</text>
+                </svg>
+            </div>
+        </div>
+
+    </div>
+
+    <span class="page-num">8</span>
+</div>
+
+<!-- ===== Slide 9: SRW Simulation ===== -->
+<div class="slide" id="slide-9">
+    <span class="section-label">Section 4 — Random Walk</span>
+    <h1>SRW <span>Simulation</span></h1>
+
+        <div class="purpose" style="align-items:center; justify-content:center; flex:1;">
+        <div style="display:flex; align-items:center; justify-content:center; gap:1.5vw;">
+            <canvas id="srw-canvas" width="520" height="520"
+                    style="border:1px solid #ddd; border-radius:8px; background:#fafafa;"></canvas>
+            <div style="display:flex; flex-direction:column; gap:1vh; align-items:flex-start;">
+                <button id="srw-start" style="
+                    padding:0.8vh 1.6vw; font-size:1.3vw; border:none; border-radius:6px; cursor:pointer;
+                    background:#27ae60; color:#fff; font-weight:600;">▶ Start</button>
+                <button id="srw-reset" style="
+                    padding:0.8vh 1.6vw; font-size:1.3vw; border:none; border-radius:6px; cursor:pointer;
+                    background:#e74c3c; color:#fff; font-weight:600;">⟳ Reset</button>
+                <label for="srw-speed" style="font-size:1.05vw; color:#666; margin-top:0.6vh;">Speed</label>
+                <select id="srw-speed" style="
+                    padding:0.6vh 0.9vw; font-size:1.05vw; border:1px solid #ccc; border-radius:6px;
+                    background:#fff; color:#333; cursor:pointer;">
+                    <option value="1000">Slow</option>
+                    <option value="120" selected>Normal</option>
+                    <option value="60">Fast</option>
+                </select>
+                <span id="srw-steps" style="font-size:1.2vw; color:#888; margin-top:0.5vh;">Steps: 0</span>
+            </div>
+        </div>
+    </div>
+
+    <span class="page-num">9</span>
+</div>
+
+<!-- SRW Animation Script -->
+<script>
+(() => {
+    const canvas = document.getElementById('srw-canvas');
+    const ctx    = canvas.getContext('2d');
+    const btnStart = document.getElementById('srw-start');
+    const btnReset = document.getElementById('srw-reset');
+    const speedSelect = document.getElementById('srw-speed');
+    const stepsEl  = document.getElementById('srw-steps');
+
+    const W = canvas.width, H = canvas.height;
+    const gridSize = 24;                         // pixels per cell
+    const originX = Math.floor(W / 2);           // canvas centre
+    const originY = Math.floor(H / 2);
+
+    const directions = [[1,0],[-1,0],[0,1],[0,-1]];
+
+    let path = [{x:0, y:0}];
+    let running = false;
+    let animId  = null;
+    let stepCount = 0;
+    let interval = 120;
+
+    if (speedSelect) {
+        const refreshInterval = () => {
+            const next = Number(speedSelect.value);
+            interval = Number.isFinite(next) && next > 0 ? next : 120;
+        };
+        refreshInterval();
+        speedSelect.addEventListener('change', refreshInterval);
+    }
+
+    /* ---- drawing helpers ---- */
+    function drawGrid() {
+        ctx.clearRect(0, 0, W, H);
+        ctx.strokeStyle = '#e8e8e8';
+        ctx.lineWidth   = 0.5;
+        for (let x = 0; x <= W; x += gridSize) {
+            ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+        }
+        for (let y = 0; y <= H; y += gridSize) {
+            ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+        }
+        /* axes */
+        ctx.strokeStyle = '#ccc';
+        ctx.lineWidth   = 1;
+        ctx.beginPath(); ctx.moveTo(originX, 0); ctx.lineTo(originX, H); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0, originY); ctx.lineTo(W, originY); ctx.stroke();
+    }
+
+    function toCanvas(px, py) {
+        return [originX + px * gridSize, originY - py * gridSize];
+    }
+
+    function drawPath() {
+        if (path.length < 2) return;
+        ctx.strokeStyle = 'rgba(52,152,219,0.35)';
+        ctx.lineWidth   = 2;
+        ctx.lineJoin    = 'round';
+        ctx.beginPath();
+        let [sx, sy] = toCanvas(path[0].x, path[0].y);
+        ctx.moveTo(sx, sy);
+        for (let i = 1; i < path.length; i++) {
+            let [cx, cy] = toCanvas(path[i].x, path[i].y);
+            ctx.lineTo(cx, cy);
+        }
+        ctx.stroke();
+    }
+
+    function drawOrigin() {
+        let [ox, oy] = toCanvas(0, 0);
+        ctx.fillStyle = '#27ae60';
+        ctx.beginPath(); ctx.arc(ox, oy, 4, 0, Math.PI * 2); ctx.fill();
+    }
+
+    function drawHead() {
+        const last = path[path.length - 1];
+        let [hx, hy] = toCanvas(last.x, last.y);
+        ctx.fillStyle = '#e74c3c';
+        ctx.beginPath(); ctx.arc(hx, hy, 6, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#fff';
+        ctx.beginPath(); ctx.arc(hx, hy, 2.5, 0, Math.PI * 2); ctx.fill();
+    }
+
+    function render() {
+        drawGrid();
+        drawPath();
+        drawOrigin();
+        drawHead();
+        stepsEl.textContent = 'Steps: ' + stepCount;
+    }
+
+    /* ---- simulation loop ---- */
+    let lastTime = 0;
+
+    function step(timestamp) {
+        if (!running) return;
+        if (timestamp - lastTime >= interval) {
+            lastTime = timestamp;
+            const d = directions[Math.floor(Math.random() * 4)];
+            const last = path[path.length - 1];
+            path.push({x: last.x + d[0], y: last.y + d[1]});
+            stepCount++;
+            render();
+        }
+        animId = requestAnimationFrame(step);
+    }
+
+    /* ---- controls ---- */
+    btnStart.addEventListener('click', () => {
+        if (running) {
+            running = false;
+            cancelAnimationFrame(animId);
+            btnStart.textContent = '▶ Start';
+            btnStart.style.background = '#27ae60';
+        } else {
+            running = true;
+            lastTime = 0;
+            btnStart.textContent = '⏸ Pause';
+            btnStart.style.background = '#f39c12';
+            animId = requestAnimationFrame(step);
+        }
+    });
+
+    btnReset.addEventListener('click', () => {
+        running = false;
+        cancelAnimationFrame(animId);
+        path = [{x:0, y:0}];
+        stepCount = 0;
+        btnStart.textContent = '▶ Start';
+        btnStart.style.background = '#27ae60';
+        render();
+    });
+
+    /* initial draw */
+    render();
+})();
+</script>
+
+<!-- ===== Slide 10: Frog Model ===== -->
+<div class="slide" id="slide-10">
+    <span class="section-label">Section 5 — Frog Model</span>
+    <h1>The <span>Frog Model</span></h1>
+
+    <div class="purpose" style="gap:2.5vh;">
+        <p style="font-size:2vw; line-height:1.8;">
+            A model of infection (or information) spreading on grid:
+        </p>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content" style="font-size:1.9vw;">
+                    At time \(t = 0\), there is one <span class="highlight-blue">infected</span> frog at the origin \((0,0)\),
+                    and one <span class="highlight-red">healthy</span> (sleeping) frog at every other place.
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content" style="font-size:1.9vw;">
+                    Only <span class="highlight-blue">infected</span> frogs perform simple random walks.
+                    <span class="highlight-red">Healthy</span> frogs  do not move.
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content" style="font-size:1.9vw;">
+                    When an <span class="highlight-blue">infected</span> frog visits a node occupied by a <span class="highlight-red">healthy</span> frog,
+                    the <span class="highlight-red">healthy</span> frog becomes <span class="highlight-blue">infected</span> and starts its own random walk.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <span class="page-num">10</span>
+</div>
+
+<!-- ===== Slide 11: Frog Model Simulation ===== -->
+<div class="slide" id="slide-11">
+    <span class="section-label">Section 5 — Frog Model</span>
+    <h1>Frog Model <span>Simulation</span></h1>
+
+        <div class="purpose" style="align-items:center; justify-content:center; flex:1;">
+        <div style="display:flex; align-items:center; justify-content:center; gap:1.5vw;">
+            <canvas id="frog-canvas" width="500" height="500"
+                    style="border:1px solid #ddd; border-radius:8px; background:#f5f5f0;"></canvas>
+            <div style="display:flex; flex-direction:column; gap:1vh; align-items:flex-start;">
+                <button id="frog-start" style="
+                    padding:0.8vh 1.6vw; font-size:1.3vw; border:none; border-radius:6px; cursor:pointer;
+                    background:#27ae60; color:#fff; font-weight:600;">▶ Start</button>
+                <button id="frog-reset" style="
+                    padding:0.8vh 1.6vw; font-size:1.3vw; border:none; border-radius:6px; cursor:pointer;
+                    background:#e74c3c; color:#fff; font-weight:600;">⟳ Reset</button>
+                <label for="frog-speed" style="font-size:1.05vw; color:#666; margin-top:0.6vh;">Speed</label>
+                <select id="frog-speed" style="
+                    padding:0.6vh 0.9vw; font-size:1.05vw; border:1px solid #ccc; border-radius:6px;
+                    background:#fff; color:#333; cursor:pointer;">
+                    <option value="1000">Very slow</option>
+                    <option value="350" selected>Normal</option>
+                    <option value="100">Fast</option>
+                </select>
+                <span id="frog-steps" style="font-size:1.2vw; color:#888; margin-top:0.5vh;">Step: 0</span>
+                <span id="frog-count" style="font-size:1.2vw; color:#e74c3c;">Infected: 1</span>
+                <span id="frog-healthy-count" style="font-size:1.2vw; color:#3498db;">Healthy: 0</span>
+            </div>
+        </div>
+    </div>
+
+    <span class="page-num">11</span>
+</div>
+
+<script>
+function makeSpeedGetter(selectId, defaultMs) {
+    const select = document.getElementById(selectId);
+    if (!select) return () => defaultMs;
+
+    let delay = defaultMs;
+    const refresh = () => {
+        const next = Number(select.value);
+        delay = Number.isFinite(next) && next > 0 ? next : defaultMs;
+    };
+
+    refresh();
+    select.addEventListener('change', refresh);
+    return () => delay;
+}
+
+function configureHiDPICanvas(canvas) {
+    const logicalWidth = canvas.width;
+    const logicalHeight = canvas.height;
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    const rect = canvas.getBoundingClientRect();
+    const cssScaleX = rect.width > 0 ? rect.width / logicalWidth : 1;
+    const cssScaleY = rect.height > 0 ? rect.height / logicalHeight : 1;
+    const renderScale = Math.max(1, dpr * Math.max(cssScaleX, cssScaleY));
+
+    canvas.style.width = logicalWidth + 'px';
+    canvas.style.height = logicalHeight + 'px';
+    canvas.width = Math.round(logicalWidth * renderScale);
+    canvas.height = Math.round(logicalHeight * renderScale);
+
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(renderScale, 0, 0, renderScale, 0, 0);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+
+    return { ctx, width: logicalWidth, height: logicalHeight };
+}
+</script>
+
+<!-- Frog Model Animation Script -->
+<script>
+(() => {
+    const canvas   = document.getElementById('frog-canvas');
+    const { ctx, width: W, height: H } = configureHiDPICanvas(canvas);
+    const btnStart = document.getElementById('frog-start');
+    const btnReset = document.getElementById('frog-reset');
+    const getStepDelay = makeSpeedGetter('frog-speed', 350);
+    const stepsEl  = document.getElementById('frog-steps');
+    const countEl  = document.getElementById('frog-count');
+    const healthyEl = document.getElementById('frog-healthy-count');
+
+    const cell = 31;                          // px per grid cell
+    const R = 7;                              // grid radius: −R … +R  (15×15)
+    const ox = W / 2, oy = H / 2;            // canvas centre = lattice origin
+
+    const dirs = [[1,0],[-1,0],[0,1],[0,-1]];
+
+    /* ---- load frog sprites ---- */
+    const hImg = new Image();
+    const iImg = new Image();
+    hImg.src = 'healthy_frog.png';
+    iImg.src = 'infected_frog.png';
+
+    let imgReady = 0;
+    const onLoad = () => { if (++imgReady >= 2) render(); };
+    hImg.onload = onLoad;
+    iImg.onload = onLoad;
+
+    /* ---- state ---- */
+    let healthy;          // Set of "x,y" keys
+    let infected;         // array of {x, y}
+    let running = false;
+    let animId  = null;
+    let stepCount = 0;
+
+    function pk(x, y) { return x + ',' + y; }
+
+    function init() {
+        healthy  = new Set();
+        infected = [];
+        stepCount = 0;
+        running   = false;
+        if (animId) { cancelAnimationFrame(animId); animId = null; }
+
+        /* place one healthy frog at every node except the origin */
+        for (let x = -R; x <= R; x++)
+            for (let y = -R; y <= R; y++)
+                if (x !== 0 || y !== 0) healthy.add(pk(x, y));
+
+        /* one infected frog at the origin */
+        infected.push({ x: 0, y: 0 });
+    }
+
+    /* ---- coordinate helpers ---- */
+    function cx(x) { return ox + x * cell; }
+    function cy(y) { return oy - y * cell; }
+
+    /* ---- drawing ---- */
+    function drawGrid() {
+        ctx.clearRect(0, 0, W, H);
+        ctx.strokeStyle = '#e0e0d8';
+        ctx.lineWidth   = 0.5;
+        const lo = -R * cell, hi = R * cell;
+        for (let i = -R; i <= R; i++) {
+            const px = ox + i * cell;
+            ctx.beginPath(); ctx.moveTo(px, oy + lo); ctx.lineTo(px, oy + hi); ctx.stroke();
+            const py = oy + i * cell;
+            ctx.beginPath(); ctx.moveTo(ox + lo, py); ctx.lineTo(ox + hi, py); ctx.stroke();
+        }
+        /* subtle origin marker */
+        ctx.fillStyle = 'rgba(231,76,60,0.18)';
+        ctx.beginPath(); ctx.arc(ox, oy, 5, 0, 2 * Math.PI); ctx.fill();
+    }
+
+    function render() {
+        drawGrid();
+        stepsEl.textContent = 'Step: ' + stepCount;
+        countEl.textContent = 'Infected: ' + infected.length;
+        healthyEl.textContent = 'Healthy: ' + healthy.size;
+        if (imgReady < 2) return;          // wait for both PNGs
+
+        const s = Math.round(cell * 0.95); // larger + integer size keeps sprites sharper
+        const h = s / 2;
+
+        /* draw healthy (sleeping) frogs */
+        healthy.forEach(k => {
+            const [a, b] = k.split(',');
+            const px = cx(+a), py = cy(+b);
+            ctx.fillStyle = 'rgba(52,152,219,0.25)';
+            ctx.beginPath(); ctx.arc(px, py, h, 0, 2 * Math.PI); ctx.fill();
+            ctx.drawImage(hImg, Math.round(px - h), Math.round(py - h), s, s);
+        });
+
+        /* draw infected frogs */
+        for (const f of infected) {
+            if (Math.abs(f.x) <= R + 1 && Math.abs(f.y) <= R + 1) {
+                const px = cx(f.x), py = cy(f.y);
+                ctx.fillStyle = 'rgba(231,76,60,0.30)';
+                ctx.beginPath(); ctx.arc(px, py, h, 0, 2 * Math.PI); ctx.fill();
+                ctx.drawImage(iImg, Math.round(px - h), Math.round(py - h), s, s);
+            }
+        }
+
+    }
+
+    /* ---- one simulation step ---- */
+    function simStep() {
+        const born = [];
+
+        for (const f of infected) {
+            const d = dirs[Math.random() * 4 | 0];
+            f.x += d[0];
+            f.y += d[1];
+
+            const k = pk(f.x, f.y);
+            if (healthy.has(k)) {
+                healthy.delete(k);
+                born.push({ x: f.x, y: f.y });   // new frog starts here next step
+            }
+        }
+
+        for (const b of born) infected.push(b);
+        stepCount++;
+    }
+
+    /* ---- animation loop ---- */
+    let last = 0;
+
+    function tick(ts) {
+        if (!running) return;
+        if (ts - last >= getStepDelay()) {
+            last = ts;
+            simStep();
+            render();
+        }
+        animId = requestAnimationFrame(tick);
+    }
+
+    /* ---- controls ---- */
+    btnStart.addEventListener('click', () => {
+        if (running) {
+            running = false;
+            cancelAnimationFrame(animId);
+            btnStart.textContent      = '▶ Start';
+            btnStart.style.background = '#27ae60';
+        } else {
+            running = true;
+            last    = 0;
+            btnStart.textContent      = '⏸ Pause';
+            btnStart.style.background = '#f39c12';
+            animId = requestAnimationFrame(tick);
+        }
+    });
+
+    btnReset.addEventListener('click', () => {
+        init();
+        btnStart.textContent      = '▶ Start';
+        btnStart.style.background = '#27ae60';
+        render();
+    });
+
+    /* ---- initial draw ---- */
+    init();
+    render();
+})();
+</script>
+
+
+<!-- ===== Slide 13: KS Infection Model ===== -->
+<div class="slide" id="slide-13">
+    <span class="section-label">Section 6 — KS Infection</span>
+    <h1>Another Model: <span>KS Infection</span></h1>
+
+    <div class="purpose" style="gap:1.6vh;">
+        <p style="font-size:2vw; line-height:1.6; margin:0;">
+            A variant of the frog model where <span class="highlight-green">all</span> frogs move:
+        </p>
+
+        <div class="steps" style="gap:1.4vh; margin:0.4vh 0 0;">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content" style="font-size:1.75vw; line-height:1.5;">
+                    At time \(t = 0\), there is one <span class="highlight-blue">infected</span> frog at the origin \((0,0)\),
+                    and one <span class="highlight-red">healthy</span> frog at every other node.
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content" style="font-size:1.75vw; line-height:1.5;">
+                    <span class="highlight-green">Both</span> <span class="highlight-blue">infected</span> and <span class="highlight-red">healthy</span> frogs
+                    (<span class="strike-note">only infected</span>) perform  simple random walks.
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content" style="font-size:1.75vw; line-height:1.5;">
+                    When <span class="highlight-blue">infected</span> and <span class="highlight-red">healthy</span> frogs encounter each other,
+                    <span class="highlight">all</span> <span class="highlight-red">healthy</span> frogs there become <span class="highlight-blue">infected</span>.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <span class="page-num">13</span>
+</div>
+
+<!-- ===== Slide 14: KS Infection Simulation ===== -->
+<div class="slide" id="slide-14">
+    <span class="section-label">Section 6 — KS Infection</span>
+    <h1>KS Infection <span>Simulation</span></h1>
+
+        <div class="purpose" style="align-items:center; justify-content:center; flex:1;">
+        <div style="display:flex; align-items:center; justify-content:center; gap:1.5vw;">
+            <canvas id="ks-canvas" width="500" height="500"
+                    style="border:1px solid #ddd; border-radius:8px; background:#f5f5f0;"></canvas>
+            <div style="display:flex; flex-direction:column; gap:1vh; align-items:flex-start;">
+                <button id="ks-start" style="
+                    padding:0.8vh 1.6vw; font-size:1.3vw; border:none; border-radius:6px; cursor:pointer;
+                    background:#27ae60; color:#fff; font-weight:600;">▶ Start</button>
+                <button id="ks-reset" style="
+                    padding:0.8vh 1.6vw; font-size:1.3vw; border:none; border-radius:6px; cursor:pointer;
+                    background:#e74c3c; color:#fff; font-weight:600;">⟳ Reset</button>
+                <label for="ks-speed" style="font-size:1.05vw; color:#666; margin-top:0.6vh;">Speed</label>
+                <select id="ks-speed" style="
+                    padding:0.6vh 0.9vw; font-size:1.05vw; border:1px solid #ccc; border-radius:6px;
+                    background:#fff; color:#333; cursor:pointer;">
+                    <option value="1000">Very slow</option>
+                    <option value="350" selected>Normal</option>
+                    <option value="100">Fast</option>
+                </select>
+                <span id="ks-steps" style="font-size:1.2vw; color:#888; margin-top:0.5vh;">Step: 0</span>
+                <span id="ks-count" style="font-size:1.2vw; color:#e74c3c;">Infected: 1</span>
+                <span id="ks-healthy-count" style="font-size:1.2vw; color:#3498db;">Healthy: —</span>
+            </div>
+        </div>
+        <p style="font-size:1.4vw; color:#888; margin-top:1.5vh; text-align:center;">
+            All frogs move. 
+        </p>
+    </div>
+
+    <span class="page-num">14</span>
+</div>
+
+<!-- KS Infection Animation Script -->
+<script>
+(() => {
+    const canvas   = document.getElementById('ks-canvas');
+    const { ctx, width: W, height: H } = configureHiDPICanvas(canvas);
+    const btnStart = document.getElementById('ks-start');
+    const btnReset = document.getElementById('ks-reset');
+    const getStepDelay = makeSpeedGetter('ks-speed', 350);
+    const stepsEl  = document.getElementById('ks-steps');
+    const countEl  = document.getElementById('ks-count');
+    const healthyEl = document.getElementById('ks-healthy-count');
+
+    const cell = 31;                          // match frog simulation
+    const BOX_R = 7;                          // same box radius as frog simulation
+    const ox = W / 2, oy = H / 2;
+
+    const dirs = [[1,0],[-1,0],[0,1],[0,-1]];
+
+    /* ---- load frog sprites ---- */
+    const hImg = new Image();
+    const iImg = new Image();
+    hImg.src = 'healthy_frog.png';
+    iImg.src = 'infected_frog.png';
+
+    let imgReady = 0;
+    const onLoad = () => { if (++imgReady >= 2) render(); };
+    hImg.onload = onLoad;
+    iImg.onload = onLoad;
+
+    /* ---- state ---- */
+    let frogs;            // array of {x, y, infected}
+    let running = false;
+    let animId  = null;
+    let stepCount = 0;
+
+    function init() {
+        frogs = [];
+        stepCount = 0;
+        running   = false;
+        if (animId) { cancelAnimationFrame(animId); animId = null; }
+
+        /* one infected frog at the origin, healthy frogs elsewhere */
+        for (let x = -BOX_R; x <= BOX_R; x++) {
+            for (let y = -BOX_R; y <= BOX_R; y++) {
+                frogs.push({ x, y, infected: (x === 0 && y === 0) });
+            }
+        }
+    }
+
+    /* ---- coordinate helpers ---- */
+    function cx(x) { return ox + x * cell; }
+    function cy(y) { return oy - y * cell; }
+
+    /* ---- drawing ---- */
+    function drawGrid() {
+        ctx.clearRect(0, 0, W, H);
+        ctx.strokeStyle = '#e0e0d8';
+        ctx.lineWidth   = 0.5;
+        const lo = -BOX_R * cell, hi = BOX_R * cell;
+        for (let i = -BOX_R; i <= BOX_R; i++) {
+            const px = ox + i * cell;
+            ctx.beginPath(); ctx.moveTo(px, oy + lo); ctx.lineTo(px, oy + hi); ctx.stroke();
+            const py = oy + i * cell;
+            ctx.beginPath(); ctx.moveTo(ox + lo, py); ctx.lineTo(ox + hi, py); ctx.stroke();
+        }
+        ctx.strokeStyle = '#888';
+        ctx.lineWidth   = 1.2;
+        ctx.strokeRect(ox + lo, oy + lo, hi - lo, hi - lo);
+        ctx.fillStyle = 'rgba(231,76,60,0.18)';
+        ctx.beginPath(); ctx.arc(ox, oy, 5, 0, 2 * Math.PI); ctx.fill();
+    }
+
+    function render() {
+        drawGrid();
+        if (imgReady < 2) return;
+
+        const s = Math.round(cell * 0.95); // larger + integer size keeps sprites sharper
+        const h = s / 2;
+
+        let infectedCount = 0;
+        for (const f of frogs) {
+            if (Math.abs(f.x) > BOX_R + 1 || Math.abs(f.y) > BOX_R + 1) continue;
+            const px = cx(f.x), py = cy(f.y);
+            if (f.infected) {
+                infectedCount++;
+                ctx.fillStyle = 'rgba(231,76,60,0.30)';
+                ctx.beginPath(); ctx.arc(px, py, h, 0, 2 * Math.PI); ctx.fill();
+                ctx.drawImage(iImg, Math.round(px - h), Math.round(py - h), s, s);
+            } else {
+                ctx.fillStyle = 'rgba(52,152,219,0.25)';
+                ctx.beginPath(); ctx.arc(px, py, h, 0, 2 * Math.PI); ctx.fill();
+                ctx.drawImage(hImg, Math.round(px - h), Math.round(py - h), s, s);
+            }
+        }
+
+        const healthyCount = frogs.length - infectedCount;
+        stepsEl.textContent  = 'Step: ' + stepCount;
+        countEl.textContent  = 'Infected: ' + infectedCount;
+        healthyEl.textContent = 'Healthy: ' + healthyCount;
+    }
+
+    function moveWithReflection(f) {
+        const d = dirs[Math.random() * 4 | 0];
+        let nx = f.x + d[0];
+        let ny = f.y + d[1];
+
+        if (nx > BOX_R) nx = 2 * BOX_R - nx;
+        if (nx < -BOX_R) nx = -2 * BOX_R - nx;
+        if (ny > BOX_R) ny = 2 * BOX_R - ny;
+        if (ny < -BOX_R) ny = -2 * BOX_R - ny;
+
+        f.x = nx;
+        f.y = ny;
+    }
+
+    function infectAllAt(x, y) {
+        for (const f of frogs) {
+            if (!f.infected && f.x === x && f.y === y) f.infected = true;
+        }
+    }
+
+    function shuffle(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.random() * (i + 1) | 0;
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    /* ---- one simulation step ---- */
+    function simStep() {
+        /* Asynchronous update avoids checkerboard parity lock of fully synchronous SRW */
+        const order = shuffle(frogs.slice());
+        for (const f of order) {
+            moveWithReflection(f);
+
+            if (f.infected) {
+                infectAllAt(f.x, f.y);
+                continue;
+            }
+
+            for (const g of frogs) {
+                if (g !== f && g.infected && g.x === f.x && g.y === f.y) {
+                    f.infected = true;
+                    infectAllAt(f.x, f.y);
+                    break;
+                }
+            }
+        }
+
+        stepCount++;
+    }
+
+    /* ---- animation loop ---- */
+    let last = 0;
+
+    function tick(ts) {
+        if (!running) return;
+        if (ts - last >= getStepDelay()) {
+            last = ts;
+            simStep();
+            render();
+        }
+        animId = requestAnimationFrame(tick);
+    }
+
+    /* ---- controls ---- */
+    btnStart.addEventListener('click', () => {
+        if (running) {
+            running = false;
+            cancelAnimationFrame(animId);
+            btnStart.textContent      = '▶ Start';
+            btnStart.style.background = '#27ae60';
+        } else {
+            running = true;
+            last    = 0;
+            btnStart.textContent      = '⏸ Pause';
+            btnStart.style.background = '#f39c12';
+            animId = requestAnimationFrame(tick);
+        }
+    });
+
+    btnReset.addEventListener('click', () => {
+        init();
+        btnStart.textContent      = '▶ Start';
+        btnStart.style.background = '#27ae60';
+        render();
+    });
+
+    /* ---- initial draw ---- */
+    init();
+    render();
+})();
+</script>
+
+<!-- ===== Slide 15: History of Frog and Infection Models ===== -->
+<div class="slide" id="slide-15-history">
+    <span class="section-label">Section 6 - History</span>
+    <h1>History of <span>Frog and Infection</span></h1>
+
+    <div class="purpose" style="gap:2.2vh;">
+        <div style="display:grid; grid-template-columns:1fr; gap:1.3vh; margin-top:1vh;">
+            <div style="background:#f8fbff; border-left:0.45vw solid #3498db; border-radius:8px; padding:1.25vh 1.5vw;">
+                <div style="font-size:1.35vw; color:#e74c3c; font-weight:600; margin-bottom:0.45vh;">1996</div>
+                <div style="font-size:1.7vw; line-height:1.55; color:#444;">
+                    R. Durrett proposed the frog model as an information-spreading model.
+                </div>
+            </div>
+
+            <div style="background:#fffaf6; border-left:0.45vw solid #f39c12; border-radius:8px; padding:1.25vh 1.5vw;">
+                <div style="font-size:1.35vw; color:#e74c3c; font-weight:600; margin-bottom:0.45vh;">1999</div>
+                <div style="font-size:1.7vw; line-height:1.55; color:#444;">
+                    Telcs and Wormald gave the first published result under the name egg model.
+                </div>
+            </div>
+
+            <div style="background:#f8f9fa; border-left:0.45vw solid #27ae60; border-radius:8px; padding:1.25vh 1.5vw;">
+                <div style="font-size:1.35vw; color:#e74c3c; font-weight:600; margin-bottom:0.45vh;">Names</div>
+                <div style="font-size:1.7vw; line-height:1.55; color:#444;">
+                   Egg model, Information/Epidemic/Rumor spreading, combustion model.
+                </div>
+            </div>
+
+            <div style="background:#fff7f5; border-left:0.45vw solid #e74c3c; border-radius:8px; padding:1.25vh 1.5vw;">
+                <div style="font-size:1.35vw; color:#e74c3c; font-weight:600; margin-bottom:0.45vh;">2003</div>
+                <div style="font-size:1.7vw; line-height:1.55; color:#444;">
+                    Kesten and Sidoravicius introduced the KS infection model in 2003.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <span class="page-num">15</span>
+</div>
+
+<!-- ===== Slide 15B: Frog and KS Side-by-Side Simulation ===== -->
+<div class="slide" id="slide-15-both">
+    <span class="section-label">Section 6 - Simulation</span>
+    <h1>Frog Model and <span>KS Infection</span></h1>
+
+    <div class="purpose" style="align-items:center; justify-content:center; flex:1; gap:1vh;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.4vw; width:100%; align-items:start;">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:0.75vh;">
+                <h3 style="font-size:1.35vw; margin:0; color:#2874a6;">Frog model</h3>
+                <canvas id="both-frog-canvas" width="360" height="360"
+                        style="border:1px solid #ddd; border-radius:8px; background:#fff;"></canvas>
+                <div style="display:flex; gap:1vw; font-size:1.0vw; color:#555;">
+                    <span id="both-frog-step">Step: 0</span>
+                    <span id="both-frog-healthy" style="color:#2874a6;">Healthy: 39,999</span>
+                    <span id="both-frog-infected" style="color:#a93226;">Infected: 1</span>
+                </div>
+            </div>
+
+            <div style="display:flex; flex-direction:column; align-items:center; gap:0.75vh;">
+                <h3 style="font-size:1.35vw; margin:0; color:#922b21;">KS infection</h3>
+                <canvas id="both-ks-canvas" width="360" height="360"
+                        style="border:1px solid #ddd; border-radius:8px; background:#fff;"></canvas>
+                <div style="display:flex; gap:1vw; font-size:1.0vw; color:#555;">
+                    <span id="both-ks-step">Step: 0</span>
+                    <span id="both-ks-healthy" style="color:#2874a6;">Healthy: 39,999</span>
+                    <span id="both-ks-infected" style="color:#a93226;">Infected: 1</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="display:flex; align-items:center; justify-content:center; gap:0.8vw; margin-top:0.5vh;">
+            <button id="both-start" style="padding:0.6vh 1.2vw; font-size:1.0vw; border:none; border-radius:6px; cursor:pointer; background:#27ae60; color:#fff;">Start</button>
+            <button id="both-reset" style="padding:0.6vh 1.2vw; font-size:1.0vw; border:none; border-radius:6px; cursor:pointer; background:#e74c3c; color:#fff;">Reset</button>
+            <span style="font-size:1.0vw; color:#666;">Grid: 200 x 200 | Fast</span>
+            <span style="font-size:1.0vw;"><span style="color:#2874a6;">healthy</span> / <span style="color:#a93226;">infected</span></span>
+        </div>
+    </div>
+
+    <span class="page-num">16</span>
+</div>
+
+<script>
+(() => {
+    const frogCanvas = document.getElementById('both-frog-canvas');
+    const ksCanvas = document.getElementById('both-ks-canvas');
+    if (!frogCanvas || !ksCanvas) return;
+
+    const frogView = configureHiDPICanvas(frogCanvas);
+    const ksView = configureHiDPICanvas(ksCanvas);
+    const btnStart = document.getElementById('both-start');
+    const btnReset = document.getElementById('both-reset');
+    const frogStepEl = document.getElementById('both-frog-step');
+    const frogHealthyEl = document.getElementById('both-frog-healthy');
+    const frogInfectedEl = document.getElementById('both-frog-infected');
+    const ksStepEl = document.getElementById('both-ks-step');
+    const ksHealthyEl = document.getElementById('both-ks-healthy');
+    const ksInfectedEl = document.getElementById('both-ks-infected');
+
+    const GRID = 200;
+    const TOTAL = GRID * GRID;
+    const CENTER = GRID >> 1;
+    const FAST_STEPS = 2;
+    const FRAME_MS = 90;
+    const HEALTHY = [40, 116, 166];
+    const INFECTED = [169, 50, 38];
+    const EMPTY = [255, 255, 255];
+
+    const frogField = document.createElement('canvas');
+    frogField.width = frogField.height = GRID;
+    const frogFieldCtx = frogField.getContext('2d');
+    const frogImage = frogFieldCtx.createImageData(GRID, GRID);
+
+    const frogHealthy = new Uint8Array(TOTAL);
+    const frogInfectedSite = new Uint8Array(TOTAL);
+    let frogWalkers = new Int32Array(TOTAL);
+    let frogNextWalkers = new Int32Array(TOTAL);
+    let frogWalkerCount = 0;
+    let frogStep = 0;
+
+    let ksPositions = new Int32Array(TOTAL);
+    const ksInfected = new Uint8Array(TOTAL);
+    const ksInfectedSite = new Uint8Array(TOTAL);
+    const ksMark = new Uint32Array(TOTAL);
+    let ksMarkStamp = 1;
+    let ksInfectedCount = 1;
+    let ksStep = 0;
+
+    let running = false;
+    let animId = null;
+    let last = 0;
+
+    function centerIndex() {
+        return CENTER * GRID + CENTER;
+    }
+
+    function moveIndex(index) {
+        const direction = Math.random() * 4 | 0;
+        const x = index % GRID;
+        if (direction === 0) return x === GRID - 1 ? index - 1 : index + 1;
+        if (direction === 1) return x === 0 ? index + 1 : index - 1;
+        if (direction === 2) return index >= TOTAL - GRID ? index - GRID : index + GRID;
+        return index < GRID ? index + GRID : index - GRID;
+    }
+
+    function paint(imageData, index, color) {
+        const p = index * 4;
+        const d = imageData.data;
+        d[p] = color[0];
+        d[p + 1] = color[1];
+        d[p + 2] = color[2];
+        d[p + 3] = 255;
+    }
+
+    function fillImage(imageData, color) {
+        const d = imageData.data;
+        for (let i = 0, p = 0; i < TOTAL; i++, p += 4) {
+            d[p] = color[0];
+            d[p + 1] = color[1];
+            d[p + 2] = color[2];
+            d[p + 3] = 255;
+        }
+    }
+
+    function initFrog() {
+        const seed = centerIndex();
+        frogHealthy.fill(1);
+        frogInfectedSite.fill(0);
+        frogHealthy[seed] = 0;
+        frogInfectedSite[seed] = 1;
+        frogWalkers[0] = seed;
+        frogWalkerCount = 1;
+        frogStep = 0;
+    }
+
+    function initKS() {
+        ksInfected.fill(0);
+        ksInfectedSite.fill(0);
+        ksMark.fill(0);
+        ksMarkStamp = 1;
+        const seed = centerIndex();
+        for (let i = 0; i < TOTAL; i++) ksPositions[i] = i;
+        ksInfected[seed] = 1;
+        ksInfectedSite[seed] = 1;
+        ksInfectedCount = 1;
+        ksStep = 0;
+    }
+
+    function init() {
+        initFrog();
+        initKS();
+        running = false;
+        if (animId) { cancelAnimationFrame(animId); animId = null; }
+        btnStart.textContent = 'Start';
+        btnStart.style.background = '#27ae60';
+    }
+
+    function stepFrog() {
+        let nextCount = 0;
+        for (let i = 0; i < frogWalkerCount; i++) {
+            const moved = moveIndex(frogWalkers[i]);
+            frogNextWalkers[nextCount++] = moved;
+            if (frogHealthy[moved]) {
+                frogHealthy[moved] = 0;
+                frogInfectedSite[moved] = 1;
+                frogNextWalkers[nextCount++] = moved;
+            }
+        }
+        const swap = frogWalkers;
+        frogWalkers = frogNextWalkers;
+        frogNextWalkers = swap;
+        frogWalkerCount = nextCount;
+        frogStep++;
+    }
+
+    function stepKS() {
+        for (let i = 0; i < TOTAL; i++) {
+            ksPositions[i] = moveIndex(ksPositions[i]);
+        }
+
+        ksMarkStamp++;
+        if (ksMarkStamp === 0) {
+            ksMark.fill(0);
+            ksMarkStamp = 1;
+        }
+
+        for (let i = 0; i < TOTAL; i++) {
+            if (ksInfected[i]) ksMark[ksPositions[i]] = ksMarkStamp;
+        }
+
+        for (let i = 0; i < TOTAL; i++) {
+            if (!ksInfected[i] && (ksInfectedSite[ksPositions[i]] || ksMark[ksPositions[i]] === ksMarkStamp)) {
+                ksInfected[i] = 1;
+                ksInfectedCount++;
+            }
+        }
+
+        for (let i = 0; i < TOTAL; i++) {
+            if (ksInfected[i]) ksInfectedSite[ksPositions[i]] = 1;
+        }
+
+        ksStep++;
+    }
+
+    function renderFrog() {
+        fillImage(frogImage, EMPTY);
+        for (let i = 0; i < TOTAL; i++) {
+            if (frogHealthy[i]) paint(frogImage, i, HEALTHY);
+            else if (frogInfectedSite[i]) paint(frogImage, i, INFECTED);
+        }
+        frogFieldCtx.putImageData(frogImage, 0, 0);
+        frogView.ctx.clearRect(0, 0, frogView.width, frogView.height);
+        frogView.ctx.imageSmoothingEnabled = false;
+        frogView.ctx.drawImage(frogField, 0, 0, frogView.width, frogView.height);
+
+        frogStepEl.textContent = 'Step: ' + frogStep;
+        frogHealthyEl.textContent = 'Healthy: ' + (TOTAL - frogWalkerCount).toLocaleString();
+        frogInfectedEl.textContent = 'Infected: ' + frogWalkerCount.toLocaleString();
+    }
+
+    function renderKS() {
+        const ctx = ksView.ctx;
+        const w = ksView.width;
+        const h = ksView.height;
+
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, w, h);
+
+        function drawParticle(index) {
+            const x = index % GRID;
+            const y = (index / GRID) | 0;
+            const x0 = Math.floor(x * w / GRID);
+            const y0 = Math.floor(y * h / GRID);
+            const x1 = Math.ceil((x + 1) * w / GRID);
+            const y1 = Math.ceil((y + 1) * h / GRID);
+            ctx.fillRect(x0, y0, Math.max(1, x1 - x0), Math.max(1, y1 - y0));
+        }
+
+        ctx.fillStyle = 'rgb(40,116,166)';
+        for (let i = 0; i < TOTAL; i++) {
+            if (!ksInfected[i] && !ksInfectedSite[ksPositions[i]]) drawParticle(ksPositions[i]);
+        }
+
+        ctx.fillStyle = 'rgb(169,50,38)';
+        for (let i = 0; i < TOTAL; i++) {
+            if (ksInfectedSite[i]) drawParticle(i);
+        }
+
+        ctx.fillStyle = 'rgb(169,50,38)';
+        for (let i = 0; i < TOTAL; i++) {
+            if (ksInfected[i]) drawParticle(ksPositions[i]);
+        }
+
+        ksStepEl.textContent = 'Step: ' + ksStep;
+        ksHealthyEl.textContent = 'Healthy: ' + (TOTAL - ksInfectedCount).toLocaleString();
+        ksInfectedEl.textContent = 'Infected: ' + ksInfectedCount.toLocaleString();
+    }
+
+    function render() {
+        renderFrog();
+        renderKS();
+    }
+
+    function tick(ts) {
+        if (!running) return;
+        if (ts - last >= FRAME_MS) {
+            last = ts;
+            for (let i = 0; i < FAST_STEPS; i++) {
+                if (frogWalkerCount < TOTAL) stepFrog();
+                if (ksInfectedCount < TOTAL) stepKS();
+            }
+            render();
+        }
+        animId = requestAnimationFrame(tick);
+    }
+
+    btnStart.addEventListener('click', () => {
+        if (running) {
+            running = false;
+            cancelAnimationFrame(animId);
+            btnStart.textContent = 'Start';
+            btnStart.style.background = '#27ae60';
+        } else {
+            running = true;
+            last = 0;
+            btnStart.textContent = 'Pause';
+            btnStart.style.background = '#f39c12';
+            animId = requestAnimationFrame(tick);
+        }
+    });
+
+    btnReset.addEventListener('click', () => {
+        init();
+        render();
+    });
+
+    init();
+    render();
+})();
+</script>
+
+<!-- ===== Slide 15: Comparison ===== -->
+<div class="slide" id="slide-15">
+    <span class="section-label">Section 6 — Question</span>
+    <div class="purpose" style="gap:1.2vh; align-items:center;">
+        <div class="definition-box" style="margin:0; width:100%;">
+            <h3>Question</h3>
+            <p>
+                        Let \(T_n\) be the first time that an infected frog visits <span class="highlight-green">\((n,0)\)</span>.
+                 \[
+                    \mathrm{SD}(T_n)=\text{standard deviation of } T_n \;\sim\; n^{\,1/3} \quad \text{?}
+                \]
+            </p>
+        </div>
+
+        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.9vh; width:100%; margin-top:0.2vh;">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:0.8vh; padding:0.8vh 0.9vw 0.9vh; border:1px solid #e6e6de; border-radius:14px; background:linear-gradient(180deg,#fff 0%,#f8faf8 100%); box-shadow:0 0.45vh 1.1vh rgba(0,0,0,0.06);">
+                <canvas id="eden-canvas" width="364" height="364"
+                        style="border:1px solid #ddd; border-radius:10px; background:#fcfcf8;"></canvas>
+                <div style="display:flex; align-items:center; justify-content:center; gap:0.55vw; flex-wrap:wrap;">
+                    <button id="eden-start" style="
+                        padding:0.45vh 0.95vw; font-size:0.92vw; border:none; border-radius:6px; cursor:pointer;
+                        background:#27ae60; color:#fff; font-weight:600;">Start</button>
+                    <button id="eden-reset" style="
+                        padding:0.45vh 0.95vw; font-size:0.92vw; border:none; border-radius:6px; cursor:pointer;
+                        background:#e74c3c; color:#fff; font-weight:600;">Reset</button>
+                    <label for="eden-speed" style="font-size:0.9vw; color:#666;">Speed</label>
+                    <select id="eden-speed" style="
+                        padding:0.35vh 0.6vw; font-size:0.88vw; border:1px solid #ccc; border-radius:6px;
+                        background:#fff; color:#333; cursor:pointer;">
+                        <option value="1" selected>Slow</option>
+                    </select>
+                </div>
+               </div>
+        </div>
+    </div>
+
+    <span class="page-num">15</span>
+</div>
+
+<!-- Frog Hitting-Time Animation Script -->
+<script>
+(() => {
+    const canvas = document.getElementById('eden-canvas');
+    if (!canvas) return;
+
+    const { ctx, width: W, height: H } = configureHiDPICanvas(canvas);
+    const slide = document.getElementById('slide-15');
+    const btnStart = document.getElementById('eden-start');
+    const btnReset = document.getElementById('eden-reset');
+    const speedSelect = document.getElementById('eden-speed');
+
+    const TARGET_X = 10;
+    const TARGET_Y = 0;
+    const TARGET_KEY = TARGET_X + ',' + TARGET_Y;
+    const VIEW_R = 14;
+    const PADDING = 18;
+    const cell = Math.max(7, Math.floor((Math.min(W, H) - 2 * PADDING) / (2 * VIEW_R + 1)));
+    const ox = Math.round(W / 2);
+    const oy = Math.round(H / 2);
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+
+    let visited;
+    let visitedSites;
+    let frogs;
+    let running = false;
+    let animId = null;
+    let stepCount = 0;
+    let hitTime = null;
+
+    function key(x, y) {
+        return x + ',' + y;
+    }
+
+    function cx(x) {
+        return ox + x * cell;
+    }
+
+    function cy(y) {
+        return oy - y * cell;
+    }
+
+    function withinView(x, y) {
+        return Math.abs(x) <= VIEW_R && Math.abs(y) <= VIEW_R;
+    }
+
+    function hasHitTarget() {
+        return visited.has(TARGET_KEY);
+    }
+
+    function getStepsPerFrame() {
+        const next = Number(speedSelect.value);
+        return Number.isFinite(next) && next > 0 ? next : 1;
+    }
+
+    function visitSite(x, y) {
+        const k = key(x, y);
+        if (visited.has(k)) return false;
+
+        visited.add(k);
+        visitedSites.push({ x, y });
+        return true;
+    }
+
+    function setStartButton(runnable) {
+        btnStart.disabled = !runnable;
+        btnStart.textContent = runnable ? 'Start' : 'Done';
+        btnStart.style.background = runnable ? '#27ae60' : '#95a5a6';
+        btnStart.style.cursor = runnable ? 'pointer' : 'default';
+    }
+
+    function stopAnimation(finished) {
+        running = false;
+        if (animId) {
+            cancelAnimationFrame(animId);
+            animId = null;
+        }
+        if (finished) {
+            setStartButton(false);
+        } else {
+            btnStart.textContent = 'Start';
+            btnStart.style.background = '#27ae60';
+        }
+    }
+
+    function init() {
+        visited = new Set();
+        visitedSites = [];
+        frogs = [];
+        stepCount = 0;
+        hitTime = null;
+        stopAnimation(false);
+        setStartButton(true);
+
+        visitSite(0, 0);
+        frogs.push({ x: 0, y: 0 });
+    }
+
+    function drawBackground() {
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = '#fcfcf8';
+        ctx.fillRect(0, 0, W, H);
+
+        ctx.strokeStyle = '#ecebe4';
+        ctx.lineWidth = 0.8;
+        for (let i = -VIEW_R; i <= VIEW_R; i++) {
+            const gx = cx(i) - cell / 2;
+            ctx.beginPath();
+            ctx.moveTo(gx, cy(-VIEW_R) + cell / 2);
+            ctx.lineTo(gx, cy(VIEW_R) - cell / 2);
+            ctx.stroke();
+
+            const gy = cy(i) - cell / 2;
+            ctx.beginPath();
+            ctx.moveTo(cx(-VIEW_R) - cell / 2, gy);
+            ctx.lineTo(cx(VIEW_R) + cell / 2, gy);
+            ctx.stroke();
+        }
+
+        ctx.strokeStyle = '#d8d8d0';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(cx(-VIEW_R) - cell / 2, oy);
+        ctx.lineTo(cx(VIEW_R) + cell / 2, oy);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(ox, cy(-VIEW_R) + cell / 2);
+        ctx.lineTo(ox, cy(VIEW_R) - cell / 2);
+        ctx.stroke();
+    }
+
+    function drawCell(x, y, fillStyle, strokeStyle, inset) {
+        const px = cx(x) - cell / 2 + inset;
+        const py = cy(y) - cell / 2 + inset;
+        const size = Math.max(1, cell - 2 * inset);
+
+        if (fillStyle) {
+            ctx.fillStyle = fillStyle;
+            ctx.fillRect(px, py, size, size);
+        }
+        if (strokeStyle) {
+            ctx.strokeStyle = strokeStyle;
+            ctx.lineWidth = 1;
+            ctx.strokeRect(px + 0.5, py + 0.5, size - 1, size - 1);
+        }
+    }
+
+    function drawTarget() {
+        const reached = visited.has(key(TARGET_X, TARGET_Y));
+        const px = cx(TARGET_X) - cell / 2 + 1.5;
+        const py = cy(TARGET_Y) - cell / 2 + 1.5;
+        const size = Math.max(1, cell - 3);
+
+        ctx.strokeStyle = reached ? '#1e8449' : '#27ae60';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(px, py, size, size);
+
+        ctx.fillStyle = '#1e8449';
+        ctx.font = '12px "Helvetica Neue", Arial, sans-serif';
+        ctx.fillText('(n,0)', Math.min(W - 56, cx(TARGET_X) + 8), cy(TARGET_Y) - 8);
+    }
+
+    function drawOverlay() {
+        const label = hitTime === null ? 'T_10 = ?' : 'T_10 = ' + hitTime;
+        ctx.font = '600 18px "Helvetica Neue", Arial, sans-serif';
+        const textWidth = ctx.measureText(label).width;
+        const boxW = textWidth + 18;
+        const boxH = 30;
+        const boxX = W - boxW - 14;
+        const boxY = 14;
+
+        ctx.fillStyle = 'rgba(255,255,255,0.94)';
+        ctx.fillRect(boxX, boxY, boxW, boxH);
+        ctx.strokeStyle = hitTime === null ? 'rgba(231,76,60,0.45)' : 'rgba(231,76,60,0.55)';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(boxX + 0.5, boxY + 0.5, boxW - 1, boxH - 1);
+        ctx.fillStyle = '#2c3e50';
+        ctx.fillText(label, boxX + 9, boxY + 21);
+    }
+
+    function render() {
+        drawBackground();
+
+        for (const site of visitedSites) {
+            if (!withinView(site.x, site.y)) continue;
+            const isOrigin = site.x === 0 && site.y === 0;
+            const isTarget = site.x === TARGET_X && site.y === TARGET_Y;
+            drawCell(
+                site.x,
+                site.y,
+                isTarget ? '#27ae60' : (isOrigin ? '#a93226' : '#e74c3c'),
+                isTarget ? '#1e8449' : '#cb4335',
+                1
+            );
+        }
+
+        const maxDrawnFrogs = 160;
+        const stride = frogs.length > maxDrawnFrogs ? Math.ceil(frogs.length / maxDrawnFrogs) : 1;
+        for (let i = 0; i < frogs.length; i += stride) {
+            const f = frogs[i];
+            if (!withinView(f.x, f.y)) continue;
+            const px = cx(f.x);
+            const py = cy(f.y);
+            ctx.fillStyle = 'rgba(169,50,38,0.74)';
+            ctx.beginPath();
+            ctx.arc(px, py, Math.max(2.2, cell * 0.18), 0, 2 * Math.PI);
+            ctx.fill();
+        }
+
+        drawTarget();
+        drawOverlay();
+    }
+
+    function simStep() {
+        if (hitTime !== null || frogs.length === 0) return;
+
+        const born = [];
+        let reachedTarget = false;
+
+        for (const f of frogs) {
+            const d = dirs[Math.random() * 4 | 0];
+            f.x += d[0];
+            f.y += d[1];
+
+            const k = key(f.x, f.y);
+            const newlyVisited = visitSite(f.x, f.y);
+            if (newlyVisited && k === TARGET_KEY) reachedTarget = true;
+            if (newlyVisited) {
+                born.push({ x: f.x, y: f.y });
+            }
+        }
+
+        for (const f of born) frogs.push(f);
+        stepCount++;
+
+        if (reachedTarget) {
+            hitTime = stepCount;
+            stopAnimation(true);
+        }
+    }
+
+    function tick() {
+        if (!running) return;
+
+        let steps = getStepsPerFrame();
+        while (steps-- > 0 && running) {
+            simStep();
+        }
+
+        render();
+        if (running) animId = requestAnimationFrame(tick);
+    }
+
+    function startAnimation(resetFirst = false) {
+        if (resetFirst) init();
+        if (running || btnStart.disabled) return;
+
+        running = true;
+        btnStart.textContent = 'Pause';
+        btnStart.style.background = '#f39c12';
+        animId = requestAnimationFrame(tick);
+    }
+
+    function syncAnimationToSlide() {
+        if (!slide || !slide.classList.contains('is-active')) {
+            stopAnimation(false);
+            return;
+        }
+
+        if (hitTime !== null) init();
+        startAnimation(false);
+    }
+
+    btnStart.addEventListener('click', () => {
+        if (btnStart.disabled) return;
+
+        if (running) {
+            stopAnimation(false);
+            return;
+        }
+
+        startAnimation(false);
+    });
+
+    btnReset.addEventListener('click', () => {
+        init();
+        render();
+    });
+
+    init();
+    render();
+
+    if (slide) {
+        const observer = new MutationObserver(syncAnimationToSlide);
+        observer.observe(slide, { attributes: true, attributeFilter: ['class'] });
+        syncAnimationToSlide();
+    }
+})();
+</script>
+
+<!-- ===== Slide 16: Comparison Results ===== -->
+<div class="slide" id="slide-16">
+    <span class="section-label">Section 6 — Comparison</span>
+    <h1>Known Results: <span>Frog vs KS</span></h1>
+
+    <div class="purpose" style="gap:1.5vh;">
+
+        <!-- Compact theory cards -->
+        <div class="two-col" style="gap:2vw;">
+            <div class="impl-card data" style="padding:1vh 1.2vw;">
+                <h3 style="font-size:1.5vw; margin-bottom:0.5vh;">🐸 Frog Model</h3>
+                <p style="font-size:1.2vw; line-height:1.6; color:#555; margin-bottom:0.6vh;">
+                    \(T_n\) = first time infection reaches \((n,0)\)
+                </p>
+                <div style="background:#e8f4f8; border-radius:6px; padding:0.6vh 0.9vw;">
+                    <p style="font-size:1.2vw; color:#2c3e50; line-height:1.6; margin:0;">
+                        ✅ \(\mathrm{SD}(T_n) \ll \sqrt{n}\)
+                        <span style="font-size:1.0vw; color:#888;"> (Hao–Nakajima)</span>
+                    </p>
+                </div>
+            </div>
+            <div class="impl-card model" style="padding:1vh 1.2vw;">
+                <h3 style="font-size:1.5vw; margin-bottom:0.5vh;">🔴 KS Infection</h3>
+                <p style="font-size:1.2vw; line-height:1.6; color:#555; margin-bottom:0.6vh;">
+                    \(T_n\) = first time infection reaches \((n,0)\)
+                </p>
+                <div style="background:#fdf2f2; border-radius:6px; padding:0.6vh 0.9vw;">
+                    <p style="font-size:1.2vw; color:#2c3e50; line-height:1.6; margin:0;">
+                        ✅ \(\mathrm{SD}(T_n) \ll n\)
+                        <span style="font-size:1.0vw; color:#888;"> (Kesten–Sidoravicius)</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Simulation evidence panel -->
+        <div style="background:linear-gradient(180deg,#fbfdff 0%,#eef4f8 100%); border-radius:16px; padding:1.2vh 1.5vw; border:1px solid #d6e2ea; box-shadow:0 0.55vh 1.5vh rgba(31,52,73,0.10);">
+
+            <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:1vw; margin-bottom:0.9vh;">
+                <div>
+                    <h3 style="font-size:1.42vw; color:#23384d; margin:0 0 0.2vh 0; font-weight:650;">
+                        Simulation reports of  \(\dfrac{\log \widehat{{\rm SD}}(T_n)}{\log n}\) with  <span style="color:#7b8794; font-weight:450;">n = 6000</span>
+                    </h3>
+                </div>
+                <div style="display:flex; gap:0.45vw; flex-wrap:wrap; justify-content:flex-end;">
+                    <span style="font-size:0.96vw; color:#7a1f16; background:linear-gradient(180deg,#fff6d9 0%,#ffe39a 100%); border:1px solid #f0b429; border-radius:999px; padding:0.34vh 0.95vw; font-weight:700; box-shadow:0 0.25vh 0.7vh rgba(240,180,41,0.22); letter-spacing:0.01em;">KPZ target \(= 0.333\)</span>
+                </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.9vw;">
+                <div style="background:linear-gradient(180deg,#ffffff 0%,#f4faff 100%); border-radius:14px; border:1px solid #d7eaf8; box-shadow:0 0.4vh 1vh rgba(52,152,219,0.10); padding:0.95vh 1vw;">
+                    <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:0.8vw; margin-bottom:0.65vh;">
+                        <div>
+                            <h4 style="font-size:1.18vw; color:#1f618d; margin:0;">Frog model</h4>
+                        </div>
+                    </div>
+                    <div style="display:flex; flex-wrap:wrap; gap:0.4vw; margin-bottom:0.65vh;">
+                        <span style="font-size:0.95vw; color:#154360; background:linear-gradient(180deg,#e7f4ff 0%,#cfe9ff 100%); border:1px solid #5dade2; border-radius:999px; padding:0.28vh 0.72vw; font-weight:700; box-shadow:0 0.22vh 0.6vh rgba(52,152,219,0.18);">Median 0.332</span>
+                    </div>
+                    <div style="display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:0.45vw;">
+                        <div style="background:rgba(255,255,255,0.9); border:1px solid #dcecf8; border-radius:12px; padding:0.5vh 0.45vw 0.45vh 0.45vw;">
+                            <div style="font-size:0.8vw; color:#6b89a8;">trial 1</div>
+                            <div style="font-size:1.15vw; color:#21618c; font-weight:700; line-height:1.1; margin-top:0.08vh;">0.395</div>
+                            <div style="height:0.42vh; background:#dbeefa; border-radius:999px; overflow:hidden; margin:0.3vh 0 0.22vh 0;">
+                                <div style="width:79%; height:100%; background:linear-gradient(90deg,#5dade2 0%,#2e86c1 100%);"></div>
+                            </div>
+                            <div style="font-size:0.8vw; color:#5d6d7e;">\(T_n = 9564\)</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.9); border:1px solid #dcecf8; border-radius:12px; padding:0.5vh 0.45vw 0.45vh 0.45vw;">
+                            <div style="font-size:0.8vw; color:#6b89a8;">trial 2</div>
+                            <div style="font-size:1.15vw; color:#21618c; font-weight:700; line-height:1.1; margin-top:0.08vh;">0.337</div>
+                            <div style="height:0.42vh; background:#dbeefa; border-radius:999px; overflow:hidden; margin:0.3vh 0 0.22vh 0;">
+                                <div style="width:67.4%; height:100%; background:linear-gradient(90deg,#5dade2 0%,#2e86c1 100%);"></div>
+                            </div>
+                            <div style="font-size:0.8vw; color:#5d6d7e;">\(T_n = 9514\)</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.9); border:1px solid #dcecf8; border-radius:12px; padding:0.5vh 0.45vw 0.45vh 0.45vw;">
+                            <div style="font-size:0.8vw; color:#6b89a8;">trial 3</div>
+                            <div style="font-size:1.15vw; color:#21618c; font-weight:700; line-height:1.1; margin-top:0.08vh;">0.134</div>
+                            <div style="height:0.42vh; background:#dbeefa; border-radius:999px; overflow:hidden; margin:0.3vh 0 0.22vh 0;">
+                                <div style="width:26.8%; height:100%; background:linear-gradient(90deg,#5dade2 0%,#2e86c1 100%);"></div>
+                            </div>
+                            <div style="font-size:0.8vw; color:#5d6d7e;">\(T_n = 9536\)</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.9); border:1px solid #dcecf8; border-radius:12px; padding:0.5vh 0.45vw 0.45vh 0.45vw;">
+                            <div style="font-size:0.8vw; color:#6b89a8;">trial 4</div>
+                            <div style="font-size:1.15vw; color:#21618c; font-weight:700; line-height:1.1; margin-top:0.08vh;">0.327</div>
+                            <div style="height:0.42vh; background:#dbeefa; border-radius:999px; overflow:hidden; margin:0.3vh 0 0.22vh 0;">
+                                <div style="width:65.4%; height:100%; background:linear-gradient(90deg,#5dade2 0%,#2e86c1 100%);"></div>
+                            </div>
+                            <div style="font-size:0.8vw; color:#5d6d7e;">\(T_n = 9550\)</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.9); border:1px solid #dcecf8; border-radius:12px; padding:0.5vh 0.45vw 0.45vh 0.45vw;">
+                            <div style="font-size:0.8vw; color:#6b89a8;">trial 5</div>
+                            <div style="font-size:1.15vw; color:#21618c; font-weight:700; line-height:1.1; margin-top:0.08vh;">0.414</div>
+                            <div style="height:0.42vh; background:#dbeefa; border-radius:999px; overflow:hidden; margin:0.3vh 0 0.22vh 0;">
+                                <div style="width:82.8%; height:100%; background:linear-gradient(90deg,#5dade2 0%,#2e86c1 100%);"></div>
+                            </div>
+                            <div style="font-size:0.8vw; color:#5d6d7e;">\(T_n = 9496\)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background:linear-gradient(180deg,#ffffff 0%,#fff6f5 100%); border-radius:14px; border:1px solid #f3d6d2; box-shadow:0 0.4vh 1vh rgba(231,76,60,0.10); padding:0.95vh 1vw;">
+                    <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:0.8vw; margin-bottom:0.65vh;">
+                        <div>
+                            <h4 style="font-size:1.18vw; color:#922b21; margin:0;">KS infection</h4>
+                        </div>
+                    </div>
+                    <div style="display:flex; flex-wrap:wrap; gap:0.4vw; margin-bottom:0.65vh;">
+                        <span style="font-size:0.95vw; color:#7b241c; background:linear-gradient(180deg,#fff0ee 0%,#ffd7d2 100%); border:1px solid #ec7063; border-radius:999px; padding:0.28vh 0.72vw; font-weight:700; box-shadow:0 0.22vh 0.6vh rgba(231,76,60,0.18);">Median 0.305</span>
+                    </div>
+                    <div style="display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:0.45vw;">
+                        <div style="background:rgba(255,255,255,0.92); border:1px solid #f5dede; border-radius:12px; padding:0.5vh 0.45vw 0.45vh 0.45vw;">
+                            <div style="font-size:0.8vw; color:#b06b6b;">trial 1</div>
+                            <div style="font-size:1.15vw; color:#a93226; font-weight:700; line-height:1.1; margin-top:0.08vh;">0.340</div>
+                            <div style="height:0.42vh; background:#f7dddd; border-radius:999px; overflow:hidden; margin:0.3vh 0 0.22vh 0;">
+                                <div style="width:68%; height:100%; background:linear-gradient(90deg,#f1948a 0%,#cb4335 100%);"></div>
+                            </div>
+                            <div style="font-size:0.8vw; color:#6b5d5d;">\(T_n = 12383\)</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.92); border:1px solid #f5dede; border-radius:12px; padding:0.5vh 0.45vw 0.45vh 0.45vw;">
+                            <div style="font-size:0.8vw; color:#b06b6b;">trial 2</div>
+                            <div style="font-size:1.15vw; color:#a93226; font-weight:700; line-height:1.1; margin-top:0.08vh;">0.305</div>
+                            <div style="height:0.42vh; background:#f7dddd; border-radius:999px; overflow:hidden; margin:0.3vh 0 0.22vh 0;">
+                                <div style="width:61%; height:100%; background:linear-gradient(90deg,#f1948a 0%,#cb4335 100%);"></div>
+                            </div>
+                            <div style="font-size:0.8vw; color:#6b5d5d;">\(T_n = 12388\)</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.92); border:1px solid #f5dede; border-radius:12px; padding:0.5vh 0.45vw 0.45vh 0.45vw;">
+                            <div style="font-size:0.8vw; color:#b06b6b;">trial 3</div>
+                            <div style="font-size:1.15vw; color:#a93226; font-weight:700; line-height:1.1; margin-top:0.08vh;">0.262</div>
+                            <div style="height:0.42vh; background:#f7dddd; border-radius:999px; overflow:hidden; margin:0.3vh 0 0.22vh 0;">
+                                <div style="width:52.4%; height:100%; background:linear-gradient(90deg,#f1948a 0%,#cb4335 100%);"></div>
+                            </div>
+                            <div style="font-size:0.8vw; color:#6b5d5d;">\(T_n = 12412\)</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.92); border:1px solid #f5dede; border-radius:12px; padding:0.5vh 0.45vw 0.45vh 0.45vw;">
+                            <div style="font-size:0.8vw; color:#b06b6b;">trial 4</div>
+                            <div style="font-size:1.15vw; color:#a93226; font-weight:700; line-height:1.1; margin-top:0.08vh;">0.220</div>
+                            <div style="height:0.42vh; background:#f7dddd; border-radius:999px; overflow:hidden; margin:0.3vh 0 0.22vh 0;">
+                                <div style="width:44%; height:100%; background:linear-gradient(90deg,#f1948a 0%,#cb4335 100%);"></div>
+                            </div>
+                            <div style="font-size:0.8vw; color:#6b5d5d;">\(T_n = 12409\)</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.92); border:1px solid #f5dede; border-radius:12px; padding:0.5vh 0.45vw 0.45vh 0.45vw;">
+                            <div style="font-size:0.8vw; color:#b06b6b;">trial 5</div>
+                            <div style="font-size:1.15vw; color:#a93226; font-weight:700; line-height:1.1; margin-top:0.08vh;">0.324</div>
+                            <div style="height:0.42vh; background:#f7dddd; border-radius:999px; overflow:hidden; margin:0.3vh 0 0.22vh 0;">
+                                <div style="width:64.8%; height:100%; background:linear-gradient(90deg,#f1948a 0%,#cb4335 100%);"></div>
+                            </div>
+                            <div style="font-size:0.8vw; color:#6b5d5d;">\(T_n = 12419\)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+ </div>
+
+    </div>
+
+    <span class="page-num">16</span>
+</div>
+
+
+
+<!-- ===== Slide 17: Anti Frog Model ===== -->
+<div class="slide" id="slide-17">
+    <span class="section-label">Section 5 — Frog Model</span>
+    <h1>The <span>Anti Frog Model</span></h1>
+
+    <div class="purpose" style="gap:1vh;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.2vw; margin:0.2vh 0 0.4vh 0;">
+            <div style="background:#f4f9fd; border-left:0.35vw solid #3498db; border-radius:8px; padding:0.9vh 1vw;">
+                <div style="font-size:0.95vw; color:#1f618d; letter-spacing:0.06em; text-transform:uppercase;">Frog model</div>
+                <div style="font-size:1.3vw; line-height:1.4; color:#444; margin-top:0.35vh;">
+                    <span class="highlight-blue">Infected</span> frogs move.
+                </div>
+            </div>
+            <div style="background:#fff7f5; border-left:0.35vw solid #e74c3c; border-radius:8px; padding:0.9vh 1vw;">
+                <div style="font-size:0.95vw; color:#a93226; letter-spacing:0.06em; text-transform:uppercase;">Anti frog model</div>
+                <div style="font-size:1.3vw; line-height:1.4; color:#444; margin-top:0.35vh;">
+                    <span class="highlight-red">Healthy</span> frogs move.
+                </div>
+            </div>
+        </div>
+ <br>
+ <br>
+        <div class="steps" style="gap:1.3vh; margin:1vh 0;">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content" style="font-size:1.65vw; line-height:1.45;">
+                    At time $t = 0$, there is one <span class="highlight-blue">infected</span> frog at the origin $(0,0)$,
+                    and each other node has a <span class="highlight-red">healthy</span> frog.
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content" style="font-size:1.65vw; line-height:1.45;">
+                    Only <span class="highlight-red">healthy</span> frogs perform simple random walks.
+                    <span class="highlight-blue">Infected</span> frogs <span class="highlight-green">do not move</span>.
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content" style="font-size:1.65vw; line-height:1.45;">
+                    When a moving <span class="highlight-red">healthy</span> frog is next to an
+                    <span class="highlight-blue">infected</span> frog, it becomes
+                    <span class="highlight-blue">infected</span> and does not move.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <span class="page-num">10</span>
+</div>
+
+
+<!-- ===== Slide 18: Anti Frog Model Simulation ===== -->
+<div class="slide" id="slide-18">
+    <span class="section-label">Section 5 - Frog Model</span>
+    <h1>Anti Frog Model <span>Simulation</span></h1>
+
+    <div class="purpose" style="align-items:center; justify-content:center; flex:1; gap:1.4vh;">
+        <canvas id="anti-frog-canvas" width="500" height="500"
+                style="border:1px solid #ddd; border-radius:8px; background:#f7fbff;"></canvas>
+
+        <div style="display:flex; align-items:center; justify-content:center; gap:0.75vw; flex-wrap:wrap;">
+            <button id="anti-frog-start" style="padding:0.65vh 1.25vw; font-size:1.05vw; border:none; border-radius:6px; cursor:pointer; background:#27ae60; color:#fff;">Start</button>
+            <button id="anti-frog-reset" style="padding:0.65vh 1.25vw; font-size:1.05vw; border:none; border-radius:6px; cursor:pointer; background:#e74c3c; color:#fff;">Reset</button>
+            <label for="anti-frog-speed" style="font-size:1.05vw; color:#666;">Speed</label>
+            <select id="anti-frog-speed" aria-label="Anti frog simulation speed" style="padding:0.55vh 0.75vw; font-size:1.05vw; border:1px solid #ccc; border-radius:6px; background:#fff; color:#333;">
+                <option value="18" selected>Fast</option>
+            </select>
+        </div>
+
+        <div style="display:flex; gap:1.4vw; font-size:1.1vw; color:#555;">
+            <span id="anti-frog-steps">Step: 0</span>
+            <span style="color:#666;">Grid: 200 x 200, p = 0.1</span>
+            <span id="anti-frog-frozen" style="color:#a93226;">Infected fixed: 1</span>
+            <span id="anti-frog-moving" style="color:#2874a6;">Healthy moving: about 4,000</span>
+        </div>
+    </div>
+
+    <span class="page-num">11</span>
+</div>
+
+<script>
+(() => {
+    const canvas = document.getElementById('anti-frog-canvas');
+    if (!canvas) return;
+
+    const { ctx, width: W, height: H } = configureHiDPICanvas(canvas);
+    const btnStart = document.getElementById('anti-frog-start');
+    const btnReset = document.getElementById('anti-frog-reset');
+    const speedSelect = document.getElementById('anti-frog-speed');
+    const stepsEl = document.getElementById('anti-frog-steps');
+    const frozenEl = document.getElementById('anti-frog-frozen');
+    const movingEl = document.getElementById('anti-frog-moving');
+
+    const GRID = 200;
+    const TOTAL = GRID * GRID;
+    const CENTER = GRID >> 1;
+    const FRAME_MS = 33;
+    const MAX_MOVES_PER_FRAME = 260000;
+    const BLUE_PROB = 0.1;
+    const HEALTHY = [53, 132, 184];
+    const INFECTED = [169, 50, 38];
+    const EMPTY = [247, 251, 255];
+
+    const fieldCanvas = document.createElement('canvas');
+    fieldCanvas.width = GRID;
+    fieldCanvas.height = GRID;
+    const fieldCtx = fieldCanvas.getContext('2d');
+
+    const red = new Uint8Array(TOTAL);
+    let walkers = new Int32Array(TOTAL);
+    let nextWalkers = new Int32Array(TOTAL);
+    let baseData = fieldCtx.createImageData(GRID, GRID);
+    let frameData = fieldCtx.createImageData(GRID, GRID);
+    let walkerCount = 0;
+    let stepCount = 0;
+    let redCount = 0;
+    let running = false;
+    let animId = null;
+    let last = 0;
+
+    function getStepsPerFrame() {
+        const value = Number(speedSelect ? speedSelect.value : 6);
+        return Number.isFinite(value) && value > 0 ? value | 0 : 6;
+    }
+
+    function centerIndex() {
+        return CENTER * GRID + CENTER;
+    }
+
+    function paintPixel(imageData, index, color) {
+        const p = index * 4;
+        const d = imageData.data;
+        d[p] = color[0];
+        d[p + 1] = color[1];
+        d[p + 2] = color[2];
+        d[p + 3] = 255;
+    }
+
+    function paintInitialField(seed) {
+        const d = baseData.data;
+        red.fill(0);
+        walkerCount = 0;
+        redCount = 1;
+
+        for (let i = 0, p = 0; i < TOTAL; i++, p += 4) {
+            if (i === seed) {
+                d[p] = INFECTED[0];
+                d[p + 1] = INFECTED[1];
+                d[p + 2] = INFECTED[2];
+            } else if (Math.random() < BLUE_PROB) {
+                walkers[walkerCount++] = i;
+                d[p] = EMPTY[0];
+                d[p + 1] = EMPTY[1];
+                d[p + 2] = EMPTY[2];
+            } else {
+                d[p] = EMPTY[0];
+                d[p + 1] = EMPTY[1];
+                d[p + 2] = EMPTY[2];
+            }
+            d[p + 3] = 255;
+        }
+        red[seed] = 1;
+    }
+
+    function init() {
+        const seed = centerIndex();
+        paintInitialField(seed);
+
+        stepCount = 0;
+        running = false;
+        if (animId) { cancelAnimationFrame(animId); animId = null; }
+        fieldCtx.putImageData(baseData, 0, 0);
+    }
+
+    function moveIndex(index) {
+        const direction = Math.random() * 4 | 0;
+        const x = index % GRID;
+        if (direction === 0) return x === GRID - 1 ? index - 1 : index + 1;
+        if (direction === 1) return x === 0 ? index + 1 : index - 1;
+        if (direction === 2) return index >= TOTAL - GRID ? index - GRID : index + GRID;
+        return index < GRID ? index + GRID : index - GRID;
+    }
+
+    function render() {
+        frameData.data.set(baseData.data);
+        for (let i = 0; i < walkerCount; i++) {
+            const index = walkers[i];
+            const shade = (index + ((index / GRID) | 0)) & 7;
+            paintPixel(frameData, index, [HEALTHY[0] + shade, HEALTHY[1] + shade, HEALTHY[2] + shade]);
+        }
+
+        fieldCtx.putImageData(frameData, 0, 0);
+        ctx.clearRect(0, 0, W, H);
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(fieldCanvas, 0, 0, W, H);
+
+        ctx.fillStyle = 'rgba(169,50,38,0.78)';
+        ctx.beginPath();
+        ctx.arc((CENTER + 0.5) * W / GRID, (CENTER + 0.5) * H / GRID, 2.4, 0, 2 * Math.PI);
+        ctx.fill();
+
+        ctx.strokeStyle = 'rgba(20,52,78,0.25)';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(0.5, 0.5, W - 1, H - 1);
+
+        stepsEl.textContent = 'Step: ' + stepCount;
+        frozenEl.textContent = 'Infected fixed: ' + redCount.toLocaleString();
+        movingEl.textContent = 'Healthy moving: ' + walkerCount.toLocaleString();
+    }
+
+    function touchesRed(index) {
+        if (red[index]) return true;
+        const x = index % GRID;
+        if (x > 0 && red[index - 1]) return true;
+        if (x < GRID - 1 && red[index + 1]) return true;
+        if (index >= GRID && red[index - GRID]) return true;
+        return index < TOTAL - GRID && red[index + GRID];
+    }
+
+    function advanceOneStep() {
+        let newlyRed = 0;
+        let nextCount = 0;
+        for (let i = 0; i < walkerCount; i++) {
+            const moved = moveIndex(walkers[i]);
+            if (touchesRed(moved)) {
+                newlyRed++;
+                redCount++;
+                if (!red[moved]) {
+                    red[moved] = 1;
+                    paintPixel(baseData, moved, INFECTED);
+                }
+            } else {
+                nextWalkers[nextCount++] = moved;
+            }
+        }
+
+        const swap = walkers;
+        walkers = nextWalkers;
+        nextWalkers = swap;
+        walkerCount = nextCount;
+        stepCount++;
+        return newlyRed;
+    }
+
+    function simStep() {
+        const requestedSteps = getStepsPerFrame();
+        const workBound = Math.max(1, (MAX_MOVES_PER_FRAME / Math.max(1, walkerCount)) | 0);
+        const stepsThisFrame = Math.min(requestedSteps, workBound);
+        let newlyRed = 0;
+
+        for (let i = 0; i < stepsThisFrame && walkerCount > 0; i++) {
+            newlyRed += advanceOneStep();
+        }
+
+        let emptySkips = 0;
+        while (newlyRed === 0 && walkerCount > 0 && emptySkips < workBound) {
+            newlyRed += advanceOneStep();
+            emptySkips++;
+            if (emptySkips >= 80) {
+                break;
+            }
+        }
+    }
+
+    function tick(ts) {
+        if (!running) return;
+        if (ts - last >= FRAME_MS) {
+            last = ts;
+            simStep();
+            render();
+            if (walkerCount === 0) {
+                running = false;
+                btnStart.textContent = 'Start';
+                btnStart.style.background = '#27ae60';
+                return;
+            }
+        }
+        animId = requestAnimationFrame(tick);
+    }
+
+    btnStart.addEventListener('click', () => {
+        if (running) {
+            running = false;
+            cancelAnimationFrame(animId);
+            btnStart.textContent = 'Start';
+            btnStart.style.background = '#27ae60';
+        } else {
+            running = true;
+            last = 0;
+            btnStart.textContent = 'Pause';
+            btnStart.style.background = '#f39c12';
+            animId = requestAnimationFrame(tick);
+        }
+    });
+
+    btnReset.addEventListener('click', () => {
+        init();
+        btnStart.textContent = 'Start';
+        btnStart.style.background = '#27ae60';
+        render();
+    });
+
+    init();
+    render();
+})();
+</script>
+
+
+<!-- ===== Slide 19: Summary ===== -->
+<div class="slide" id="slide-19">
+    <span class="section-label">Section 7 - Summary</span>
+    <h1>Short <span>Summary</span></h1>
+
+    <div class="purpose" style="gap:2vh;">
+        <div class="steps" style="gap:1.6vh; margin:1.5vh 0;">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content" style="font-size:1.85vw;">
+                    Universality focuses on large-scale behavior rather than model-specific local details.
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content" style="font-size:1.85vw;">
+                    The frog model and KS infection have different motion rules, but both describe random spreading on lattices.
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content" style="font-size:1.85vw;">
+                    Their fluctuations are of KPZ type: the natural scale is \(n^{1/3}\).
+                </div>
+            </div>
+        </div>
+
+        <p style="font-size:1.6vw; line-height:1.8; color:#666; text-align:center; margin-top:1vh;">
+            This is important because it lets us predict future phenomena without experiments or a detailed analysis of the microscopic rules.
+        </p>
+    </div>
+
+    <span class="page-num">17</span>
+</div>
+
+<!-- ===== Navigation Bar ===== -->
+<nav class="nav-bar" aria-label="Slide navigation">
+    <button class="nav-button" id="btn-prev" aria-label="Previous slide">◀ Prev</button>
+    <span class="nav-status" id="nav-status">1 / 16</span>
+    <button class="nav-button" id="btn-next" aria-label="Next slide">Next ▶</button>
+</nav>
+
+<!-- ===== Jump Panel ===== -->
+<div class="jump-panel" id="jump-panel" style="display:none;"></div>
+
+<!-- ===== Navigation Script ===== -->
+<script>
+(() => {
+    const slides = document.querySelectorAll('.slide');
+    const total  = slides.length;
+    let cur = 0;
+
+    const btnPrev  = document.getElementById('btn-prev');
+    const btnNext  = document.getElementById('btn-next');
+    const status   = document.getElementById('nav-status');
+    const jumpPanel = document.getElementById('jump-panel');
+
+    status.textContent = `${cur + 1} / ${total}`;
+
+    slides.forEach((slide, i) => {
+        const pageNum = slide.querySelector('.page-num');
+        if (pageNum) pageNum.textContent = String(i);
+    });
+
+    /* Build jump buttons */
+    slides.forEach((_, i) => {
+        const b = document.createElement('button');
+        b.className = 'jump-button' + (i === 0 ? ' is-active' : '');
+        b.textContent = i;
+        b.addEventListener('click', () => go(i));
+        jumpPanel.appendChild(b);
+    });
+
+    function go(n) {
+        if (n < 0 || n >= total) return;
+        slides[cur].classList.remove('is-active');
+        cur = n;
+        slides[cur].classList.add('is-active');
+        btnPrev.disabled = false;
+        btnNext.disabled = false;
+        status.textContent = `${cur + 1} / ${total}`;
+        jumpPanel.querySelectorAll('.jump-button').forEach((b, i) =>
+            b.classList.toggle('is-active', i === cur));
+        /* Re-render MathJax for the newly visible slide */
+        if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([slides[cur]]);
+    }
+
+    btnPrev.addEventListener('click', () => go(cur === 0 ? total - 1 : cur - 1));
+    btnNext.addEventListener('click', () => go(cur === total - 1 ? 0 : cur + 1));
+
+    /* Toggle jump panel on status click */
+    status.style.cursor = 'pointer';
+    status.addEventListener('click', () => {
+        jumpPanel.style.display = jumpPanel.style.display === 'none' ? 'grid' : 'none';
+    });
+
+    /* Keyboard navigation */
+    document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') go(cur + 1);
+        if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   go(cur - 1);
+    });
+
+    /* Touch swipe */
+    let x0 = null;
+    document.addEventListener('touchstart', e => { x0 = e.changedTouches[0].clientX; });
+    document.addEventListener('touchend', e => {
+        if (x0 === null) return;
+        const dx = e.changedTouches[0].clientX - x0;
+        if (Math.abs(dx) > 50) dx < 0 ? go(cur + 1) : go(cur - 1);
+        x0 = null;
+    });
+})();
+</script>
+
+</body>
+</html>

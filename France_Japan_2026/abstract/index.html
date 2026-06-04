@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abstract Figures</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      background: #f4f4f4;
+      font-family: "Helvetica Neue", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 60px;
+    }
+    section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    h2 {
+      font-size: 20px;
+      font-weight: 400;
+      color: #444;
+      letter-spacing: 0.08em;
+    }
+  </style>
+</head>
+<body>
+
+  <section>
+    <h2>Cell Colony Growth (Eden Model)</h2>
+    <div id="colony-figure"></div>
+  </section>
+
+  <section>
+    <h2>Paper Burning</h2>
+    <div id="burning-figure"></div>
+  </section>
+
+  <section>
+    <h2>Frog Model</h2>
+    <div id="frog-figure"></div>
+  </section>
+
+  <section>
+    <h2>KS Infection</h2>
+    <div id="ks-figure"></div>
+  </section>
+
+  <script src="cell_colony.js"></script>
+  <script src="paper_burning.js"></script>
+  <script src="frog.js"></script>
+  <script src="ks_infection.js"></script>
+
+</body>
+</html>

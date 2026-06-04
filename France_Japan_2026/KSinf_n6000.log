@@ -1,0 +1,17 @@
+KS infection model (finite rectangular initialization on Z^2)
+n=6000, trials=5, max_steps=1000000, seed=42
+Initial particles on [-600,6600] x [-681,681]
+Reflecting box on [-1200,7200] x [-681,681]
+T_n = first time an infected frog is at (n,0)
+Sample mean Ehat[T_n] = 12402.200000
+Per-trial values of log|T_n - Ehat[T_n]| / log n:
+trial  1: T_n=12383  ratio=0.339664
+trial  2: T_n=12388  ratio=0.304987
+trial  3: T_n=12412  ratio=0.262357
+trial  4: T_n=12409  ratio=0.220348
+trial  5: T_n=12419  ratio=0.324315
+Summary across nonzero deviations (5/5 trials):
+mean ratio   = 0.290334
+median ratio = 0.304987
+target value = 0.333333 (1/3)
+elapsed      = 19658.217 sec

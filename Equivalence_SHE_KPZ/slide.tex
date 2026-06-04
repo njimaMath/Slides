@@ -1,0 +1,607 @@
+\documentclass[10pt]{beamer}
+\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+
+% other packages
+\usepackage{latexsym,amsmath,xcolor,multicol,booktabs,calligra}
+\usepackage{graphicx,pstricks,listings,stackengine}
+
+% packages and settings for bibtex 
+
+\usepackage{animate}
+%\defbibheading{reference}{\section*{参考文献}}   % heading for bibtex
+\usepackage{ascmac}
+\usepackage{fancybox}
+
+\author[Shuta Nakajima]{Shuta Nakajima (Meiji University)}
+\title{Equivalence of fluctuations between SHE and KPZ equation in weak disorder regime}
+%\subtitle{TAP approach to spin glass models}
+\institute{ Joint work with Stefan Junk (Gakushuin University)}
+%\date{2023年12月18日}
+%\date{\today}
+\usepackage{ucas}
+\newtheorem{Def}{Definition}
+\newtheorem{thm}{Theorem}
+\newtheorem*{thm*}{Theorem}
+\newtheorem{ass}{Assumption}
+\newtheorem{lem}{Lemma}
+\newtheorem*{lem*}{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}{Corollary}
+\newtheorem*{remark}{Remark}
+\newtheorem{assumption}{Assumptions}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+
+\renewcommand{\P}{\mathbb{P
+}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Z}{\mathbb{Z}}
+\renewcommand{\L}{\mathbb{L}}
+
+\newcommand{\cev}[1]{\accentset{\leftarrow}{#1}}
+\newcommand{\e}{\epsilon}
+\newcommand{\kG}{\mathcal{G}}
+\newcommand{\kD}{\mathcal{D}}
+\newcommand{\kC}{\mathcal{C}}
+
+\newcommand{\kA}{\mathcal{A}}
+\renewcommand{\d}{\mathsf{d}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\ts}{\textstyle}
+\newcommand{\bra}{\langle}
+\newcommand{\ket}{\rangle}
+\newcommand{\supp}{\mathrm{supp}}
+\newcommand{\ssup}[1]{{\scriptscriptstyle{({#1}})}}
+\newcommand{\DL}{\Delta^{\hspace{-1pt}\ssup\epsilon}}
+\newcommand{\DG}{\nabla^{\ssup\epsilon}}
+\newcommand{\pev}{\lambda_{D_{\epsilon}psilon, \xi}}
+\newcommand{\pef}{g_{D_{\epsilon}psilon, \xi}}
+\newcommand{\F}{\mathcal{F}}
+% defs
+\def\cmd#1{\texttt{\color{red}\footnotesize $\backslash$#1}}
+\def\env#1{\texttt{\color{blue}\footnotesize #1}}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{halfgray}{gray}{0.55}
+
+\def\be#1{\begin{equation*}#1\end{equation*}}
+\def\ben#1{\begin{equation}#1\end{equation}}
+\def\bea#1{\begin{eqnarray*}#1\end{eqnarray*}}
+\def\bean#1{\begin{eqnarray}#1\end{eqnarray}}
+\def\al#1{\begin{align*}#1\end{align*}}
+\def\aln#1{\begin{align}#1\end{align}}
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries\color{deepblue},
+    emphstyle=\ttfamily\color{deepred},    % Custom highlighting style
+    stringstyle=\color{deepgreen},
+    numbers=left,
+    numberstyle=\small\color{halfgray},
+    rulesepcolor=\color{red!20!green!20!blue!20},
+    frame=shadowbox,
+}
+
+
+\begin{document}
+
+
+% \begin{frame}
+%     \titlepage
+%     \begin{figure}[htpb]
+%         \begin{center}
+%             \includegraphics[width=0.2\linewidth]{fig/UCAS_logo.eps}
+%         \end{center}
+%     \end{figure}
+% \end{frame}
+
+\begin{frame}
+    \titlepage
+%    ~\\
+ %   \vspace{-20mm}
+ %\iffalse  
+ %\begin{figure}[htpb]
+    %    \begin{center}
+%            \includegraphics[width=0.15\linewidth]{fig/UCAS_logo.eps}\quad\quad\quad\quad
+ %           \includegraphics[width=0.15\linewidth]{fig/CASIA_logo.png}
+   %     \end{center}
+  %  \end{figure}
+\end{frame}   
+%\begin{frame}
+ %   \tableofcontents[sectionstyle=show,subsectionstyle=show/shaded/hide,subsubsectionstyle=show/shaded/hide]
+%\end{frame}
+\section{Overview}
+
+%\begin{frame}{An experiment for wetting region}
+%  \begin{figure}
+%  \animategraphics[height=2.3in,autoplay,controls,loop]{28}{Water/Water}{009}{034}
+%    \caption{Experiment}
+%    \end{figure}
+%\end{frame}
+
+\begin{frame}{KPZ universality}
+   \begin{figure}
+\includegraphics[height=3.5cm, width=4cm]{figs/second.png}
+\caption{Random interface growth}
+    \end{figure}
+    \begin{itembox}[l]{Karder-Parisi-Zhang (KPZ) universality conjecture (1986)}
+   The above phenomena are described by the following equation:
+    $$\partial_t h=\frac{1}{2}\Delta h+\frac{1}{2}|\nabla h|^2+\beta \xi.$$
+    \end{itembox}
+\end{frame}
+
+\begin{frame}{KPZ universality II}
+  \begin{figure}
+\includegraphics[height=6.9cm, width=7cm]{figs/kpzclass.png}
+    \end{figure}
+\end{frame}
+\section{Previous research on SHE and KPZ equation}
+\begin{frame}{{\rm KPZ} equation}
+  Fix $\beta>0$. The following is called the KPZ equation:\\
+  \vspace{3mm}
+  \begin{screen}
+    For $t\in[0,\infty)$ and $x\in\R^d$,
+  \begin{align*}
+    \partial_t h(t,x)&=\frac{1}{2}\Delta h(t,x)+\frac{1}{2}\left|\nabla h(t,x)\right|^2+\beta \xi(t,x)\\
+    &= \frac{1}{2}\sum_{i=1}^d \partial_{x_i}^2 h(t,x)+\frac{1}{2}\sum_{i=1}^d (\partial_{x_i} h(t,x))^2+\beta \xi(t,x),
+  \end{align*}
+  
+  \vspace{4mm}
+  where $\xi(t,x)$ is a space-time white noise on $[0,\infty)\times \R^d$.
+  \end{screen}
+\end{frame}
+\begin{frame}{The meaning of each term}
+  $$\partial_t h(t,x)=\frac{1}{2}\underbrace{\Delta h(t,x)}_{\text{relaxation}}+\frac{1}{2}\underbrace{\left|\nabla h(t,x)\right|^2}_{\text{lateral growth}}+\underbrace{\beta \xi(t,x)}_{\text{noise}}$$
+  ~\\
+  \fbox{$\Delta h(t,x)$: relaxation}
+   \begin{figure}
+\includegraphics[height=3cm, width=8cm]{figs/relaxation.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{The meaning of each term}
+  $$\partial_t h(t,x)=\frac{1}{2}\underbrace{\Delta h(t,x)}_{\text{relaxation}}+\frac{1}{2}\underbrace{\left|\nabla h(t,x)\right|^2}_{\text{lateral growth}}+\underbrace{\beta \xi(t,x)}_{\text{noise}}$$
+  ~\\
+  \fbox{$\frac{1}{2}\left|\nabla h(t,x)\right|^2$: lateral growth}
+   \begin{figure}
+\includegraphics[height=4cm, width=8cm]{figs/literalgrowing.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{The meaning of each term}
+  $$\partial_t h(t,x)=\frac{1}{2}\underbrace{\Delta h(t,x)}_{\text{relaxation}}+\frac{1}{2}\underbrace{\left|\nabla h(t,x)\right|^2}_{\text{lateral growth}}+\underbrace{\beta \xi(t,x)}_{\text{noise}}$$
+  ~\\
+  \fbox{$\beta \xi(t,x)$: noise}
+  \begin{figure}
+\includegraphics[height=4cm, width=8cm]{figs/noise.png}
+    \end{figure}
+\end{frame}
+\iffalse
+\begin{frame}{A brief history of the KPZ equation}
+  \begin{itemize}
+  \item In 1986, Kardar--Parisi--Zhang introduced the {\rm KPZ} equation in  physics literature.
+  \end{itemize}
+  \fbox{$d=1$}
+  \begin{itemize}
+  \item In 1997, Bertini--Giacomin constructed a solution to the KPZ equation via Cole-Hopf (CH) transformation.\\
+    \vspace{3mm}
+  \item In 2013, Martin Hairer constructed a solution to the KPZ equation via Regularity Structure.
+  \end{itemize}
+  \fbox{$d= 2$}
+  \begin{itemize}
+    \vspace{3mm}
+  \item   In weak disorder ($\beta$:  small), solutions are constructed, and they coincide with solutions to EW equations.
+    \item In strong disorder, the existence of the solutions is widely open problem.
+   \end{itemize}
+\end{frame}
+\fi
+\begin{frame}{Problem of the construction of solutions to the KPZ eq.}
+  \fbox{KPZ equation}
+  $$\partial_t h(t,x)=\frac{1}{2}\Delta h(t,x)+\frac{1}{2}\left|\nabla h(t,x)\right|^2+\beta \xi(t,x).$$
+  \fbox{Problem}\\
+  \vspace{3mm}
+  \begin{itemize}
+  \item $\xi$ is not a function $\Rightarrow$ $h(t,x)$ may not be a function.
+    \item How to make sense of $\left|\nabla h(t,x)\right|^2$?
+    \end{itemize}
+  \vspace{2mm}
+  \pause
+  \fbox{Scheme}\\
+  \vspace{2mm}
+  \begin{itemize}
+  \item Mollify the noise.
+    \item Consider a (smooth) solution to the mollified KPZ equation.
+    \item We switch off the mollification and consider the limit of solutions.
+    \end{itemize}
+
+\end{frame}
+\begin{frame}{Regularization scheme}
+  Let $\phi$ be a smooth and compactly supported  function on $\R^d$. \\
+  {\color{red}Mollify} the white noise $\xi(t,x)$ in space on scale $\e$:
+  $$\xi^{\e} (t,x):= \int \phi^\e(x-y) \xi(t,y) {\rm d} y\Rightarrow \xi(t,x),$$
+  where $\phi^{\e}(x):= \e^{-d} \phi(\e^{-1} x)$.\\
+\vspace{4mm}
+ Let us consider:
+$$\partial_t h_{\e}(t,x)=\frac{1}{2}\Delta h_{\e}(t,x)+\frac{1}{2}\left|\nabla h_{\e}(t,x)\right|^2+\beta \xi^{\e}(t,x)$$
+ Q. $h_{\epsilon}$ converges as $\e\to 0$? \pause \hspace{4mm}\\
+
+ \vspace{3mm}
+{\color{red} A. No! We have to modify the equation more.}
+
+  \end{frame}
+
+\begin{frame}{Regularization scheme}
+  Let $\phi$ be a smooth and  compactly supported  function on $\R^d$. \\
+  {\color{red}Mollify} the white noise $\xi(t,x)$ in space on scale $\e$:
+  $$\xi^{\e} (t,x):= \int \phi^\e(x-y) \xi(t,y) {\rm d} y,$$
+  where $\phi^{\e}(x):= \e^{-d} \phi(\e^{-1} x)$.\\
+\vspace{4mm}
+ We introduce new parameters and consider the regularized KPZ:
+$$\partial_t h_{\e}(t,x)=\frac{1}{2}\Delta h_{\e}(t,x)+\frac{1}{2}\left|\nabla h_{\e}(t,x)\right|^2+\beta_{\e} \xi^{\e}(t,x)-C_{\e}.$$
+  Can we take $\beta_{\epsilon}$ and $C_{\epsilon}$ so that $h_{\epsilon}$ converges as $\e\to 0$?
+  \end{frame}
+
+\begin{frame}{Choice of $\beta_{\epsilon}$ and $C_{\epsilon}$}
+ % \setbeamercolor{structure}{}
+ Recall that $\xi^{\e} (t,x):= \int \phi^\e(x-y) \xi(t,y) {\rm d} y$.
+  \setbeamercolor{block}{bg=red,fg=Green}
+    \begin{block}{The choice of $\beta_{\epsilon}$}
+    For fixed $\hat{\beta}\in(0,\infty)$, we choose
+    $$
+     {\color{red} \beta_{\epsilon}}=\begin{cases}
+      \hat{\beta}& \text{  ($d=1$)} \\
+      \hat{\beta}{\color{purple}\sqrt{\frac{2\pi}{\log \e^{-1}}}}& \text{  ($d=2$)} \\
+            \hat{\beta}{\color{purple} \e^{\frac{d-2}{2}}}& \text{  ($d\geq 3$)} .
+      \end{cases}
+      $$
+    \end{block}
+    \vspace{1mm}
+       \begin{block}{The choice of $C_{\epsilon}$}
+ We choose ${\color{red}C_{\epsilon}}=\beta_{\epsilon}^2 \e^{-d} \|\phi\|_{L^2}^2$.
+       \end{block}
+       \pause
+       \fbox{Remark}
+       \begin{itemize}
+       \item There are other choices (e.g., Family-Vicsek scaling).
+         \item This choice is related to directed polymers explained later.
+         \end{itemize}
+\end{frame}
+
+\begin{frame}{Previous researches ($d=1$)}
+  We consider the solution $h_{\epsilon}$ to the mollified KPZ:
+  $$\partial_t h_{\e}(t,x)=\frac{1}{2}\Delta h_{\e}(t,x)+\frac{1}{2}\left|\nabla h_{\e}(t,x)\right|^2+\beta_{\e} \xi^{\e}(t,x)-C_{\e}.$$
+  \begin{thm}[Bertini-Giacomin]
+    When $d=1$, for any $\hat{\beta}\geq 0$, $h_{\epsilon}(t,x)\to \exists h(t,x)$ as $\e\to 0$.
+  \end{thm}
+\end{frame}
+\begin{frame}{Previous researches ($d=2$)}
+  \begin{thm}[Caravenna-Sun-Zygouras]
+     When $d=2$,
+     $$h_{\epsilon}(t,x)\overset{d}{\to}
+     \begin{cases}
+       \exists h(t,x)\in\R,\,&\text{$(\hat{\beta}<1)$}\\
+       -\infty.\,&\text{$(\hat{\beta}> 1)$}
+     \end{cases}
+     $$
+    \end{thm}
+      ~\\
+    They have studied more:
+    \begin{itemize}
+        \item If $\hat{\beta}<1$, then the fluctuation converges to EW limit;
+        \item Even if $\hat{\beta}=1$, a non-trivial limit of $\exp{(h_\e)}$ still exists in distributional sense ({\color{red}{Critical Stochastic Heat Flow}}). 
+    \end{itemize}
+    
+    \end{frame}
+\begin{frame}{{\rm KPZ} $\Rightarrow$ Directed Polymer (via Feynman-Kac formula)}
+ We define $u_{\epsilon}(t,x):=\exp{(h_{\epsilon}(t,x))}$, $V(x):= \int \phi(x-y)\phi(y) {\rm d} y$.
+  \begin{prop}
+      The following are equivalent:
+     \begin{itemize}
+         \item $\partial_t h_{\e}(t,x)=\frac{1}{2}\Delta h_{\e}(t,x)+\frac{1}{2}\left|\nabla h_{\e}(t,x)\right|^2+\beta_{\e} \xi^{\e}(t,x)-C_{\e}$ \item $\partial_t u_{\epsilon}=\frac{1}{2}\Delta u_{\epsilon} +\beta_{\epsilon} \xi^{\e} (t,x)u_{\epsilon}$
+     \end{itemize}  
+    If $u_\e$ is the solution to the above, then $u_{\epsilon}$ can be written as
+    \vspace{-1mm}
+    \al{
+    u_{\epsilon}(t,x)&= {\rm E}_{x}^{\rm BM}\left[u_{\epsilon}(0,B_t)\exp{\left(\beta_{\epsilon}\int_{0}^t \xi^{\e}  (t-s,B_s)ds){\color{red}-A_{\epsilon}(t)}\right)}\right]\\
+       &\overset{d}{=}{\rm E}_{x}^{\rm BM}\left[u_{\epsilon}(0,B_t)\exp{\left(\beta_{\epsilon}\int_{0}^t \xi^{\e} (s,B_s)ds){\color{red}-A_{\epsilon}(t)}\right)}\right],
+    }
+    where $A_{\epsilon}(t)=\frac{\hat{\beta}^2 \e^{-2} t V(0)}{2}$ {\color{blue}(It\^o correction)}.
+  \end{prop}
+\end{frame}
+\begin{frame}{{\rm KPZ} $\Rightarrow$ Directed Polymer (via Feynman-Kac formula)}
+ We define $u_{\epsilon}(t,x):=\exp{(h_{\epsilon}(t,x))}$, $V(x):= \int \phi(x-y)\phi(y) {\rm d} y$.
+  \begin{prop}
+      The following are equivalent:
+     \begin{itemize}
+         \item $\partial_t h_{\e}(t,x)=\frac{1}{2}\Delta h_{\e}(t,x)+\frac{1}{2}\left|\nabla h_{\e}(t,x)\right|^2+\beta_{\e} \xi^{\e}(t,x)-C_{\e}$ \item $\partial_t u_{\epsilon}=\frac{1}{2}\Delta u_{\epsilon} +\beta_{\epsilon} \xi^{\e} (t,x)u_{\epsilon}.$
+     \end{itemize}  
+     \pause
+    If $u_\e$ is the solution to the above, then $u_{\epsilon}$ can be written as
+    \vspace{-1mm}
+    \al{
+    u_{\epsilon}(t,x)&= {\rm E}_{x}^{\rm BM}\left[u_{\epsilon}(0,B_t)\exp{\left(\beta_{\epsilon}\int_{0}^t \xi^{\e}  (t-s,B_s)ds){\color{red}-A_{\epsilon}(t)}\right)}\right]\\
+       &\overset{d}{=}{\rm E}_{x}^{\rm BM}\left[u_{\epsilon}(0,B_t) \exp{\underbrace{\left(\beta_{\epsilon}\int_{0}^t \xi^{\e} (s,B_s)ds-A_{\epsilon}(t)\right)}_{\text{Hamiltonian of a directed polymer}}}\right].
+    }
+  \end{prop}
+\end{frame}
+\begin{frame}{Remark on the expression of $u_{\epsilon}$}
+  In this slide, we assume $u_{\epsilon}(0,x)=1$ and take $T=T_{\epsilon}=\e^{-2}$.
+  \begin{itemize}
+    \item Using the definitions of $\beta_{\epsilon}$, $\xi^{\e} $, we obtain
+  \al{
+    u_{\epsilon}(1,x)&\overset{d}{=}{\rm E}_{\sqrt{T} x}^{\rm BM}\left[e^{\hat{\beta} \int_{0}^{T} (\xi(s,\cdot)* \phi)(B_s)ds)-\frac{\hat{\beta}^2  T V(0)}{2}}\right],\\
+    &=: {\rm E}_{\sqrt{T} x}^{\rm BM}\left[\Phi_{T}\right].
+  %  &=: {\rm E}_{x}^{\rm BM}\left[u_0(B_t)\Phi_{tT}(B,\xi)\right]
+  }
+\item  $\Phi_{s}$ is a martingale w.r.t. $\sigma(\xi(r,x):~r\leq s,\,x\in\R^d)$.
+\item Let $\mathcal{Z}_T:={\rm E}_{0}^{\rm BM}\left[\Phi_T\right]$. Then, $(\mathcal{Z}_T)_{T\geq 0}$ is also a martingale. Hence, by the Martingale convergence theorem,
+  $$\mathcal{Z}_T\to \exists \mathcal{Z}_\infty\text{ a.s.}$$
+  \end{itemize}
+  \end{frame}
+\begin{frame}{Subcritical and $L^2$ region}
+  When $d\geq 3$, there are critical parameters $0<\hat{\beta}_{L^2}\leq \hat{\beta}_c$,
+   \begin{figure}
+\includegraphics[height=2cm, width=8.3cm]{figs/figure1.png}
+   \end{figure}
+   \begin{itemize}
+ \item  It is believed that $\hat{\beta}_{L^2} < \hat{\beta}_c$\\
+   (discrete case:
+   Birkner-Greven-den Hollander 11).
+ \item In the discrete case, $\beta=\beta_c$ is in weak disorder.
+   \end{itemize}
+  \end{frame}
+
+\begin{frame}{Law of large numebers of $u_{\epsilon}$ for $d\geq 3$}
+  Recall that $u_{\epsilon}$ is the solution to
+  $$\partial_t u_{\e}=\frac{1}{2}\Delta u_{\e}+\beta_{\e} u_{\epsilon}\xi^{\e}.$$
+   Let $u_{\epsilon}(0,\cdot)\equiv u_0(\cdot)\in \mathcal{C}_b(\R^d)$. We define $\bar{u}(t,x)=E_x^{\rm BM}[u_0(B_t)]$.
+  \begin{thm}[Mukherjee-Shamov-Zeitouni, Cosco-Nakashima-N]
+    \begin{enumerate}
+    \item For all $\hat{\beta}<\hat{\beta}_c$, $f\in\mathcal{C}_c(\R^d)$ and $u_0\in \mathcal{C}_b(\R^d)$, as $\e\to 0$,
+      \al{ \int_{\R^d} f(x) u_{\epsilon}(t,x){\rm d} x\overset{L^1}{\rightarrow}      \int_{\R^d} f(x) \bar{u}(t,x){\rm d} x.
+      }
+      \item For all $\hat{\beta}> \hat{\beta}_c$, $f\in\mathcal{C}_c(\R^d)$ and $u_0\in \mathcal{C}_b(\R^d)$, as $\e\to 0$,
+   \al{ u_{\epsilon}(t,x)\overset{P}{\rightarrow}    0.
+      }  
+      \end{enumerate}
+    \end{thm}
+  \end{frame}
+\begin{frame}{Law of large numebers of $u_{\epsilon}$ for $d\geq 3$}
+   \begin{thm}[Mukherjee-Shamov-Zeitouni, Cosco-Nakashima-N]
+    \begin{enumerate}
+    \item For all $\hat{\beta}<\hat{\beta}_c$, $f\in\mathcal{C}_c(\R^d)$ and $u_0\in \mathcal{C}_b(\R^d)$, as $\e\to 0$,
+      \al{ \int_{\R^d} f(x) u_{\epsilon}(t,x){\rm d} x\overset{L^1}{\rightarrow}      \int_{\R^d} f(x) \bar{u}(t,x){\rm d} x.
+      }
+      \item For all $\hat{\beta}> \hat{\beta}_c$ and $u_0 \in \mathcal{C}_b(\R^d)$, as $\e\to 0$,
+   \al{ u_{\epsilon}(t,x)\overset{P}{\rightarrow}    0.
+      }  
+
+\end{enumerate}
+   \end{thm}
+   \vspace{4mm}
+   \begin{screen}
+     The limit of $u_{\epsilon}$ (also $h_{\epsilon}$) is just a function {\color{red}(NOT random)}!
+     \end{screen}
+  \end{frame}
+\begin{frame}{Fluctuation of $u_{\epsilon}$ (SHE)}
+  For all $\hat{\beta}<\hat{\beta}_c$,
+  
+   \vspace{-6mm}
+      \al{ \int_{\R^d} f(x) u_{\epsilon}(t,x){\rm d} x\overset{L^1}{\rightarrow}      \int_{\R^d} f(x) \bar{u}(t,x){\rm d} x.
+      }
+      \vspace{-4mm}
+      \begin{thm}[Gu-Ryzhik-Zeitouni, Cosco-Nakashima-N]
+        Suppose $u_{\epsilon}(0,\cdot)\equiv u_0\in \mathcal{C}_b$. For all $\hat{\beta}<\hat{\beta}_{L^2}$,
+        $$\e^{-\frac{d-2}{2}}\int_{\R^d} f(x) (u_{\epsilon}(t,x)-\bar{u}(t,x)){\rm d} x\overset{(d)}{\rightarrow} \int f(x) \mathcal{U}_1(t,x){\rm d} x, $$
+        where $\mathcal{U}_1(t,x)$ is the solution of $\mathcal{U}_1(0,x)\equiv 0$ and
+        \al{
+        \partial_t  \mathcal{U}_1(t,x)=\frac{1}{2}\Delta \mathcal{U}_1(t,x)+\gamma(\hat{\beta})\bar{u}(t,x)\xi(t,x).\text{ \,\,(EW equation)}
+          }
+        \end{thm}
+        Note that $\gamma(\hat{\beta})\to \infty$ as $\hat{\beta}\to \hat{\beta}_{L^2}$.
+  \end{frame}
+
+\begin{frame}{Fluctuation of $h_{\epsilon}$ (KPZ)}
+ Let $h_{\epsilon}(t,x):=\log{u_{\epsilon}(t,x)}$.
+      \begin{thm}[MU, DGRZ, LZ, CNN]
+        Suppose  $\|\log{u_0}\|_\infty<\infty$. For all $\hat{\beta}<\hat{\beta}_{L^2}$,
+        $$\e^{-\frac{d-2}{2}}\int_{\R^d} f(x) (h_{\epsilon}(t,x)-\E h_{\epsilon}(t,x)){\rm d} x\overset{(d)}{\rightarrow} \int f(x) \mathcal{U}_2(t,x){\rm d} x, $$
+        where $\mathcal{U}_2(t,x)$ is the solution of $\mathcal{U}_2(0,x)\equiv 0$ and
+        \al{
+        \partial_t  \mathcal{U}_2(t,x)=\frac{1}{2}\Delta \mathcal{U}_2(t,x)+\nabla\log{\bar{u}(t,x)}\cdot \nabla \mathcal{U}_2(t,x) + \gamma(\hat{\beta})\xi(t,x).
+          }
+        \end{thm}
+\end{frame}
+\section{Main result}
+\begin{frame}{Some remarks}
+\begin{itemize}
+\item We discuss a relation between SHE and KPZ equation in weak disorder regime.
+    \item 
+    Out main result is only stated in discrete directed polymer.
+    \item From now on, we only consider the discrete model.
+    \item However, we believe that the same techniques work for continuum models.
+    \end{itemize}
+\end{frame}
+\begin{frame}{Discrete polymer model}
+\begin{itemize}
+    \item     Let $(\omega(i,n))_{i\in\Z^d,n\in\N}$ be i.i.d. random variables.
+    \item We assume $\lambda(\beta):=\log{\E^{\beta \omega(i,n)}}\in\R$ for any $\beta\in\R$.
+    \item Let us define the partition function $Z_N(x)$ for $x\in\Z^d$ of directed polymers:
+\al{
+Z_N(x):=Z_{\omega,N,\beta}(x):={\rm E}_x\left[e^{\beta\sum_{k=1}^N\omega(k,X_k)-N\lambda(\beta)}\right],
+}
+where ${\rm E}_x$ denotes the expectation of the simple random walk starting at $x$. 
+\item For simplicity of notation, we write $Z_N:=Z_N(0).$
+\item We call $\{\beta\geq 0|~\P(\liminf_N Z_N>0)=1\}$ {\color{red}{the weak disorder regime}}. 
+\end{itemize}
+\end{frame}
+\begin{frame}{Discrete Polymer vs. Continuum Polymer}
+
+Recall that
+\begin{itemize}
+    \item $u_\epsilon (t,x) \overset{d}{=}\mathrm{E}^{\text{BM}}\left[\exp\left(\hat{\beta}\int^T_0 \phi \ast \xi(s,B_s)ds  - T A(\hat{\beta})\right)\right]$ with $T=\epsilon^{-2}$.
+        \item $h_\epsilon(t,x)=\log{u_\epsilon (t,x)}$ solves $\partial_t h=\frac{1}{2}\Delta_x h+\frac{1}{2}|\nabla_x h|^2+\beta_\epsilon \xi^\epsilon-C_\epsilon$.
+\end{itemize}
+\renewcommand{\arraystretch}{2.0} % Adjusts the height of the table rows
+
+\begin{table}[h]
+\begin{tabular}{| l | l | l |}
+    \hline
+    \textbf{} & \textbf{Discrete Polymer} & \textbf{Continuum Polymer} \\ \hline
+    Energy & $H_N= \sum_{k=1}^N \omega(k,S_k)$ & $\mathcal{H}_T=\int^T_0 \phi \ast \xi(s,B_s)ds$ \\ \hline
+    Partition & $\mathrm{E}^{\text{SRW}}\left[\exp\left(\beta H_N-N\lambda(\beta)\right)\right]$ & $\mathrm{E}^{\text{BM}}\left[\exp\left(\hat{\beta}\mathcal{H}_T  - T A(\hat{\beta})\right)\right]$ \\ \hline
+    Critical & $\sup\{\beta>0 | \lim Z_N>0\}$ & $\sup\{\hat{\beta}>0 | \lim\mathcal{Z}_T>0\}$ \\ \hline
+\end{tabular}
+\end{table}
+
+\end{frame}
+\begin{frame}{Tail exponent}
+ We suppose that the distribution of $\omega(i,n)$ has a compact support.\\
+ Let $p_*(\beta):= \sup\{p\geq 0|~ \sup_N\E[Z_N(\beta)^p]<\infty\}$ ({\color{red}{tail exponent}}).
+    \begin{thm}[Junk 22+]
+         In the weak disorder regime, it holds 
+        $$p_*(\beta)\geq \frac{d+2}{d}.$$
+        Moreover, for a certain class of weight distribution (finite support), 
+        $$\beta<\beta_c\Leftrightarrow p_*(\beta)> \frac{d+2}{d}.$$
+    \end{thm}
+\end{frame}
+\begin{frame}{Fluctuation for SHE in weak disorder regime}
+We define $p_*:=p_*(\beta)$ as before.\\
+Let $\xi:=\xi(\beta):=- \frac{d}{2}+\frac{d+2}{2(p_*\wedge 2)}$ ({\color{red}{fluctuation exponent}}).
+     \begin{thm}[Junk 22+]
+     Given a compactly supported function $f:\R^d\to \R$, we define the fluctuation of discrete SHE as
+     \al{
+     \chi_N(f):= N^{-d/2}\sum_{x\in \Z^d}f(x/\sqrt{N}) (Z_N(x)-\E Z_N(x)).
+     }
+       In the weak disorder regime, for any $\e>0$ and $f\not\equiv 0$, it holds
+        $$\lim_{N\to\infty}\P( n^{-\xi-\e}<|\chi_N(f)|< n^{-\xi+\e})= 1 .$$
+    \end{thm}
+\end{frame}
+\begin{frame}{Equivalence of fluctuation between SHE and KPZ}
+From now on, we assume the following:
+\begin{itemize}
+    \item $p_*(\beta)>\frac{d+2}{d}$.
+    \item $\omega(i,x)$ has a compact support.
+\end{itemize}
+     Given a compactly supported function $f:\R^d\to \R$, we define the fluctuation of discrete KPZ as
+     \al{
+     \kappa_N(f):= N^{-d/2}\sum_{x\in \Z^d}f(x/\sqrt{N}) (\log{Z_N(x)}-\E \log{Z_N(x)}).
+     }
+     \begin{thm}[Junk-N 23+]
+There exists $\delta>0$ such that
+    \begin{align*}
+	\lim_{n\to\infty}\mathbb{P}(|\chi_N(f)-\kappa_N(f)|\leq N^{-\xi-\delta})=1.
+\end{align*}
+\end{thm}
+\end{frame}
+\begin{frame}
+
+     \begin{thm}[Junk-N 23+]
+There exists $\delta>0$ such that
+    \begin{align*}
+	\lim_{n\to\infty}\mathbb{P}(|\chi_N(f)-\kappa_N(f)|\leq N^{-\xi-\delta})=1.
+\end{align*}
+\end{thm}
+Together with the result of [Junk 22] ($|\chi_N(f)|=N^{-\xi+o(1)}$), we conclude:
+\begin{cor}[Junk-N 23+]
+For any $\e>0$ and $f\not\equiv 0$,
+\al{
+\mathbb{P}(N^{-\xi-\e}\leq |\kappa_N(f)|\leq N^{-\xi+\e})\to 1.
+}
+Moreover, there exists $\delta>0$ such that
+$$\lim_{n\to\infty}\P\left(\frac{|\chi_N(f)-\kappa_N(f)|}{\min\{|\chi_N(f)|,|\kappa_N(f)|\}}\leq N^{-\delta}\right)=1.$$
+\end{cor}
+\end{frame}
+\begin{frame}{Why I was surprised}
+\begin{itemize}
+    \item For $\beta\in(\beta_2,\beta_c)$, it is believed that
+    $$ \chi_N(f):= N^{-d/2}\sum_{x\in \Z^d}f(x/\sqrt{N}) (Z_N(x)-\E Z_N(x)) \to {\rm Stable}.$$
+    \item We can prove that
+    \al{
+    &\bullet \sup_{N\in\N} \E[(\log Z_N)^2]<\infty\\
+    & \bullet \lim_{|x-y|\to\infty}\sup_{N\in\N} \E[(\log Z_N(x)-\E\log Z_N(x))( \log Z_N(y)-\E\log Z_N(y) )]=0.\\
+    }
+    \item Hence I believed that
+    \al{
+    \kappa_N(f):= N^{-d/2}\sum_{x\in \Z^d}f(x/\sqrt{N}) (\log Z_N(x)-\E \log Z_N(x)) \to {\rm Gauss}.
+    }   \pause
+    \item It was not the case, and I was really reluctant..
+\end{itemize}
+    
+\end{frame}
+\begin{frame}{Outline of the proof}
+    Let $\ell_k:=k^{1/8}$ and $E_k(y):=e^{\beta \omega(k,y)}-1$. We define
+    \al{
+  \rho_N(f):=  N^{-d/2}\sum_{x\in \Z^d}f(x/\sqrt{N})\left[\sum_{k=1}^{N}  \sum_{y\in \Z^d}
+\overleftarrow{Z}_{\ell_k}(k,y)E_k(y) p_N(x,y)\right].
+    }
+    We will prove that
+    \al{
+    &\chi_N(f)\approx \rho_N(f)\quad\text{(Approximation for SHE)},\\
+    &\kappa_N(f)\approx \rho_N(f)\quad\text{(Approximation for KPZ)}.
+        }
+\end{frame}
+\begin{frame}{Sketch  proof (Approximation for SHE)}
+Let $\ell_k:=k^{1/8}$ and $E_k(y):=e^{\beta \omega(k,y)-\lambda(\beta)}-1$. We have the following approximation for $\chi_n$: 
+\al{
+\chi_N(f)&=N^{-d/2}\sum_{x\in \Z^d}f(x/\sqrt{N}) (Z_N(x)-1)\\
+&= N^{-d/2}\sum_{y\in \Z^d}\sum_{k=1}^{N}E_k(y) \left[\sum_{x\in \Z^d}f(x/\sqrt{N}) Z_{k}(x,y) p_k(x,y)\right]\\
+&\approx   N^{-d/2}\sum_{y\in \Z^d}\sum_{k=1}^{N} E_k(y)\left[\sum_{x\in \Z^d}f(x/\sqrt{N}) 
+\overleftarrow{Z}_{\ell_k}(k,y)p_N(x,y)\right]=\rho_N(f),
+}
+where we have used law of large numbers (similar to $Z_k\approx Z_{\ell_k}$).
+\end{frame}
+
+\begin{frame}{Some ingredients}
+    As before, we assume:\\
+    (1) $p_*(\beta)>\frac{d+2}{d}$,\quad (2) $\omega(i,x)$ has a compact support.\\
+    ~\\
+    The following play an important role in the proof below:
+\begin{thm}[Junk 23+]
+  Let $Z_N(x,y):={\rm E}^x[e^{\beta\sum_{k=1}^{N-1}\omega(k,X_k)-(N-1)\lambda(\beta)}|~X_N=y]$. Let $\ell_N:=N^{1/8}$. For any $p<p_*(\beta)$ and $c>0$, it holds 
+    $$\lim_{N\to\infty}\sup_{x,y\in [-N^{1-c},N^{1-c}]}\E|Z_N(x,y)-Z_{\ell_N} \overleftarrow{Z}_{\ell_N}(N,y)|^p=0.$$
+\end{thm}
+\begin{thm}[Junk-N 23+]\label{thm: lower tail concentration}
+ There exists $C=C(\beta)>0$ such that for any $u\geq 1$ and $N\in\N$,
+    $$\mathbb{P}(Z_{N}<1/u)\leq C e^{-(\log{u})^2/C}.$$
+\end{thm}
+\end{frame}
+
+\begin{frame}{Some ingredients}
+\begin{screen}
+It holds:
+        \begin{align*}
+     &   \lim_{N\to\infty}\sup_{x,y\in [-N^{1-c},N^{1-c}]}\E|Z_N(x,y)-Z_{\ell_N} \overleftarrow{Z}_{\ell_N}(N,y)|^p=0,\\
+    &\mathbb{P}(Z_{N}<1/u)\leq C e^{-(\log{u})^2/C}.
+        \end{align*}
+\end{screen}
+ We define the polymer measure:
+$$\mu_{N}(x,y):= \frac{{\rm E}_x\left[e^{\beta\sum_{k=1}^{N-1}\omega(k,X_k)-n\lambda(\beta)}\mathbf{1}_{X_n=y}\right]}{Z_{N-1}(x)}=\frac{Z_N(x,y)p_N(x,y)}{Z_{N-1}(x)}.$$
+By  $Z_k(x,y)\approx Z_{\ell_k}(x)\overleftarrow{Z}_{\ell_k}(k,y)$ and $Z_{\ell_k}(x), Z_k(x)\to Z_\infty(x)$, they imply
+$$\mu_k(x,y)=\frac{Z_k(x,y)p_k(x,y)}{Z_{k-1}(x)}\approx \frac{Z_{\ell_k}(x)\overleftarrow{Z}_{\ell_k}(k,y)p_k(x,y)}{Z_{k-1}(x)} \approx \overleftarrow{Z}_{\ell_k}(k,y)p_k(x,y).$$
+\end{frame}
+\begin{frame}{Sketch proof (Approximation for KPZ I)}
+ For $\kappa_n$,  we consider the following Martingale decomposition:
+\al{
+& \kappa_n(f)= N^{-d/2}\sum_{x\in \Z^d}f(x/\sqrt{N}) (\log{Z_N(x)}-\E[\log{Z_N(x)}])\\
+ &=\sum_{x\in \Z^d}\sum_{k=1}^N  f(x/\sqrt{N}) (\log{\frac{Z_k(x)}{Z_{k-1}(x)}}-\E\Big[\log{\frac{Z_k(x)}{Z_{k-1}(x)}}|~\mathcal{F}_{k-1}\Big])\\
+ &\hspace{4mm}+\sum_{x\in \Z^d} \sum_{k=1}^N  f(x/\sqrt{N}) (\E\Big[\log{\frac{Z_k(x)}{Z_{k-1}(x)}}|~\mathcal{F}_{k-1}\Big]-\E\Big[\log{\frac{Z_k(x)}{Z_{k-1}(x)}}\Big])\\
+ &\approx  \sum_{x\in \Z^d} \sum_{k=1}^N  f(x/\sqrt{N}) \sum_{y\in \Z^d} \mu_{k}(x,y) E_k(y), 
+}
+where $\mu_k(x,y):=\frac{Z_k(x,y)p_k(x,y)}{Z_{k-1}(x)},\, E_k(y):=e^{\beta \omega(k,y)-\lambda(\beta)}-1$ and used $$\log{\frac{Z_k(x)}{Z_{k-1}(x)}}= \log{\Big(1+\sum_{y\in \Z^d} \mu_{k}(x,y) E_k(y)\Big)}\approx  \sum_{y\in \Z^d} \mu_{k}(x,y) E_k(y).$$
+\end{frame}
+
+\begin{frame}{Sketch proof (Approximation for KPZ II)}
+Let $\ell_k:=k^{1/8}$ and $E_k(y):=e^{\beta \omega(k,y)}-1$. Recall that
+$$\mu_k(x,y) \approx \overleftarrow{Z}_{\ell_k}(k,y)p_k(x,y).$$
+Hence, we have the following approximation for $\kappa_n$: 
+\al{
+\kappa_N(f)&\approx N^{-d/2}\sum_{x\in \Z^d}\sum_{k=1}^N  f(x/\sqrt{N})  \sum_{y\in \Z^d} \mu_{k}(x,y) E_k(y)\\
+&\approx   N^{-d/2}\sum_{x\in \Z^d} \sum_{k=1}^{N} f(x/\sqrt{N})\sum_{y\in \Z^d} \left[ 
+\overleftarrow{Z}_{\ell_k}(k,y)E_k(y) p_N(x,y)\right]=\rho_N(f).
+}
+Therefore, we have $\chi_N(f)\approx \kappa_N(f)$.
+\end{frame}
+\end{document}

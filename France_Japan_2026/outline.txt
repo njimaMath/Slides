@@ -1,0 +1,45 @@
+1. What is universality
+ Real world is mess
+  - Stock prices fluctuate unpredictably
+  - Bacteria colonies spread in irregular patterns
+  - Traffic jams form and dissolve on complex road networks
+
+ Probability captures an underlying structure, so called universality
+  - Despite the apparent complexity and difference of models, their large-scale behavior is governed by the same mathematical law
+  - Famous classical examples:  Central Limit Theorem
+    * Consider coin flips, dice rolls, measurement errors, ...
+    * After rescaling, the sum converges to the Gaussian distribution
+
+  - Universality in growth processes (our focus):
+   
+2-1. Movie of cell colony
+(make the contents empty now)
+2-2. Infection process 
+(Write a code to show the animation of KS-infection defined below)
+3. Universality over infection process
+
+A) Growth exponent is 1/3 (explained later)
+
+B)  After the scaling, the boundary of the infected region follows KPZ equation: 
+¥partia_t h = ¥frac{1}{2} ¥nabla_x h + ¥frac{1}{2} |¥nabla_x h|^2 + ¥xi
+where ¥xi is a space time independent noise.
+
+
+4. SRW on grid
+Assume that the particle is located at time t is a point x. Then with probab 1/4, it moves up/down/right/left.
+Simulation:
+5. Frog model
+i) Description of the model: at time 0, there is an infected frog at 0 and there are healthy frogs at other vertices.
+ii) Only infected frog moves following indep. SRWs
+iii) When an infected frog encounters health ones, health ones become infected. 
+6. Simulation
+
+7. fluctuation exponent 
+Let T_n be the first time that the frog at ne_1 becomes infected.
+Conjecture: 
+E[(T_n - E[T_n])^2] ¥sim n^{2/3}.
+8. Another model (KS infection)
+i) Description of the model: at time 0, there is an infected frog at 0 and there are healthy frogs at other vertices.
+ii) Both infected and healthy frog moves following independent SRWs
+iii) When an infected frog encounters health ones, health ones become infected. 
+9. Comparison between frog and KS infection of T_n via simulation

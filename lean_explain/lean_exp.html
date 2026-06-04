@@ -1,0 +1,1044 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lean Explanation Slides</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']],
+        processEscapes: true,
+        macros: {
+          N: '\\mathbb{N}',
+          R: '\\mathbb{R}',
+          Z: '\\mathbb{Z}',
+          P: '\\mathbb{P}',
+          E: '\\mathbb{E}',
+          F: '\\mathcal{F}'
+        }
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    :root {
+      --accent: #e74c3c;
+      --accent-blue: #3498db;
+      --accent-green: #27ae60;
+      --accent-orange: #e67e22;
+      --paper: #fff;
+      --ink: #222;
+      --text: #444;
+      --muted: #888;
+      --red: #c00000;
+      --purple: #7030a0;
+      --green: #1c7c54;
+      --slide-font: clamp(18px, 1.95vw, 34px);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+      min-height: 100%;
+      background: #fafafa;
+      color: var(--ink);
+      font-family: "Helvetica Neue", "Hiragino Sans", Arial, sans-serif;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      min-height: 100dvh;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .deck {
+      width: 100vw;
+      height: 100vh;
+      height: 100svh;
+      max-width: none;
+    }
+
+    .stage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: var(--paper);
+      overflow: hidden;
+      container-type: inline-size;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: clamp(24px, 4.6cqw, 58px) clamp(30px, 5.8cqw, 104px);
+      font-size: var(--slide-font-size, var(--slide-font));
+      line-height: 1.36;
+      overflow: hidden;
+    }
+
+    .slide.active { display: flex; }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: calc(16px + env(safe-area-inset-top));
+      left: calc(16px + env(safe-area-inset-left));
+      color: #bbb;
+      font-size: 0.58em;
+      letter-spacing: 0.15em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .slide::after {
+      content: attr(data-page);
+      position: absolute;
+      right: calc(16px + env(safe-area-inset-right));
+      bottom: calc(16px + env(safe-area-inset-bottom));
+      color: #bbb;
+      font-size: 0.7em;
+      letter-spacing: 0.1em;
+      line-height: 1;
+    }
+
+    .slide-title {
+      margin: 0 0 clamp(12px, 2.4cqw, 34px);
+      color: #333;
+      font-size: 1.62em;
+      line-height: 1.18;
+      letter-spacing: 0.07em;
+      font-weight: 300;
+    }
+
+    .title-slide {
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    }
+
+    .title-slide::before {
+      content: "";
+      left: 0;
+      right: 0;
+      top: auto;
+      bottom: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), #f39c12, var(--accent-blue));
+    }
+
+    .title-slide::after { color: rgba(255,255,255,0.32); }
+
+    .title-slide h1 {
+      margin: 0 auto;
+      max-width: min(88cqw, 1480px);
+      color: #fff;
+      font-size: 2.35em;
+      line-height: 1.35;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+
+    .title-slide .author {
+      margin: clamp(34px, 6cqw, 72px) 0 0.6em;
+      color: #fff;
+      font-size: 1.08em;
+      font-weight: 400;
+    }
+
+    .title-slide .institute {
+      color: rgba(255,255,255,0.72);
+      font-size: 0.88em;
+      letter-spacing: 0.06em;
+    }
+
+    p {
+      margin: 0.38em 0;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    ul,
+    ol {
+      margin: 0.48em 0 0.48em 1.2em;
+      padding: 0;
+      color: var(--text);
+    }
+
+    li { margin: 0.34em 0; }
+
+    .box,
+    .screen,
+    .theorem,
+    .proposition,
+    .corollary {
+      margin: 0.62em 0;
+      padding: 0.72em 0.95em;
+      border-radius: 10px;
+      background: #f8f9fa;
+      border: 0;
+      border-left: 4px solid var(--accent-blue);
+    }
+
+    .itembox {
+      position: relative;
+      margin: 0.62em 0;
+      padding: 0.72em 0.95em;
+      border: 0;
+      border-left: 4px solid var(--accent);
+      border-radius: 10px;
+      background: #f8f9fa;
+    }
+
+    .box-label {
+      display: inline-block;
+      margin: 0.3em 0 0.38em;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--accent);
+      font-size: 0.74em;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .theorem,
+    .proposition,
+    .corollary {
+      border: 2px solid var(--accent-orange);
+      border-radius: 12px;
+      background: linear-gradient(135deg, #fef9e7 0%, #fdebd0 100%);
+    }
+
+    .theorem .name,
+    .proposition .name,
+    .corollary .name {
+      margin-bottom: 0.35em;
+      color: var(--accent-orange);
+      font-size: 0.9em;
+      font-weight: 600;
+    }
+
+    .figure {
+      margin: 0.48em auto 0.7em;
+      text-align: center;
+    }
+
+    .figure img,
+    .figure-svg {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto;
+      object-fit: contain;
+    }
+
+    .caption {
+      margin-top: 0.45em;
+      color: var(--muted);
+      font-size: 0.74em;
+      letter-spacing: 0.04em;
+    }
+
+    mjx-container[jax="SVG"] {
+      color: #222;
+      font-size: 1em;
+      outline: none;
+    }
+
+    mjx-container[jax="SVG"][display="true"] {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      margin: 0.65em auto;
+      overflow: visible;
+      text-align: center;
+    }
+
+    mjx-container[jax="SVG"][display="true"] > svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .red { color: var(--red); }
+    .purple { color: var(--purple); }
+    .blue { color: var(--accent-blue); }
+    .small { font-size: 0.78em; }
+    .theorem.small { font-size: 0.88em; }
+    .tight { font-size: 0.86em; line-height: 1.24; }
+
+    .wide-table {
+      width: 100%;
+      border-collapse: collapse;
+      color: var(--text);
+      font-size: 0.74em;
+    }
+
+    .wide-table td {
+      padding: 0.46em 0.6em;
+      border: 1px solid #ddd;
+      vertical-align: middle;
+    }
+
+    a {
+      color: #1f6fb2;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(31, 111, 178, 0.32);
+    }
+
+    a:hover { border-bottom-color: currentColor; }
+
+    .lead {
+      max-width: 34em;
+      color: #333;
+      font-size: 1.1em;
+      line-height: 1.46;
+    }
+
+    .cols {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(16px, 3cqw, 42px);
+      align-items: start;
+    }
+
+    .three-cols {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(12px, 2cqw, 28px);
+      align-items: stretch;
+    }
+
+    .heading,
+    .mini-heading {
+      margin: 0 0 0.34em;
+      color: #333;
+      font-size: 0.9em;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .history-early .cols,
+    .history-modern .cols {
+      grid-template-columns: minmax(0, 1fr);
+      width: min(100%, 46em);
+      margin-top: clamp(10px, 1.6cqw, 22px);
+    }
+
+    .history-early .box,
+    .history-modern .box {
+      padding: 0.86em 1.08em;
+      font-size: 0.96em;
+      line-height: 1.38;
+    }
+
+    .claim-workflow {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: center;
+      gap: clamp(8px, 1.3cqw, 18px);
+      width: min(100%, 44em);
+      margin: clamp(14px, 2.2cqw, 28px) auto 0;
+    }
+
+    .claim-node {
+      min-height: 4.35em;
+      padding: 0.62em 0.72em;
+      border: 2px solid #d8e3ed;
+      border-left: 5px solid var(--accent-blue);
+      border-radius: 8px;
+      background: #f8f9fa;
+      text-align: center;
+    }
+
+    .claim-node:nth-of-type(3) {
+      border-left-color: var(--accent-green);
+    }
+
+    .claim-node:nth-of-type(5) {
+      border-left-color: var(--accent-orange);
+    }
+
+    .claim-main {
+      margin: 0;
+      color: #2b3340;
+      font-size: 0.96em;
+      line-height: 1.18;
+    }
+
+    .claim-sub {
+      margin: 0.24em 0 0;
+      color: #667485;
+      font-size: 0.7em;
+      line-height: 1.25;
+    }
+
+    .claim-arrow {
+      color: var(--accent-blue);
+      font-size: 1.2em;
+      line-height: 1;
+    }
+
+    .claim-equivalence {
+      grid-column: 1 / -1;
+      margin: 0.1em 0 0;
+      padding: 0.52em 0.72em;
+      border-radius: 8px;
+      background: #eef6fb;
+      color: #283747;
+      font-size: 0.78em;
+      line-height: 1.34;
+      text-align: center;
+    }
+
+    .source-note,
+    .meta {
+      color: var(--muted);
+      font-size: 0.72em;
+      line-height: 1.42;
+    }
+
+    .code-block {
+      display: block;
+      max-width: 100%;
+      margin: 0.55em 0;
+      padding: 0.75em 0.95em;
+      overflow: auto;
+      border-radius: 10px;
+      background: #18202b;
+      color: #edf2f7;
+      font-family: Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.72em;
+      line-height: 1.45;
+      white-space: pre;
+    }
+
+    code {
+      padding: 0.08em 0.28em;
+      border-radius: 5px;
+      background: #eef3f8;
+      color: #24364b;
+      font-family: Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.92em;
+    }
+
+    .code-block code {
+      padding: 0;
+      background: transparent;
+      color: inherit;
+      font-size: inherit;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: clamp(8px, 1.4cqw, 18px);
+      margin: 0.65em 0;
+    }
+
+    .flow-node {
+      min-height: 4.8em;
+      padding: 0.7em 0.75em;
+      border-radius: 10px;
+      background: #f3f8fb;
+      border-left: 4px solid var(--accent-blue);
+      color: #334;
+      font-size: 0.74em;
+      line-height: 1.32;
+    }
+
+    .source-list {
+      columns: 2;
+      column-gap: clamp(22px, 4cqw, 56px);
+      font-size: 0.7em;
+      line-height: 1.32;
+    }
+
+    .source-list li {
+      break-inside: avoid;
+      margin: 0 0 0.46em;
+    }
+
+    .thank-you {
+      margin-top: auto;
+      margin-bottom: auto;
+      text-align: center;
+      font-size: 2.2em;
+      line-height: 1.1;
+    }
+
+    .controls {
+      position: fixed;
+      top: calc(12px + env(safe-area-inset-top));
+      right: calc(12px + env(safe-area-inset-right));
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(20, 20, 20, 0.75);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      color: #fff;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      backdrop-filter: blur(8px);
+    }
+
+    .controls button {
+      min-width: 90px;
+      padding: 10px 14px;
+      border: none;
+      border-radius: 999px;
+      appearance: none;
+      background: linear-gradient(135deg, var(--accent-blue), #2980b9);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      color: #fff;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      touch-action: manipulation;
+      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+    }
+
+    .controls button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+
+    .progress { display: none; }
+
+    #count {
+      min-width: 110px;
+      color: #e6e6e6;
+      cursor: pointer;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      text-align: center;
+      user-select: none;
+    }
+
+    .jump-panel {
+      position: fixed;
+      top: calc(76px + env(safe-area-inset-top));
+      right: calc(12px + env(safe-area-inset-right));
+      z-index: 1000;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(46px, 1fr));
+      gap: 6px;
+      max-width: 340px;
+      padding: 10px;
+      border-radius: 14px;
+      background: rgba(20, 20, 20, 0.7);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      color: #fff;
+      backdrop-filter: blur(6px);
+    }
+
+    .jump-button {
+      min-width: 44px;
+      padding: 6px 0;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 12px;
+      background: linear-gradient(135deg, #5dade2, #2c82c9);
+      color: #fff;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .jump-button.is-active {
+      background: linear-gradient(135deg, var(--accent-green), #1e8449);
+    }
+
+    .bar {
+      width: 0%;
+      height: 100%;
+    }
+
+    @media (max-width: 760px) {
+      .deck {
+        width: 100vw;
+        height: 100vh;
+        height: 100svh;
+      }
+
+      .slide {
+        padding: clamp(18px, 5.4cqw, 34px) clamp(18px, 5.5cqw, 42px);
+        font-size: var(--slide-font-size, clamp(14px, 3.8cqw, 18px));
+        line-height: 1.34;
+      }
+
+      .slide-title {
+        font-size: 1.34em;
+        letter-spacing: 0.04em;
+      }
+
+      .cols,
+      .three-cols,
+      .flow {
+        grid-template-columns: 1fr;
+      }
+
+      .claim-workflow {
+        grid-template-columns: 1fr;
+        width: min(100%, 26em);
+      }
+
+      .claim-arrow {
+        justify-self: center;
+        transform: rotate(90deg);
+      }
+
+      .claim-equivalence {
+        grid-column: 1;
+      }
+
+      .source-list {
+        columns: 1;
+      }
+
+      .controls {
+        gap: 8px;
+        padding: 8px 10px;
+      }
+
+      .controls button {
+        min-width: 68px;
+        padding: 8px 10px;
+        font-size: 0.82rem;
+      }
+
+      #count {
+        min-width: 74px;
+        font-size: 0.78rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck">
+    <section class="stage" aria-live="polite">
+      <article class="slide active title-slide" aria-label="Title slide">
+        <h1>Lean and Machine-Checked Proofs</h1>
+        <p class="author">Proof assistants, mathlib, and AI help for formalization</p>
+        <p class="institute">A short guide to starting with Lean</p>
+      </article>
+
+      <article class="slide history-early" aria-label="History of proof assistance early systems">
+        <h2 class="slide-title">History of proof assistance I</h2>
+        <p>Goal: make proofs checkable by machine. Definitions, theorem statements, and inferences must be clear enough for a small kernel to verify.</p>
+        <div class="cols">
+          <div class="box">
+            <p class="heading">Early systems</p>
+            <ul>
+              <li>Automath began in the 1960s and used typed languages to represent proofs.</li>
+              <li>Mizar started around 1973 and kept formal mathematics close to ordinary writing.</li>
+              <li>The lesson remains: a proof is structured data that a program can check.</li>
+            </ul>
+          </div>
+         </div>
+        <p class="source-note">Source: <a href="https://en.wikipedia.org/wiki/Automath">Automath</a>.</p>
+      </article>
+
+      <article class="slide history-modern" aria-label="History of proof assistance modern systems">
+        <h2 class="slide-title">History of proof assistance II</h2>
+        <div class="cols">
+          <div class="box">
+            <p class="mini-heading">Major proof assistants</p>
+            <ul>
+              <li>Coq/Rocq, Isabelle, HOL, ACL2, Agda, and Lean support formal proof.</li>
+              <li>Coq grew from work on the Calculus of Constructions starting in 1984. It is now called the Rocq Prover.</li>
+              <li>Lean launched in 2013. Lean 4 works well with mathlib.</li>
+            </ul>
+          </div>
+        </div>
+        <p class="source-note">Sources: <a href="https://rocq-prover.org/about">Rocq Prover</a>, <a href="https://lean-lang.org/doc/reference/4.20.0/Introduction/">Lean reference</a>.</p>
+      </article>
+
+      <article class="slide" aria-label="Why formal proof differs from paper proof">
+        <h2 class="slide-title">What changes in formal proof?</h2>
+        <div class="three-cols">
+          <div class="itembox">
+            <p class="mini-heading">Definitions</p>
+            <p>Every object has a precise type. Hidden paper conventions become named definitions, instances, or assumptions.</p>
+          </div>
+          <div class="itembox">
+            <p class="mini-heading">Theorems</p>
+            <p>A theorem statement is a type. A proof is a term of that type. If it type-checks, Lean accepts it.</p>
+          </div>
+          <div class="itembox">
+            <p class="mini-heading">Inference</p>
+            <p>A tactic can supply each inference. The kernel checks the resulting proof object.</p>
+          </div>
+        </div>
+        <figure class="claim-workflow" aria-label="Claim-as-type proof workflow">
+          <div class="claim-node">
+            <p class="claim-main">$ \text{Type} = \text{Claim} $</p>
+            <p class="claim-sub">theorem statement as type</p>
+          </div>
+          <div class="claim-arrow" aria-hidden="true">-&gt;</div>
+          <div class="claim-node">
+            <p class="claim-main">$ p : \text{Claim} $</p>
+            <p class="claim-sub">proof as element</p>
+          </div>
+          <div class="claim-arrow" aria-hidden="true">-&gt;</div>
+          <div class="claim-node">
+            <p class="claim-main">Kernel accepts</p>
+            <p class="claim-sub">the element has this type</p>
+          </div>
+          <figcaption class="claim-equivalence">
+            $ \text{constructing a proof} \Longleftrightarrow \text{constructing an element of the type} $
+          </figcaption>
+        </figure>
+      </article>
+
+
+      <article class="slide" aria-label="Lean background">
+        <h2 class="slide-title">Lean</h2>
+        <div class="cols">
+          <div>
+            <ul>
+              <li>Lean launched in 2013.</li>
+              <li>Lean 4 is both a theorem prover and a functional programming language.</li>
+              <li>The official VS Code extension gives interactive support.</li>
+              <li>Lean is widely used for formalizing mathematics.</li>
+            </ul>
+          </div>
+          <div class="box">
+            <p class="mini-heading">Mathlib</p>
+            <ul>
+              <li>Mathlib is Lean's large community library for formalized mathematics.</li>
+              <li>It covers algebra, topology, analysis, probability, category theory, combinatorics, and more.</li>
+              <li>Reuse matters: each theorem can help future projects.</li>
+            </ul>
+          </div>
+        </div>
+        <p class="source-note">Sources: <a href="https://lean-lang.org/lean4/doc/reference.html">Lean language reference</a>, <a href="https://lean-lang.org/use-cases/mathlib">mathlib overview</a>.</p>
+      </article>
+
+
+
+      <article class="slide" aria-label="Installation tools">
+        <h2 class="slide-title">Installation: tools</h2>
+        <div class="cols">
+          <div>
+            <ul>
+              <li>Install VS Code.</li>
+              <li>Install the Lean 4 VS Code extension.</li>
+              <li>Install Git.</li>
+              <li>Create or use a GitHub account.</li>
+              <li>Enable GitHub Copilot in VS Code and sign in with GitHub.</li>
+            </ul>
+          </div>
+          <div class="itembox">
+            <p class="mini-heading">Practical note</p>
+            <p>The Lean extension shows goals, errors, docs, and tactic feedback. This is the main working interface.</p>
+          </div>
+        </div>
+        <p class="source-note">Sources: <a href="https://lean-lang.org/lean4/doc/quickstart.html">Lean install guide</a>, <a href="https://code.visualstudio.com/docs/copilot/setup?originUrl=%2Fdocs%2Fcopilot%2Fgetting-started">VS Code Copilot setup</a>.</p>
+      </article>
+
+      <article class="slide" aria-label="Create Lean mathlib project">
+        <h2 class="slide-title">Create a Lean + mathlib project</h2>
+        <pre class="code-block"><code>mkdir lean-projects
+cd lean-projects
+
+lake +leanprover-community/mathlib4:lean-toolchain new MyMathlibProject math
+cd MyMathlibProject
+
+lake exe cache get
+lake build
+code .</code></pre>
+        <ul>
+          <li><code>math</code> creates a Lean project with mathlib.</li>
+          <li><code>lake exe cache get</code> downloads precompiled mathlib files to save time.</li>
+          <li><code>lake build</code> checks the project and its dependencies.</li>
+        </ul>
+        <p class="source-note">Source: <a href="https://github.com/leanprover-community/mathlib4/wiki/Using-mathlib4-as-a-dependency">Using mathlib4 as a dependency</a>.</p>
+      </article>
+
+      <article class="slide" aria-label="Lean workflow blueprint">
+        <h2 class="slide-title">Workflow: make a blueprint</h2>
+        <div class="flow">
+          <div class="flow-node">Informal theorem</div>
+          <div class="flow-node">Definitions</div>
+          <div class="flow-node">Lemma graph</div>
+          <div class="flow-node">Proof plan</div>
+          <div class="flow-node">Lean declarations</div>
+        </div>
+        <ul>
+          <li>Write the proof structure before coding.</li>
+          <li>List definitions, theorem statements, lemmas, and the proof route.</li>
+          <li>A blueprint connects readable math to Lean names and files.</li>
+          <li><code>leanblueprint</code> can create blueprint websites and PDFs.</li>
+        </ul>
+        <p class="source-note">Source: <a href="https://github.com/PatrickMassot/leanblueprint">leanblueprint</a>.</p>
+      </article>
+
+      <article class="slide" aria-label="Ask AI for Lean code">
+        <h2 class="slide-title">Workflow: ask AI for Lean code</h2>
+        <div class="cols">
+          <div class="box">
+            <p class="mini-heading">Give AI</p>
+            <ul>
+              <li>The theorem statement.</li>
+              <li>Needed imports.</li>
+              <li>The proof outline or blueprint.</li>
+              <li>Nearby mathlib and project lemmas.</li>
+              <li>Expected assumptions and variable types.</li>
+            </ul>
+          </div>
+          <div class="box">
+            <p class="mini-heading">Ask for</p>
+            <ul>
+              <li>Lean code without <code>sorry</code>.</li>
+              <li>Helper lemmas, if useful.</li>
+              <li>Short names matching the blueprint.</li>
+              <li>No new axioms unless requested.</li>
+            </ul>
+          </div>
+        </div>
+        <p class="meta">AI can help with search and repair. Lean remains the checker, so generated proof code must compile.</p>
+      </article>
+
+      <article class="slide" aria-label="Compile and repair loop">
+        <h2 class="slide-title">Workflow: compile and repair</h2>
+        <pre class="code-block"><code>lake build</code></pre>
+        <div class="cols">
+          <div>
+            <ul>
+              <li>If the build succeeds, Lean accepted the proof.</li>
+              <li>If the build fails, send AI the error and goal state.</li>
+              <li>Repeat: generate, build, inspect, repair.</li>
+            </ul>
+          </div>
+          <div class="itembox">
+            <p class="mini-heading">Useful error data</p>
+            <p>Include the exact file location, local context, target goal, and failed tactic message. This is usually better than a prose summary.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide" aria-label="Check axioms and assumptions">
+        <h2 class="slide-title">Check axioms and assumptions</h2>
+        <pre class="code-block"><code>#print axioms theorem_name</code></pre>
+        <div class="cols">
+          <div>
+            <ul>
+              <li>If <code>sorryAx</code> appears, a <code>sorry</code> placeholder remains.</li>
+              <li>Check for unwanted custom axioms.</li>
+              <li>Check that assumptions match the paper statement.</li>
+              <li>Use <code>lake build</code>. For stronger validation, use <code>lean4checker</code> when needed.</li>
+            </ul>
+          </div>
+          <div class="theorem small">
+            <div class="name">Rule of thumb</div>
+            <p>A compiled file is not enough if the theorem statement was weakened. Compare the Lean assumptions with the intended claim.</p>
+          </div>
+        </div>
+        <p class="source-note">Source: <a href="https://lean-lang.org/doc/reference/latest/ValidatingProofs/">Validating a Lean Proof</a>.</p>
+      </article>
+
+      <article class="slide" aria-label="Why formalization is important">
+        <h2 class="slide-title">Why is this important?</h2>
+        <div class="three-cols">
+          <div class="box">
+            <p class="mini-heading">Proof checking</p>
+            <p>Human refereeing can take months. Once formalized, Lean checks the proof automatically.</p>
+          </div>
+          <div class="box">
+            <p class="mini-heading">Gap finding</p>
+            <p>Formalization reveals gaps, missing assumptions, unclear definitions, and notation conflicts.</p>
+          </div>
+          <div class="box">
+            <p class="mini-heading">Reuse</p>
+            <p>Once in mathlib, a theorem can be imported and reused.</p>
+          </div>
+        </div>
+        <p class="meta">A growing library also helps AI theorem proving. Models and search tools get more verified examples and reusable lemmas.</p>
+      </article>
+
+      <article class="slide" aria-label="Journal submission context">
+        <h2 class="slide-title">Journal submission?</h2>
+        <div class="cols">
+          <div class="box">
+            <p class="mini-heading">Ordinary math journals</p>
+            <p>Lean files are usually not required. For example, Annals of Mathematics asks for manuscript files such as a PDF and arXiv-style source.</p>
+          </div>
+          <div class="box">
+            <p class="mini-heading">Formalization journals</p>
+            <p>Formalization journals expect code artifacts. Annals of Formalized Mathematics asks for formal proof artifacts and code.</p>
+          </div>
+        </div>
+        <p class="source-note">Sources: <a href="https://annals.math.princeton.edu/submission-guidelines">Annals of Mathematics submission guidelines</a>, <a href="https://afm.episciences.org/page/instructions-for-authors">Annals of Formalized Mathematics instructions</a>.</p>
+      </article>
+
+      <article class="slide" aria-label="Learn more sources">
+        <h2 class="slide-title">Learn more</h2>
+        <ol class="source-list">
+          <li><a href="https://en.wikipedia.org/wiki/Automath">Automath - Wikipedia</a></li>
+          <li><a href="https://rocq-prover.org/about">About the Rocq Prover</a></li>
+          <li><a href="https://lean-lang.org/doc/reference/4.20.0/Introduction/">Lean reference introduction</a></li>
+          <li><a href="https://lean-lang.org/lean4/doc/reference.html">The Lean Language Reference</a></li>
+          <li><a href="https://lean-lang.org/use-cases/mathlib">Mathlib overview</a></li>
+          <li><a href="https://lean-lang.org/lean4/doc/quickstart.html">Install Lean</a></li>
+          <li><a href="https://code.visualstudio.com/docs/copilot/setup?originUrl=%2Fdocs%2Fcopilot%2Fgetting-started">Set up GitHub Copilot in VS Code</a></li>
+          <li><a href="https://github.com/leanprover-community/mathlib4/wiki/Using-mathlib4-as-a-dependency">Using mathlib4 as a dependency</a></li>
+          <li><a href="https://github.com/PatrickMassot/leanblueprint">leanblueprint</a></li>
+          <li><a href="https://lean-lang.org/doc/reference/latest/ValidatingProofs/">Validating a Lean Proof</a></li>
+          <li><a href="https://annals.math.princeton.edu/submission-guidelines">Annals of Mathematics submission guidelines</a></li>
+          <li><a href="https://afm.episciences.org/page/instructions-for-authors">Annals of Formalized Mathematics instructions</a></li>
+        </ol>
+      </article>
+    </section>
+
+    <nav class="controls" aria-label="Slide controls">
+      <button type="button" id="prev">Prev</button>
+      <div class="progress" aria-hidden="true"><div class="bar" id="bar"></div></div>
+      <span id="count"></span>
+      <button type="button" id="next">Next</button>
+    </nav>
+  </main>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const count = document.getElementById('count');
+    const bar = document.getElementById('bar');
+    let index = 0;
+    let resizeFrame = null;
+
+    const jumpPanel = document.createElement('div');
+    jumpPanel.className = 'jump-panel';
+    jumpPanel.style.display = 'none';
+    document.body.appendChild(jumpPanel);
+
+    slides.forEach((slide, i) => {
+      slide.dataset.page = String(i);
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = `jump-button${i === 0 ? ' is-active' : ''}`;
+      button.textContent = String(i);
+      button.addEventListener('click', () => {
+        jumpPanel.style.display = 'none';
+        showSlide(i);
+      });
+      jumpPanel.appendChild(button);
+    });
+
+    function slideOverflows(slide) {
+      return slide.scrollHeight > slide.clientHeight + 1 || slide.scrollWidth > slide.clientWidth + 1;
+    }
+
+    function fitMathDisplays(slide) {
+      if (!slide) return;
+      const displays = Array.from(slide.querySelectorAll('mjx-container[jax="SVG"][display="true"]'));
+      displays.forEach((display) => display.style.removeProperty('font-size'));
+    }
+
+    function fitSlide(slide) {
+      if (!slide) return;
+      slide.style.removeProperty('--slide-font-size');
+      void slide.offsetHeight;
+
+      const baseSize = parseFloat(getComputedStyle(slide).fontSize);
+      if (!slideOverflows(slide)) return;
+
+      let low = Math.max(10, baseSize * 0.66);
+      let high = baseSize;
+
+      slide.style.setProperty('--slide-font-size', `${low.toFixed(2)}px`);
+      void slide.offsetHeight;
+      if (slideOverflows(slide)) return;
+
+      for (let i = 0; i < 10; i += 1) {
+        const mid = (low + high) / 2;
+        slide.style.setProperty('--slide-font-size', `${mid.toFixed(2)}px`);
+        void slide.offsetHeight;
+        if (slideOverflows(slide)) {
+          high = mid;
+        } else {
+          low = mid;
+        }
+      }
+
+      slide.style.setProperty('--slide-font-size', `${low.toFixed(2)}px`);
+    }
+
+    function fitSlideContent(slide) {
+      if (!slide) return;
+      slide.style.removeProperty('--slide-font-size');
+      fitMathDisplays(slide);
+      fitSlide(slide);
+    }
+
+    function typesetAndFit(slide) {
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([slide]).then(() => fitSlideContent(slide));
+      } else {
+        requestAnimationFrame(() => fitSlideContent(slide));
+      }
+    }
+
+    function showSlide(nextIndex) {
+      index = Math.max(0, Math.min(slides.length - 1, nextIndex));
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+      jumpPanel.querySelectorAll('.jump-button').forEach((button, i) => {
+        button.classList.toggle('is-active', i === index);
+      });
+      count.textContent = `${index + 1} / ${slides.length}`;
+      bar.style.width = `${((index + 1) / slides.length) * 100}%`;
+      typesetAndFit(slides[index]);
+    }
+
+    function hashSlideIndex() {
+      const match = window.location.hash.match(/\d+/);
+      if (!match) return 0;
+      const requested = Number(match[0]);
+      return Number.isFinite(requested) ? requested : 0;
+    }
+
+    document.getElementById('prev').addEventListener('click', () => showSlide(index - 1));
+    document.getElementById('next').addEventListener('click', () => showSlide(index + 1));
+    count.addEventListener('click', () => {
+      jumpPanel.style.display = jumpPanel.style.display === 'none' ? 'grid' : 'none';
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') showSlide(index + 1);
+      if (event.key === 'ArrowLeft' || event.key === 'PageUp') showSlide(index - 1);
+      if (event.key === 'Home') showSlide(0);
+      if (event.key === 'End') showSlide(slides.length - 1);
+    });
+
+    window.addEventListener('resize', () => {
+      if (resizeFrame) cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(() => {
+        resizeFrame = null;
+        fitSlideContent(slides[index]);
+      });
+    });
+
+    window.addEventListener('load', () => typesetAndFit(slides[index]));
+    window.addEventListener('hashchange', () => showSlide(hashSlideIndex()));
+
+    showSlide(hashSlideIndex());
+  </script>
+</body>
+</html>

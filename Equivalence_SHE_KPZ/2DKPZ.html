@@ -1,0 +1,1183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2D KPZ Surface Simulation</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0d1117;
+      --panel: #151b23;
+      --panel-2: #1b2430;
+      --line: #2f3c4c;
+      --ink: #edf4fb;
+      --text: #c8d4df;
+      --muted: #8ea0b1;
+      --blue: #55a6ff;
+      --cyan: #45d3c6;
+      --orange: #f19a45;
+      --red: #f15c5c;
+      --field: #101721;
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      overflow: hidden;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 430px);
+      min-height: 100vh;
+      min-height: 100svh;
+    }
+
+    .viewer {
+      position: relative;
+      min-width: 0;
+      min-height: 100vh;
+      min-height: 100svh;
+      background: #080c12;
+    }
+
+    .topbar {
+      position: absolute;
+      z-index: 4;
+      top: 18px;
+      left: 18px;
+      right: 18px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      pointer-events: none;
+    }
+
+    h1 {
+      margin: 0;
+      color: #f7fbff;
+      font-size: clamp(1.2rem, 2vw, 1.9rem);
+      line-height: 1.12;
+      font-weight: 500;
+      letter-spacing: 0;
+      text-shadow: 0 2px 18px rgba(0, 0, 0, 0.42);
+    }
+
+    .subtitle {
+      margin-top: 7px;
+      color: #b9c8d6;
+      font-size: 0.86rem;
+      line-height: 1.35;
+      max-width: 760px;
+    }
+
+    .status-strip {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+      max-width: 620px;
+    }
+
+    .status {
+      min-width: 92px;
+      padding: 7px 9px;
+      border: 1px solid rgba(142, 160, 177, 0.28);
+      border-radius: var(--radius);
+      background: rgba(13, 18, 25, 0.72);
+      color: #f4f8fb;
+      backdrop-filter: blur(10px);
+    }
+
+    .status span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.68rem;
+      line-height: 1.05;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .status output {
+      display: block;
+      margin-top: 4px;
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 0.86rem;
+      line-height: 1;
+    }
+
+    .scene-wrap {
+      position: absolute;
+      inset: 0;
+    }
+
+    #surface {
+      display: block;
+      width: 100%;
+      height: 100%;
+      outline: none;
+    }
+
+    .viewer-note {
+      position: absolute;
+      left: 18px;
+      bottom: 18px;
+      z-index: 4;
+      width: min(780px, calc(100% - 36px));
+      padding: 10px 12px;
+      border: 1px solid rgba(142, 160, 177, 0.24);
+      border-radius: var(--radius);
+      background: rgba(13, 18, 25, 0.72);
+      color: #c9d6e3;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      backdrop-filter: blur(10px);
+    }
+
+    .panel {
+      height: 100vh;
+      height: 100svh;
+      overflow: auto;
+      padding: 18px;
+      border-left: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .button-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    button {
+      appearance: none;
+      border: 1px solid #3a495b;
+      border-radius: 6px;
+      background: #203044;
+      color: #eef6ff;
+      min-height: 40px;
+      padding: 8px 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #29405c;
+      border-color: #55708c;
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    h2 {
+      margin: 20px 0 10px;
+      color: #f3f8ff;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .control {
+      display: grid;
+      gap: 7px;
+      margin: 0 0 12px;
+      padding: 10px;
+      border: 1px solid rgba(142, 160, 177, 0.18);
+      border-radius: var(--radius);
+      background: var(--panel-2);
+    }
+
+    .control.is-disabled {
+      opacity: 0.48;
+    }
+
+    .control-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--text);
+      font-size: 0.88rem;
+    }
+
+    .control-head output {
+      color: #eef7ff;
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 0.84rem;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--blue);
+    }
+
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--cyan);
+    }
+
+    select {
+      width: 100%;
+      min-height: 38px;
+      border: 1px solid #3a495b;
+      border-radius: 6px;
+      background: var(--field);
+      color: var(--ink);
+      padding: 7px 9px;
+    }
+
+    .check-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 0 0 12px;
+      padding: 10px;
+      border: 1px solid rgba(142, 160, 177, 0.18);
+      border-radius: var(--radius);
+      background: var(--panel-2);
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    .readout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 0 0 12px;
+    }
+
+    .readout div {
+      min-width: 0;
+      padding: 8px 9px;
+      border: 1px solid rgba(142, 160, 177, 0.18);
+      border-radius: var(--radius);
+      background: var(--field);
+    }
+
+    .readout span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.68rem;
+      line-height: 1.1;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .readout output {
+      display: block;
+      margin-top: 5px;
+      overflow: hidden;
+      color: var(--ink);
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 0.83rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .note,
+    .math-notes p {
+      color: var(--text);
+      font-size: 0.88rem;
+      line-height: 1.48;
+    }
+
+    .note {
+      margin: 8px 0 13px;
+    }
+
+    .math-notes {
+      padding-bottom: 8px;
+    }
+
+    .formula {
+      margin: 9px 0;
+      padding: 8px 9px;
+      border-left: 3px solid var(--cyan);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      background: #111923;
+      overflow-x: auto;
+    }
+
+    .warning {
+      display: none;
+      margin: 8px 0 0;
+      padding: 9px 10px;
+      border: 1px solid rgba(241, 92, 92, 0.45);
+      border-radius: var(--radius);
+      background: rgba(241, 92, 92, 0.12);
+      color: #ffd1d1;
+      font-size: 0.86rem;
+      line-height: 1.35;
+    }
+
+    .warning.is-visible {
+      display: block;
+    }
+
+    mjx-container[jax="SVG"] {
+      color: #edf4fb;
+      outline: none;
+    }
+
+    @media (max-width: 960px) {
+      body {
+        overflow: auto;
+      }
+
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .viewer {
+        min-height: 62vh;
+      }
+
+      .panel {
+        height: auto;
+        min-height: 38vh;
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .topbar {
+        position: relative;
+        inset: auto;
+        padding: 16px;
+        background: #0d1117;
+      }
+
+      .scene-wrap {
+        top: 112px;
+      }
+
+      .status-strip {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="viewer" aria-label="Three dimensional KPZ surface viewer">
+      <div class="topbar">
+        <div>
+          <h1>2D KPZ Surface Simulation</h1>
+          <div class="subtitle">Explicit Euler scheme on a periodic square grid with finite-grid Wick ordering.</div>
+        </div>
+        <div class="status-strip" aria-live="polite">
+          <div class="status"><span>time</span><output id="statTime">0</output></div>
+          <div class="status"><span>beta</span><output id="statBeta">1</output></div>
+          <div class="status"><span>$C_N$</span><output id="statCounter">0</output></div>
+          <div class="status"><span>mean</span><output id="statMean">0</output></div>
+        </div>
+      </div>
+      <div class="scene-wrap">
+        <canvas id="surface"></canvas>
+      </div>
+      <div class="viewer-note">
+        The mesh plots $h-\bar h$ for visibility. This mean subtraction is only for visualization. The true spatial mean is shown in the panel.
+      </div>
+    </section>
+
+    <aside class="panel">
+      <div class="button-row">
+        <button id="pauseButton" type="button">Pause</button>
+        <button id="resetButton" type="button">Reset</button>
+        <button id="seedButton" type="button">Random seed</button>
+      </div>
+
+      <h2>Controls</h2>
+      <label class="control">
+        <span class="control-head"><span>mode</span><output id="modeValue">fixed grid</output></span>
+        <select id="mode">
+          <option value="fixed">fixed-grid visual mode</option>
+          <option value="scaling">2D marginal KPZ scaling</option>
+        </select>
+      </label>
+
+      <label class="control">
+        <span class="control-head"><span>$N$</span><output id="nValue">48</output></span>
+        <input id="nSlider" type="range" min="24" max="96" step="8" value="48">
+      </label>
+
+      <label class="control">
+        <span class="control-head"><span>$L$</span><output id="lValue">4.00</output></span>
+        <input id="lSlider" type="range" min="1" max="8" step="0.25" value="4">
+      </label>
+
+      <label class="control" id="betaControl">
+        <span class="control-head"><span>$\beta$</span><output id="betaValue">1.00</output></span>
+        <input id="betaSlider" type="range" min="0" max="3" step="0.01" value="1">
+      </label>
+
+      <label class="control" id="betaHatControl">
+        <span class="control-head"><span>$\widehat\beta$</span><output id="betaHatValue">1.20</output></span>
+        <input id="betaHatSlider" type="range" min="0.2" max="2" step="0.01" value="1.2">
+      </label>
+
+      <label class="control">
+        <span class="control-head"><span>$c$ in $dt=c\,dx^2$</span><output id="dtFactorValue">0.010</output></span>
+        <input id="dtFactorSlider" type="range" min="0.001" max="0.05" step="0.001" value="0.01">
+      </label>
+
+      <label class="control">
+        <span class="control-head"><span>vertical scale</span><output id="verticalValue">1.40</output></span>
+        <input id="verticalSlider" type="range" min="0.1" max="5" step="0.05" value="1.4">
+      </label>
+
+      <label class="control">
+        <span class="control-head"><span>steps per frame</span><output id="stepsValue">4</output></span>
+        <input id="stepsSlider" type="range" min="1" max="80" step="1" value="4">
+      </label>
+
+      <label class="check-row">
+        <span>renormalized</span>
+        <input id="renormalized" type="checkbox" checked>
+      </label>
+
+      <label class="check-row">
+        <span>stabilized nonlinear drift</span>
+        <input id="stabilized" type="checkbox" checked>
+      </label>
+
+      <label class="check-row">
+        <span>display lift</span>
+        <input id="liftEnabled" type="checkbox" checked>
+      </label>
+
+      <label class="control">
+        <span class="control-head"><span>lift rate</span><output id="liftValue">0.60</output></span>
+        <input id="liftSlider" type="range" min="0" max="4" step="0.05" value="0.6">
+      </label>
+
+      <div id="warning" class="warning"></div>
+
+      <h2>Current Values</h2>
+      <div class="readout">
+        <div><span>$dx$</span><output id="dxOut">0</output></div>
+        <div><span>$dt$</span><output id="dtOut">0</output></div>
+        <div><span>$\beta$</span><output id="betaOut">0</output></div>
+        <div><span>$C_N$ used</span><output id="counterOut">0</output></div>
+        <div><span>raw $C_N$</span><output id="rawCounterOut">0</output></div>
+        <div><span>time</span><output id="timeOut">0</output></div>
+        <div><span>true mean</span><output id="meanOut">0</output></div>
+        <div><span>roughness</span><output id="roughnessOut">0</output></div>
+        <div><span>internal $dt$</span><output id="substepOut">0</output></div>
+        <div><span>$Q$ limiter</span><output id="limiterOut">on</output></div>
+      </div>
+      <p class="note">Changing $N$ or $L$ rebuilds the grid and restarts from the current seed. The random seed button picks a new seed and restarts.</p>
+
+      <section class="math-notes" aria-label="Scheme and renormalization notes">
+        <h2>Scheme</h2>
+        <p>The simulated equation is</p>
+        <p class="formula">$ \displaystyle \partial_t h=\frac12 \Delta h+\frac12\bigl(Q(h)-C_N\bigr)+\beta\xi^\epsilon. $</p>
+        <p>The periodic grid has spacing $dx=L/N$ and uses explicit Euler time stepping with $dt=c\,dx^2$.</p>
+        <p class="formula">$ \displaystyle h_{ij}^{n+1}=h_{ij}^{n}+dt\left[\frac12\Delta_h h_{ij}^{n}+\frac12\left(Q_{ij}^{n}-C_N\right)\right]+\beta\sqrt{\frac{dt}{dx^2}}\eta_{ij}^{n}. $</p>
+        <p>The five-point Laplacian is used with periodic indexing.</p>
+        <p class="formula">$ \displaystyle \Delta_h h_{ij}=\frac{h_{i+1,j}+h_{i-1,j}+h_{i,j+1}+h_{i,j-1}-4h_{ij}}{dx^2}. $</p>
+        <p>The nonlinear term is the symmetric forward and backward gradient square.</p>
+        <p class="formula">$ \displaystyle Q_{ij}=\frac12\left[(D_x^+h)^2+(D_x^-h)^2+(D_y^+h)^2+(D_y^-h)^2\right]. $</p>
+        <p>For long browser runs, the default stabilized mode splits each displayed step into smaller internal steps and applies a smooth limiter to rare extreme values of $Q$. Turn it off to see the raw explicit Euler update.</p>
+        <p>The discrete noise represents cell-averaged space-time white noise.</p>
+        <p class="formula">$ \displaystyle \xi_{ij}^{n}=\frac{\eta_{ij}^{n}}{\sqrt{dt\,dx^2}},\qquad \mathbb E[\xi_{ij}^{n}\xi_{kl}^{m}]=\frac{\delta_{ik}\delta_{jl}\delta_{nm}}{dt\,dx^2}. $</p>
+
+        <h2>Renormalization</h2>
+        <p>The renormalization is not a change of the white noise samples. The samples still enter as</p>
+        <p class="formula">$ \displaystyle \beta\sqrt{\frac{dt}{dx^2}}\eta_{ij}^{n}. $</p>
+        <p>Wick ordering subtracts $\frac12 C_N$ from the KPZ drift, where</p>
+        <p class="formula">$ \displaystyle C_N=\frac{\beta^2(N^2-1)}{L^2}. $</p>
+        <p>When the checkbox is off, the code sets $C_N=0$, making the vertical drift visible in the true mean.</p>
+
+        <h2>Temperature Scaling</h2>
+        <p>In fixed-grid mode, $\beta$ is controlled directly. In 2D marginal KPZ scaling mode, the code uses</p>
+        <p class="formula">$ \displaystyle \beta_N=\widehat\beta\sqrt{\frac{2\pi}{\log(L/dx)}}. $</p>
+        <p>Here larger $\beta$ means lower temperature and stronger noise; $\widehat\beta>1$ is the low-temperature side.</p>
+      </section>
+    </aside>
+  </main>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    const els = {
+      canvas: document.getElementById('surface'),
+      pauseButton: document.getElementById('pauseButton'),
+      resetButton: document.getElementById('resetButton'),
+      seedButton: document.getElementById('seedButton'),
+      mode: document.getElementById('mode'),
+      modeValue: document.getElementById('modeValue'),
+      nSlider: document.getElementById('nSlider'),
+      nValue: document.getElementById('nValue'),
+      lSlider: document.getElementById('lSlider'),
+      lValue: document.getElementById('lValue'),
+      betaSlider: document.getElementById('betaSlider'),
+      betaValue: document.getElementById('betaValue'),
+      betaControl: document.getElementById('betaControl'),
+      betaHatSlider: document.getElementById('betaHatSlider'),
+      betaHatValue: document.getElementById('betaHatValue'),
+      betaHatControl: document.getElementById('betaHatControl'),
+      dtFactorSlider: document.getElementById('dtFactorSlider'),
+      dtFactorValue: document.getElementById('dtFactorValue'),
+      verticalSlider: document.getElementById('verticalSlider'),
+      verticalValue: document.getElementById('verticalValue'),
+      stepsSlider: document.getElementById('stepsSlider'),
+      stepsValue: document.getElementById('stepsValue'),
+      renormalized: document.getElementById('renormalized'),
+      stabilized: document.getElementById('stabilized'),
+      liftEnabled: document.getElementById('liftEnabled'),
+      liftSlider: document.getElementById('liftSlider'),
+      liftValue: document.getElementById('liftValue'),
+      warning: document.getElementById('warning'),
+      dxOut: document.getElementById('dxOut'),
+      dtOut: document.getElementById('dtOut'),
+      betaOut: document.getElementById('betaOut'),
+      counterOut: document.getElementById('counterOut'),
+      rawCounterOut: document.getElementById('rawCounterOut'),
+      timeOut: document.getElementById('timeOut'),
+      meanOut: document.getElementById('meanOut'),
+      roughnessOut: document.getElementById('roughnessOut'),
+      substepOut: document.getElementById('substepOut'),
+      limiterOut: document.getElementById('limiterOut'),
+      statTime: document.getElementById('statTime'),
+      statBeta: document.getElementById('statBeta'),
+      statCounter: document.getElementById('statCounter'),
+      statMean: document.getElementById('statMean')
+    };
+
+    const params = {
+      seed: 123456789,
+      mode: 'fixed',
+      n: 48,
+      length: 4,
+      beta: 1,
+      betaHat: 1.2,
+      dtFactor: 0.01,
+      verticalScale: 1.4,
+      stepsPerFrame: 4,
+      renormalized: true,
+      stabilized: true,
+      liftEnabled: true,
+      liftRate: 0.6
+    };
+
+    let h = new Float64Array(0);
+    let hNext = new Float64Array(0);
+    let rng = null;
+    let spareGaussian = null;
+    let time = 0;
+    let mean = 0;
+    let roughness = 0;
+    let running = true;
+    let lastInternalSteps = 1;
+    let lastInternalDt = 0;
+    let lastNonlinearLimit = 0;
+    let surfaceMesh = null;
+    let wireMesh = null;
+    let geometry = null;
+    let positionAttr = null;
+    let colorAttr = null;
+    let lastFrame = 0;
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas: els.canvas,
+      antialias: true,
+      alpha: false
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setClearColor(0x080c12, 1);
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x080c12);
+    scene.fog = new THREE.Fog(0x080c12, 9, 30);
+
+    const camera = new THREE.PerspectiveCamera(42, 1, 0.01, 100);
+    camera.position.set(4.8, 4.2, 6.2);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.target.set(0, 0, 0);
+
+    const floorGrid = new THREE.GridHelper(8, 32, 0x38536a, 0x1d2b36);
+    floorGrid.position.y = -1.25;
+    scene.add(floorGrid);
+
+    scene.add(new THREE.AmbientLight(0xb8c7d6, 0.55));
+
+    const keyLight = new THREE.DirectionalLight(0xffffff, 1.25);
+    keyLight.position.set(4, 8, 5);
+    scene.add(keyLight);
+
+    const rimLight = new THREE.DirectionalLight(0x67c8ff, 0.55);
+    rimLight.position.set(-5, 3, -4);
+    scene.add(rimLight);
+
+    const surfaceMaterial = new THREE.MeshStandardMaterial({
+      vertexColors: true,
+      side: THREE.DoubleSide,
+      roughness: 0.82,
+      metalness: 0.02,
+      polygonOffset: true,
+      polygonOffsetFactor: 1,
+      polygonOffsetUnits: 1
+    });
+
+    const wireMaterial = new THREE.MeshBasicMaterial({
+      color: 0x0a1118,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.16,
+      depthWrite: false
+    });
+
+    function mulberry32(seed) {
+      let state = seed >>> 0;
+      return function random() {
+        state += 0x6D2B79F5;
+        let t = state;
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    function randn() {
+      if (spareGaussian !== null) {
+        const value = spareGaussian;
+        spareGaussian = null;
+        return value;
+      }
+
+      let u = 0;
+      let v = 0;
+      while (u === 0) u = rng();
+      while (v === 0) v = rng();
+
+      const radius = Math.sqrt(-2 * Math.log(u));
+      const theta = 2 * Math.PI * v;
+      spareGaussian = radius * Math.sin(theta);
+      return radius * Math.cos(theta);
+    }
+
+    function parseDynamicControls() {
+      params.mode = els.mode.value;
+      params.beta = Number(els.betaSlider.value);
+      params.betaHat = Number(els.betaHatSlider.value);
+      params.dtFactor = Number(els.dtFactorSlider.value);
+      params.verticalScale = Number(els.verticalSlider.value);
+      params.stepsPerFrame = Number(els.stepsSlider.value);
+      params.renormalized = els.renormalized.checked;
+      params.stabilized = els.stabilized.checked;
+      params.liftEnabled = els.liftEnabled.checked;
+      params.liftRate = Number(els.liftSlider.value);
+    }
+
+    function parseControls() {
+      parseDynamicControls();
+      params.n = Number(els.nSlider.value);
+      params.length = Number(els.lSlider.value);
+    }
+
+    function dx() {
+      return params.length / params.n;
+    }
+
+    function dt() {
+      const spacing = dx();
+      return params.dtFactor * spacing * spacing;
+    }
+
+    function betaEffective() {
+      if (params.mode === 'scaling') {
+        return params.betaHat * Math.sqrt((2 * Math.PI) / Math.log(params.length / dx()));
+      }
+      return params.beta;
+    }
+
+    function countertermRaw() {
+      const beta = betaEffective();
+      return beta * beta * (params.n * params.n - 1) / (params.length * params.length);
+    }
+
+    function countertermUsed() {
+      return params.renormalized ? countertermRaw() : 0;
+    }
+
+    function nonlinearLimit() {
+      return Math.max(48, 2.5 * countertermRaw());
+    }
+
+    function limitedNonlinear(rawQ, limit) {
+      if (!params.stabilized) return rawQ;
+      return limit * Math.tanh(rawQ / limit);
+    }
+
+    function index(x, y) {
+      const n = params.n;
+      return ((y + n) % n) * n + ((x + n) % n);
+    }
+
+    function estimateMaxNonlinear(limit) {
+      const n = params.n;
+      const spacing = dx();
+      const invDx = 1 / spacing;
+      let maxQ = 0;
+
+      for (let y = 0; y < n; y += 1) {
+        const yp = y + 1 === n ? 0 : y + 1;
+        const ym = y === 0 ? n - 1 : y - 1;
+        for (let x = 0; x < n; x += 1) {
+          const xp = x + 1 === n ? 0 : x + 1;
+          const xm = x === 0 ? n - 1 : x - 1;
+          const id = y * n + x;
+          const center = h[id];
+          const right = h[y * n + xp];
+          const left = h[y * n + xm];
+          const up = h[yp * n + x];
+          const down = h[ym * n + x];
+          const dxp = (right - center) * invDx;
+          const dxm = (center - left) * invDx;
+          const dyp = (up - center) * invDx;
+          const dym = (center - down) * invDx;
+          const rawQ = 0.5 * (dxp * dxp + dxm * dxm + dyp * dyp + dym * dym);
+          if (!Number.isFinite(rawQ)) return Infinity;
+          maxQ = Math.max(maxQ, limitedNonlinear(rawQ, limit));
+        }
+      }
+
+      return maxQ;
+    }
+
+    function chooseInternalSteps(maxQ, limit) {
+      const spacing = dx();
+      const macroDt = dt();
+      const beta = betaEffective();
+      const cTerm = countertermUsed();
+      const noisePerMacro = beta * Math.sqrt(macroDt / (spacing * spacing));
+      const noiseSteps = Math.ceil((noisePerMacro / 0.18) * (noisePerMacro / 0.18));
+      const driftScale = Math.max(maxQ, cTerm, params.stabilized ? limit : 0);
+      const driftSteps = Math.ceil((0.5 * (driftScale + cTerm) * macroDt) / 0.10);
+      const requested = Math.max(1, noiseSteps, driftSteps);
+      if (!Number.isFinite(requested)) return 32;
+      return Math.min(32, requested);
+    }
+
+    function resetState() {
+      const total = params.n * params.n;
+      h = new Float64Array(total);
+      hNext = new Float64Array(total);
+      rng = mulberry32(params.seed);
+      spareGaussian = null;
+      time = 0;
+      mean = 0;
+      roughness = 0;
+      lastInternalSteps = 1;
+      lastInternalDt = dt();
+      lastNonlinearLimit = nonlinearLimit();
+      hideWarning();
+      updateMesh();
+      updateReadouts();
+    }
+
+    function buildGeometry() {
+      if (surfaceMesh) {
+        scene.remove(surfaceMesh);
+        scene.remove(wireMesh);
+        geometry.dispose();
+      }
+
+      const n = params.n;
+      const vertexN = n + 1;
+      const vertexCount = vertexN * vertexN;
+      const positions = new Float32Array(vertexCount * 3);
+      const colors = new Float32Array(vertexCount * 3);
+      const indices = new Uint32Array(n * n * 6);
+      let p = 0;
+
+      for (let y = 0; y <= n; y += 1) {
+        for (let x = 0; x <= n; x += 1) {
+          positions[p] = (x / n - 0.5) * params.length;
+          positions[p + 1] = 0;
+          positions[p + 2] = (y / n - 0.5) * params.length;
+          colors[p] = 0.95;
+          colors[p + 1] = 0.97;
+          colors[p + 2] = 1.0;
+          p += 3;
+        }
+      }
+
+      let k = 0;
+      for (let y = 0; y < n; y += 1) {
+        for (let x = 0; x < n; x += 1) {
+          const a = y * vertexN + x;
+          const b = a + 1;
+          const c = a + vertexN;
+          const d = c + 1;
+          indices[k] = a;
+          indices[k + 1] = c;
+          indices[k + 2] = b;
+          indices[k + 3] = b;
+          indices[k + 4] = c;
+          indices[k + 5] = d;
+          k += 6;
+        }
+      }
+
+      geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      geometry.setIndex(new THREE.BufferAttribute(indices, 1));
+      geometry.computeVertexNormals();
+      positionAttr = geometry.getAttribute('position');
+      colorAttr = geometry.getAttribute('color');
+
+      surfaceMesh = new THREE.Mesh(geometry, surfaceMaterial);
+      wireMesh = new THREE.Mesh(geometry, wireMaterial);
+      scene.add(surfaceMesh);
+      scene.add(wireMesh);
+
+      floorGrid.scale.setScalar(params.length / 8);
+    }
+
+    function stepEquation(stepDt, limit) {
+      const n = params.n;
+      const spacing = dx();
+      const invDx = 1 / spacing;
+      const invDx2 = invDx * invDx;
+      const beta = betaEffective();
+      const noiseScale = beta * Math.sqrt(stepDt / (spacing * spacing));
+      const cTerm = countertermUsed();
+      let localMax = 0;
+
+      for (let y = 0; y < n; y += 1) {
+        const yp = y + 1 === n ? 0 : y + 1;
+        const ym = y === 0 ? n - 1 : y - 1;
+        for (let x = 0; x < n; x += 1) {
+          const xp = x + 1 === n ? 0 : x + 1;
+          const xm = x === 0 ? n - 1 : x - 1;
+          const id = y * n + x;
+          const center = h[id];
+          const right = h[y * n + xp];
+          const left = h[y * n + xm];
+          const up = h[yp * n + x];
+          const down = h[ym * n + x];
+          const laplacian = (right + left + up + down - 4 * center) * invDx2;
+          const dxp = (right - center) * invDx;
+          const dxm = (center - left) * invDx;
+          const dyp = (up - center) * invDx;
+          const dym = (center - down) * invDx;
+          const rawQ = 0.5 * (dxp * dxp + dxm * dxm + dyp * dyp + dym * dym);
+          const q = limitedNonlinear(rawQ, limit);
+          const value = center
+            + stepDt * (0.5 * laplacian + 0.5 * (q - cTerm))
+            + noiseScale * randn();
+
+          hNext[id] = value;
+          localMax = Math.max(localMax, Math.abs(value));
+        }
+      }
+
+      if (!Number.isFinite(localMax) || localMax > 1e6) {
+        showWarning('The explicit Euler run became unstable. Lower beta, c, or steps per frame, then reset.');
+        running = false;
+        els.pauseButton.textContent = 'Play';
+        return;
+      }
+
+      const swap = h;
+      h = hNext;
+      hNext = swap;
+      time += stepDt;
+    }
+
+    function advanceOneStep() {
+      const limit = nonlinearLimit();
+      const maxQ = estimateMaxNonlinear(limit);
+      const substeps = chooseInternalSteps(maxQ, limit);
+      const subDt = dt() / substeps;
+
+      lastInternalSteps = substeps;
+      lastInternalDt = subDt;
+      lastNonlinearLimit = limit;
+
+      for (let substep = 0; substep < substeps; substep += 1) {
+        stepEquation(subDt, limit);
+        if (!running) return;
+      }
+    }
+
+    function setColor(target, offset, value, scale) {
+      const t = 0.5 + 0.5 * Math.tanh(value / scale);
+      let r;
+      let g;
+      let b;
+
+      if (t < 0.5) {
+        const u = t * 2;
+        r = 0.10 + 0.70 * u;
+        g = 0.42 + 0.48 * u;
+        b = 0.68 + 0.27 * u;
+      } else {
+        const u = (t - 0.5) * 2;
+        r = 0.80 + 0.15 * u;
+        g = 0.90 - 0.54 * u;
+        b = 0.95 - 0.58 * u;
+      }
+
+      target[offset] = r;
+      target[offset + 1] = g;
+      target[offset + 2] = b;
+    }
+
+    function updateMesh() {
+      if (!geometry || h.length === 0) return;
+
+      const n = params.n;
+      const vertexN = n + 1;
+      const positions = positionAttr.array;
+      const colors = colorAttr.array;
+      const total = n * n;
+      let sum = 0;
+
+      for (let i = 0; i < total; i += 1) {
+        sum += h[i];
+      }
+      mean = sum / total;
+
+      let variance = 0;
+      let maxAbsCentered = 1e-8;
+      for (let i = 0; i < total; i += 1) {
+        const centered = h[i] - mean;
+        variance += centered * centered;
+        maxAbsCentered = Math.max(maxAbsCentered, Math.abs(centered));
+      }
+
+      roughness = Math.sqrt(variance / total);
+      const colorScale = Math.max(0.02, roughness * 2.6, maxAbsCentered * 0.32);
+      const lift = params.liftEnabled ? params.liftRate * time : 0;
+
+      for (let y = 0; y <= n; y += 1) {
+        for (let x = 0; x <= n; x += 1) {
+          const id = index(x, y);
+          const vertex = y * vertexN + x;
+          const p = vertex * 3;
+          const centered = h[id] - mean;
+          positions[p + 1] = centered * params.verticalScale + lift;
+          setColor(colors, p, centered, colorScale);
+        }
+      }
+
+      positionAttr.needsUpdate = true;
+      colorAttr.needsUpdate = true;
+      geometry.computeVertexNormals();
+    }
+
+    function format(value) {
+      if (!Number.isFinite(value)) return 'nan';
+      const abs = Math.abs(value);
+      if (abs !== 0 && (abs < 0.001 || abs >= 1000)) return value.toExponential(3);
+      return value.toFixed(abs < 10 ? 5 : 3);
+    }
+
+    function updateLabels() {
+      els.modeValue.textContent = params.mode === 'fixed' ? 'fixed grid' : 'scaling';
+      els.nValue.textContent = String(params.n);
+      els.lValue.textContent = params.length.toFixed(2);
+      els.betaValue.textContent = params.beta.toFixed(2);
+      els.betaHatValue.textContent = params.betaHat.toFixed(2);
+      els.dtFactorValue.textContent = params.dtFactor.toFixed(3);
+      els.verticalValue.textContent = params.verticalScale.toFixed(2);
+      els.stepsValue.textContent = String(params.stepsPerFrame);
+      els.liftValue.textContent = params.liftRate.toFixed(2);
+
+      const scaling = params.mode === 'scaling';
+      els.betaSlider.disabled = scaling;
+      els.betaHatSlider.disabled = !scaling;
+      els.betaControl.classList.toggle('is-disabled', scaling);
+      els.betaHatControl.classList.toggle('is-disabled', !scaling);
+    }
+
+    function updateReadouts() {
+      const currentDx = dx();
+      const currentDt = dt();
+      const currentBeta = betaEffective();
+      const rawCounter = countertermRaw();
+      const usedCounter = countertermUsed();
+
+      els.dxOut.textContent = format(currentDx);
+      els.dtOut.textContent = format(currentDt);
+      els.betaOut.textContent = format(currentBeta);
+      els.counterOut.textContent = format(usedCounter);
+      els.rawCounterOut.textContent = format(rawCounter);
+      els.timeOut.textContent = format(time);
+      els.meanOut.textContent = format(mean);
+      els.roughnessOut.textContent = format(roughness);
+      els.substepOut.textContent = `${lastInternalSteps} x ${format(lastInternalDt || dt())}`;
+      els.limiterOut.textContent = params.stabilized ? format(lastNonlinearLimit || nonlinearLimit()) : 'off';
+      els.statTime.textContent = format(time);
+      els.statBeta.textContent = format(currentBeta);
+      els.statCounter.textContent = format(usedCounter);
+      els.statMean.textContent = format(mean);
+    }
+
+    function showWarning(message) {
+      els.warning.textContent = message;
+      els.warning.classList.add('is-visible');
+    }
+
+    function hideWarning() {
+      els.warning.textContent = '';
+      els.warning.classList.remove('is-visible');
+    }
+
+    function resize() {
+      const rect = els.canvas.parentElement.getBoundingClientRect();
+      const width = Math.max(1, Math.floor(rect.width));
+      const height = Math.max(1, Math.floor(rect.height));
+      renderer.setSize(width, height, false);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    }
+
+    function rebuild() {
+      parseControls();
+      updateLabels();
+      buildGeometry();
+      resetState();
+      resize();
+    }
+
+    function randomSeed() {
+      const values = new Uint32Array(1);
+      crypto.getRandomValues(values);
+      params.seed = values[0] || 1;
+      resetState();
+    }
+
+    function animate(now) {
+      requestAnimationFrame(animate);
+      const elapsed = now - lastFrame;
+      if (elapsed < 15) {
+        controls.update();
+        renderer.render(scene, camera);
+        return;
+      }
+      lastFrame = now;
+
+      parseDynamicControls();
+      updateLabels();
+
+      if (running) {
+        for (let s = 0; s < params.stepsPerFrame; s += 1) {
+          advanceOneStep();
+          if (!running) break;
+        }
+      }
+
+      updateMesh();
+      controls.update();
+      updateReadouts();
+      renderer.render(scene, camera);
+    }
+
+    els.pauseButton.addEventListener('click', () => {
+      running = !running;
+      els.pauseButton.textContent = running ? 'Pause' : 'Play';
+    });
+
+    els.resetButton.addEventListener('click', () => {
+      resetState();
+      running = true;
+      els.pauseButton.textContent = 'Pause';
+    });
+
+    els.seedButton.addEventListener('click', () => {
+      randomSeed();
+      running = true;
+      els.pauseButton.textContent = 'Pause';
+    });
+
+    els.mode.addEventListener('change', () => {
+      parseDynamicControls();
+      updateLabels();
+      resetState();
+    });
+
+    els.nSlider.addEventListener('input', () => {
+      els.nValue.textContent = els.nSlider.value;
+    });
+
+    els.lSlider.addEventListener('input', () => {
+      els.lValue.textContent = Number(els.lSlider.value).toFixed(2);
+    });
+
+    els.nSlider.addEventListener('change', rebuild);
+    els.lSlider.addEventListener('change', rebuild);
+
+    for (const input of [
+      els.betaSlider,
+      els.betaHatSlider,
+      els.dtFactorSlider,
+      els.verticalSlider,
+      els.stepsSlider,
+      els.liftSlider,
+      els.renormalized,
+      els.stabilized,
+      els.liftEnabled
+    ]) {
+      input.addEventListener('input', () => {
+        parseDynamicControls();
+        updateLabels();
+        hideWarning();
+      });
+    }
+
+    window.addEventListener('resize', resize);
+
+    rebuild();
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
