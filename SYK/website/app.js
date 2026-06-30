@@ -12,7 +12,8 @@ const els = {
   prev: document.querySelector("#prev-slide"),
   next: document.querySelector("#next-slide"),
   standardMode: document.querySelector("#standard-mode"),
-  fourFrameMode: document.querySelector("#four-frame-mode")
+  fourFrameMode: document.querySelector("#four-frame-mode"),
+  fourFrameLink: document.querySelector("#four-frame-link")
 };
 
 let standardSlides = [];
@@ -723,6 +724,7 @@ function updateModeControls() {
   els.fourFrameMode.classList.toggle("is-active", isFourFrame);
   els.standardMode.setAttribute("aria-pressed", String(!isFourFrame));
   els.fourFrameMode.setAttribute("aria-pressed", String(isFourFrame));
+  els.fourFrameLink.href = `?mode=4koma&slide=${current + 1}`;
 }
 
 function render() {
@@ -868,10 +870,12 @@ function move(delta) {
 function switchMode(nextMode) {
   if (nextMode === mode) return;
 
+  const parallelIndex = current;
   currentByMode[mode] = current;
   mode = nextMode;
   slides = activeSlides();
-  current = Math.min(currentByMode[mode], slides.length - 1);
+  current = Math.min(parallelIndex, slides.length - 1);
+  currentByMode[mode] = current;
   render();
 }
 
