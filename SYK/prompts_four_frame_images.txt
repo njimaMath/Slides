@@ -1,0 +1,383 @@
+SYK four-frame image prompts for independent Imagen requests
+
+Copy and submit each numbered prompt independently. Every prompt repeats all required layout, style, mathematical, and output instructions. Mathematical expressions describe the intended science. Do not place a long equation in the generated image.
+
+PROMPT 01: Model at a glance
+
+Use case: scientific-educational
+Asset type: four-frame scientific illustration for a website slide deck
+Primary request: Explain the defining structure of the standard Majorana SYK model through four connected frames.
+Scientific basis: The model contains $N$ Majorana fermions with random all-to-all $q$-body interactions. The standard interacting case is $q=4$, and its large-$N$ dynamics closes on the two-point function $G(\tau)$.
+Frame 1: Show an even set of isolated Majorana modes as identical teal nodes, with no spatial lattice and no preferred nearest neighbors.
+Frame 2: Connect many different groups of four nodes using dense, irregular orange and teal interaction arcs, emphasizing random all-to-all quartic coupling.
+Frame 3: Expand the system to many more nodes while individual links become finer, showing a controlled large-$N$ limit emerging from microscopic complexity.
+Frame 4: Resolve the dense network into one clean collective correlation curve, representing $G(\tau)$ and large-$N$ closure.
+Frame explanation: The sequence moves from Majorana degrees of freedom to random quartic interactions, then to the large-$N$ limit and its collective two-point description.
+Canvas and layout: landscape 16:9; exactly four equal panels arranged left to right; one main idea per panel; generous margins; readable at presentation size.
+Style: refined editorial scientific illustration, precise technical linework, subtle dimensional forms, lightly textured paper.
+Palette: warm ivory background, deep teal, muted burnt orange, charcoal, small white highlights.
+Continuity: guide the eye from microscopic modes to the collective curve using a thin luminous path and repeated teal nodes.
+In-image notation: optional short labels only, such as $N$, $q=4$, and $G(\tau)$; omit labels if they cannot be rendered accurately.
+Constraints: no paragraph text, no long equation, no caption, no logo, no watermark, no decorative border, no people.
+Avoid: a regular lattice, nearest-neighbor chains, classical particles, or the appearance of spatial locality.
+
+PROMPT 02: Majorana algebra and Hilbert space
+
+Use case: scientific-educational
+Asset type: four-frame scientific illustration for a website slide deck
+Primary request: Explain how Majorana modes pair into complex fermions and generate the many-body Hilbert space.
+Scientific basis: Majorana modes satisfy $\psi_i^2=1/2$. Two Majoranas form one complex fermion $c_a$, producing $N/2$ binary orbitals and Hilbert-space dimension $2^{N/2}$. Fermion parity divides the space into two sectors.
+Frame 1: Show several self-conjugate Majorana modes as identical half-lit metallic nodes, each visually symmetric with its own reflection.
+Frame 2: Pair adjacent Majorana nodes using luminous brackets, with two half-lit nodes merging into one complete complex-fermion orbital.
+Frame 3: Show multiple paired orbitals, each branching into two occupancy states represented by empty and filled cells.
+Frame 4: Let the binary branches multiply into a large tree of basis states, then separate the final state space into two balanced parity sectors.
+Frame explanation: The sequence shows how pairs of Majoranas form binary fermionic orbitals, whose combined occupations create an exponentially large Hilbert space divided by parity.
+Canvas and layout: landscape 16:9; exactly four equal panels arranged left to right; strong silhouettes; generous margins; consistent scale.
+Style: refined editorial scientific illustration, precise linework, subtle dimensional forms, lightly textured paper.
+Palette: warm ivory background, deep teal, muted burnt orange, charcoal, small white highlights.
+Continuity: repeat the same paired-node motif as it becomes orbitals, binary branches, and parity sectors.
+In-image notation: optional short labels only, such as $\psi$, $c$, and $2^{N/2}$; do not show the full definition of $c_a$.
+Constraints: no paragraph text, no long equation, no caption, no logo, no watermark, no decorative border, no people.
+Avoid: DNA imagery, brains, conventional atomic orbitals, or readable strings of binary digits.
+
+PROMPT 03: Random couplings and normalization
+
+Use case: scientific-educational
+Asset type: four-frame scientific illustration for a website slide deck
+Primary request: Explain why many weak random couplings produce a finite extensive interaction scale at large $N$.
+Scientific basis: The couplings have zero mean and variance proportional to $J^2/N^{q-1}$. A single coupling scales as $N^{-(q-1)/2}$, while each fermion participates in order $N^{q-1}$ interactions.
+Frame 1: Show a centered bell-shaped distribution releasing random positive and negative coupling paths with varied strengths into a network.
+Frame 2: Focus on one mode connected to an increasing number of other modes while each individual link becomes thinner as $N$ grows.
+Frame 3: Combine the many thin links into a stable aggregate field around the selected mode, with fluctuations balancing instead of diverging.
+Frame 4: Show the full large network enclosed by a steady finite energy envelope, indicating an extensive limit and order-one self-energy.
+Frame explanation: The sequence contrasts increasingly weak individual couplings with their increasingly numerous contributions, explaining why the total interaction scale remains finite.
+Canvas and layout: landscape 16:9; exactly four equal panels arranged left to right; one clear scaling idea per panel; generous margins.
+Style: refined editorial scientific illustration, precise linework, subtle dimensional forms, lightly textured paper.
+Palette: warm ivory background, deep teal for one sign, muted burnt orange for the opposite sign, charcoal accents.
+Continuity: use one highlighted fermion mode and a growing number of progressively thinner links across the panels.
+In-image notation: optional short labels only, such as $J$, $N$, and $N^{-(q-1)/2}$; do not show the full variance equation.
+Constraints: no paragraph text, no long equation, no caption, no logo, no watermark, no decorative border, no people.
+Avoid: equal-strength links, an exploding total energy, a regular lattice, or a nonzero average coupling.
+
+PROMPT 04: Which SYK model?
+
+Use case: scientific-educational
+Asset type: four-frame scientific comparison illustration for a website slide deck
+Primary request: Compare four important SYK families without implying that they are identical.
+Scientific basis: Majorana $q=2$ is quadratic and noninteracting; Majorana $q\geq4$ is interacting; complex SYK preserves a $U(1)$ charge; coupled, supersymmetric, and tensor variants isolate different structures.
+Frame 1: Show a quadratic Majorana network whose links untangle into independent paired modes, conveying exact diagonalization and noninteracting behavior.
+Frame 2: Show a dense quartic Majorana network with repeated four-node interaction motifs and strongly mixed collective dynamics.
+Frame 3: Show a charge-preserving complex-fermion network with two incoming and two outgoing directed flows organized around a conserved circular current.
+Frame 4: Show related branches emerging from a common SYK core: two coupled networks, a symmetric protected branch, and a regular tensor-like interaction pattern.
+Frame explanation: The four panels compare the free Majorana model, interacting Majorana SYK, charge-preserving complex SYK, and broader structural variants.
+Canvas and layout: landscape 16:9; exactly four equal panels arranged left to right; use a consistent node language while making each model visually distinct.
+Style: refined editorial scientific illustration, precise technical linework, subtle dimensional forms, lightly textured paper.
+Palette: warm ivory background, deep teal, muted burnt orange, charcoal, small white highlights.
+Continuity: repeat a common fermion-node motif while changing interaction structure in each panel.
+In-image notation: optional short labels only, such as $q=2$, $q=4$, and $U(1)$; do not add full model names or equations.
+Constraints: no paragraph text, no long equation, no caption, no logo, no watermark, no decorative border, no people.
+Avoid: ranking variants, mixing charge conservation into the Majorana panels, or making all panels look equivalent.
+
+PROMPT 05: Why experimental realization is difficult
+
+Use case: scientific-educational
+Asset type: four-frame scientific illustration for a website slide deck
+Primary request: Explain the engineering obstacles between an ideal SYK Hamiltonian and an experimental measurement.
+Scientific basis: The number of $q$-body terms is $M_q=\binom{N}{q}$; for $q=4$ it grows approximately as $N^4/24$. Useful dynamics requires coherence beyond the scrambling time $t_*\sim(\beta/2\pi)\log N$.
+Frame 1: Show a dense all-to-all four-body network whose number of interaction paths grows rapidly with the number of modes.
+Frame 2: Route the network into a large bank of independent precision controls with many fine calibration channels.
+Frame 3: Pass the controlled quantum signal through a transparent coherence chamber while a clock-like arc approaches signal loss.
+Frame 4: Convert the surviving signal into accessible correlation traces, spectral peaks, and an echo-like experimental readout.
+Frame explanation: The sequence follows the experimental challenge from combinatorial interaction growth through calibration and coherence requirements to measurable signatures.
+Canvas and layout: landscape 16:9; exactly four equal panels arranged left to right; clear flow from Hamiltonian complexity to measurement.
+Style: refined editorial scientific illustration, precise technical linework, subtle dimensional forms, lightly textured paper.
+Palette: warm ivory background, deep teal, muted burnt orange, charcoal, small white highlights.
+Continuity: use the same luminous signal path from the dense network through controls and coherence to readout.
+In-image notation: optional short labels only, such as $\binom{N}{4}$ and $t_*$; do not show the full scrambling-time equation.
+Constraints: no paragraph text, no long equation, no caption, no logo, no watermark, no decorative border, no people.
+Avoid: implying that current hardware directly controls an arbitrarily large ideal model.
+
+PROMPT 06: Ultracold-atom route
+
+Use case: scientific-educational
+Asset type: four-frame scientific illustration for a website slide deck
+Primary request: Explain a proposed ultracold-atom route toward an analog complex-SYK-like emulator.
+Scientific basis: Long-lived atomic states encode complex fermions. Optical or cavity-mediated processes seek random charge-preserving four-fermion interactions of the form $c^\dagger c^\dagger c c$.
+Frame 1: Show neutral atoms trapped in a cold vacuum chamber, with long-lived internal states represented by paired teal and orange levels.
+Frame 2: Use intersecting laser beams or a cavity field to mediate irregular long-range interactions among many atomic modes.
+Frame 3: Highlight a four-orbital scattering event with two incoming and two outgoing fermionic paths while preserving total particle flow.
+Frame 4: Show state preparation and correlation readout through a clean imaging system, while dense independent interaction control remains visibly difficult.
+Frame explanation: The sequence follows atomic encoding, optically mediated random interactions, charge-preserving four-body scattering, and experimental preparation and readout.
+Canvas and layout: landscape 16:9; exactly four equal panels arranged left to right; coherent laboratory-to-dynamics-to-readout sequence.
+Style: refined editorial scientific illustration with credible cold-atom apparatus, precise linework, and restrained realism.
+Palette: warm ivory background, deep teal, muted burnt orange, charcoal, small white highlights.
+Continuity: carry two colored particle-flow paths from encoded states through the interaction and into the readout.
+In-image notation: optional short labels only, such as $c^\dagger c^\dagger c c$; do not show indexed interaction sums.
+Constraints: no paragraph text, no long equation, no caption, no logo, no watermark, no decorative border; at most small researcher silhouettes if needed for scale.
+Avoid: claiming a completed large ideal realization, hot plasma, ordinary molecules, or a spatial nearest-neighbor lattice.
+
+PROMPT 07: Majorana nanowires and a quantum dot
+
+Use case: scientific-educational
+Asset type: four-frame scientific illustration for a website slide deck
+Primary request: Explain how nanowire Majorana zero modes and a disordered quantum dot can generate effective quartic interactions.
+Scientific basis: Many Majorana endpoints $\gamma_i$ couple to an interacting disordered dot. Low-energy projection can generate effective terms proportional to $\gamma_i\gamma_j\gamma_k\gamma_l$.
+Frame 1: Show several superconducting nanowires at cryogenic temperature, each terminating in a localized glowing Majorana zero mode.
+Frame 2: Couple the wire endpoints to one irregular central quantum dot containing disordered internal wave paths.
+Frame 3: Show virtual paths entering the dot and returning as one effective interaction linking four distinct Majorana endpoints.
+Frame 4: Show the complete cryogenic device with charging control and parity-sensitive readout, emphasizing isolation and low-temperature requirements.
+Frame explanation: The sequence shows isolated Majorana endpoints coupling through a disordered dot to produce an effective quartic interaction inside a demanding cryogenic device.
+Canvas and layout: landscape 16:9; exactly four equal panels arranged left to right; progressively zoom from components to effective interaction to complete device.
+Style: refined editorial scientific illustration, credible nanodevice geometry, precise linework, subtle dimensional forms.
+Palette: warm ivory background, deep teal, muted burnt orange, charcoal, cool metallic accents.
+Continuity: keep four highlighted Majorana endpoints visible across all panels.
+In-image notation: optional short labels only, such as $\gamma_i$ or $\gamma^4$; do not show the full indexed Hamiltonian.
+Constraints: no paragraph text, no long equation, no caption, no logo, no watermark, no decorative border, no people.
+Avoid: presenting braiding as the mechanism, room-temperature operation, or ordinary transistor imagery.
+
+PROMPT 08: Programmable quantum simulators
+
+Use case: scientific-educational
+Asset type: four-frame scientific illustration for a website slide deck
+Primary request: Explain how digital quantum processors and NMR systems emulate finite-size SYK dynamics and probe scrambling.
+Scientific basis: Digital systems approximate $e^{-iHt}$ with gates; NMR uses shaped pulses. Echo and time-reversal protocols probe the out-of-time-order correlator $F(t)$.
+Frame 1: Show a small target all-to-all Hamiltonian being decomposed into a sequence of implementable quantum gates.
+Frame 2: Show shaped radio-frequency pulses steering a compact spin ensemble through an effective disordered interaction.
+Frame 3: Show forward evolution, a local perturbation, and reversed evolution forming a clear echo protocol.
+Frame 4: Display the resulting decay and partial revival of a correlation signal, while the finite simulator remains visibly smaller than a faded large-system target.
+Frame explanation: The sequence connects Hamiltonian programming and pulse control to time reversal, echo measurement, and the finite-size limits of current simulators.
+Canvas and layout: landscape 16:9; exactly four equal panels arranged left to right; clear progression from programming to protocol to observable.
+Style: refined editorial scientific illustration, precise technical linework, restrained laboratory realism, lightly textured paper.
+Palette: warm ivory background, deep teal, muted burnt orange, charcoal, small white highlights.
+Continuity: carry one highlighted perturbation through digital control, reversal, and the final measured trace.
+In-image notation: optional short labels only, such as $e^{-iHt}$ and $F(t)$; do not show the full four-operator correlator.
+Constraints: no paragraph text, no long equation, no caption, no logo, no watermark, no decorative border, no people.
+Avoid: implying unlimited system size or the complete thermodynamic conformal regime.
+
+PROMPT 09: Observables and scale map
+
+Use case: scientific-educational
+Asset type: four-frame scientific illustration for a website slide deck
+Primary request: Organize the main SYK observables across temperature, energy, and time scales.
+Scientific basis: Thermodynamics uses $Z(\beta)$ and $F(\beta)$; the two-point function is $G(\tau)$; four-point functions diagnose operator growth; spectral statistics control finite-$N$ late-time behavior.
+Frame 1: Show a thermal ensemble entering a compact energy landscape, representing partition function and free energy.
+Frame 2: Show two points on a Euclidean-time arc joined by a smooth averaged fermion correlation curve.
+Frame 3: Show a local perturbation spreading through a network while two operator paths cross, representing four-point functions and scrambling.
+Frame 4: Show discrete spectral levels and a long-time dip-ramp-plateau trace, with a subtle background timeline separating microscopic, conformal, and finite-size regimes.
+Frame explanation: The panels map thermodynamics, two-point correlations, operator growth, and spectral statistics onto progressively longer physical scales.
+Canvas and layout: landscape 16:9; exactly four equal panels arranged left to right; each panel should have a distinct observable and scale.
+Style: refined editorial scientific illustration, precise technical linework, subtle dimensional forms, lightly textured paper.
+Palette: warm ivory background, deep teal, muted burnt orange, charcoal, small white highlights.
+Continuity: use one horizontal scale line that changes from temperature to Euclidean time, scrambling time, and spectral time.
+In-image notation: optional short labels only, such as $Z(\beta)$, $G(\tau)$, and $t_*$; omit long definitions.
+Constraints: no paragraph text, no long equation, no caption, no logo, no watermark, no decorative border, no people.
+Avoid: placing all observables at the same scale or presenting the late-time spectrum as continuous.
+
+PROMPT 10: Averaging the disorder
+
+Use case: scientific-educational
+Asset type: four-frame scientific illustration for a website slide deck
+Primary request: Explain how random microscopic couplings are averaged into deterministic collective interactions.
+Scientific basis: Gaussian averaging of replicated partition functions removes the explicit random couplings. At the replica-diagonal large-$N$ saddle, the theory is expressed through bilocal fields $G(\tau_1,\tau_2)$ and $\Sigma(\tau_1,\tau_2)$.
+Frame 1: Show several translucent realizations of the same all-to-all network, each with a different pattern of random links.
+Frame 2: Stack replicated copies of every realization, keeping the copies aligned but visually distinct.
+Frame 3: Pass the stacked samples through a smooth Gaussian averaging funnel so the individual random links dissolve into a deterministic interaction.
+Frame 4: Resolve the output into a clean two-time correlation matrix and paired bilocal surfaces representing $G$ and $\Sigma$.
+Frame explanation: The sequence moves from distinct disorder realizations through replication and Gaussian averaging to deterministic large-$N$ collective fields.
+Canvas and layout: landscape 16:9; exactly four equal panels arranged left to right; transformation should be visually continuous.
+Style: refined editorial scientific illustration, precise linework, translucent layers, subtle dimensional surfaces, lightly textured paper.
+Palette: warm ivory background, deep teal, muted burnt orange, charcoal, small white highlights.
+Continuity: carry a bundle of random colored links through replication, averaging, and collection into bilocal fields.
+In-image notation: optional short labels only, such as $Z^n$, $G$, and $\Sigma$; do not show the replica-limit formula.
+Constraints: no paragraph text, no long equation, no caption, no logo, no watermark, no decorative border, no people.
+Avoid: suggesting that averaging selects one preferred sample or that annealed and quenched averages are always identical.
+
+PROMPT 11: Bilocal collective fields
+
+Use case: scientific-educational
+Asset type: four-frame scientific illustration for a website slide deck
+Primary request: Explain the transition from many microscopic fermions to two-time collective fields at large $N$.
+Scientific basis: $G(\tau_1,\tau_2)$ averages pairs of fermions at two times, while $\Sigma(\tau_1,\tau_2)$ enforces the collective description. The effective action is proportional to $N$, making its saddle dominant.
+Frame 1: Show many individual fermion worldlines distributed along a Euclidean-time direction.
+Frame 2: Pair points at two different times across all worldlines, with many faint connections contributing to one averaged relation.
+Frame 3: Collect those relations into a square two-time plane carrying a structured antisymmetric correlation surface.
+Frame 4: Show two coupled bilocal surfaces, one for $G$ and one for $\Sigma$, dominated by a sharp saddle with small surrounding fluctuations.
+Frame explanation: The sequence compresses many microscopic fermion pairs into a two-time correlation field and its conjugate self-energy, whose saddle controls large-$N$ dynamics.
+Canvas and layout: landscape 16:9; exactly four equal panels arranged left to right; move from microscopic lines to a two-time plane and saddle.
+Style: refined editorial scientific illustration, precise technical linework, elegant mathematical surfaces, lightly textured paper.
+Palette: warm ivory background, deep teal, muted burnt orange, charcoal, small white highlights.
+Continuity: transform many paired worldline points into pixels of the two-time surface.
+In-image notation: optional short labels only, such as $\tau_1$, $\tau_2$, $G$, $\Sigma$, and $N$; do not show the effective action.
+Constraints: no paragraph text, no long equation, no caption, no logo, no watermark, no decorative border, no people.
+Avoid: interpreting the two axes as physical space or depicting an ordinary geographic landscape.
+
+PROMPT 12: Schwinger-Dyson equations
+
+Use case: scientific-educational
+Asset type: four-frame scientific illustration for a website slide deck
+Primary request: Explain the self-consistent large-$N$ solution as a repeated closed loop.
+Scientific basis: The equations relate $G(i\omega)$ to $-i\omega-\Sigma(i\omega)$ and set $\Sigma(\tau)=J^2G(\tau)^{q-1}$. Numerical solutions alternate between time and frequency space until convergence.
+Frame 1: Begin with a trial propagator $G$ shown as a smooth curve over imaginary time.
+Frame 2: Feed the curve through a nonlinear interaction motif that reshapes it into the self-energy $\Sigma$.
+Frame 3: Transform to a frequency-like domain and pass through an inversion filter that produces an updated propagator.
+Frame 4: Overlay several successive curves converging onto one stable final curve, with a circular return path connecting the result to frame 1.
+Frame explanation: The sequence presents the numerical self-consistency cycle: guess $G$, construct $\Sigma$, update $G$ through Dyson inversion, and iterate to convergence.
+Canvas and layout: landscape 16:9; exactly four equal panels arranged left to right; also include one subtle return arrow from panel 4 to panel 1.
+Style: refined editorial scientific illustration, precise technical linework, elegant curves and transforms, lightly textured paper.
+Palette: warm ivory background, deep teal for $G$, muted burnt orange for $\Sigma$, charcoal accents.
+Continuity: preserve the same curve as it changes representation and converges.
+In-image notation: optional short labels only, such as $G$, $\Sigma$, $\tau$, and $\omega$; do not show either full Schwinger-Dyson equation.
+Constraints: no paragraph text, no long equation, no caption, no logo, no watermark, no decorative border, no people.
+Avoid: a one-pass calculation, divergent iterations, or confusing $G$ and $\Sigma$ by using the same color.
+
+PROMPT 13: Infrared conformal solution
+
+Use case: scientific-educational
+Asset type: four-frame scientific illustration for a website slide deck
+Primary request: Explain the flow from microscopic SYK dynamics to the scale-invariant thermal conformal solution.
+Scientific basis: For $\beta J\gg1$ and $J^{-1}\ll|\tau|\ll\beta$, the derivative term is subleading. The conformal propagator scales as $G_c(\tau)\sim\operatorname{sgn}(\tau)/|J\tau|^{2/q}$ and maps to a thermal circle.
+Frame 1: Show short-time ultraviolet behavior as tight rapid oscillations controlled by a sharp kinetic feature.
+Frame 2: Move into strong coupling, where the kinetic feature fades and the interaction field dominates over an intermediate time window.
+Frame 3: Reveal a smooth scale-free power-law correlation curve spanning several magnifications, with no quasiparticle peak.
+Frame 4: Wrap the conformal line around a luminous thermal circle, with periodic correlation arcs joining points around the circumference.
+Frame explanation: The sequence shows microscopic kinetic behavior fading at strong coupling, revealing a scale-invariant propagator that acquires thermal periodicity.
+Canvas and layout: landscape 16:9; exactly four equal panels arranged left to right; continuous flow from ultraviolet detail to the thermal circle.
+Style: refined editorial scientific illustration, precise linework, subtle dimensional geometry, lightly textured paper.
+Palette: warm ivory background, deep teal, muted burnt orange, charcoal, small white highlights.
+Continuity: use one correlation curve that loses microscopic oscillations, becomes scale-free, and wraps around the circle.
+In-image notation: optional short labels only, such as $\beta J\gg1$, $G_c(\tau)$, and $\Delta=1/q$; do not render the full power-law formula.
+Constraints: no paragraph text, no long equation, no caption, no logo, no watermark, no decorative border, no people.
+Avoid: a stable quasiparticle pole or a sharp thermodynamic phase boundary.
+
+PROMPT 14: Reparametrization symmetry
+
+Use case: scientific-educational
+Asset type: four-frame scientific illustration for a website slide deck
+Primary request: Explain the emergent freedom to deform the infrared clock and its weak breaking into a soft mode.
+Scientific basis: After neglecting the microscopic derivative, the infrared equations are covariant under $\tau\mapsto f(\tau)$. A conformal saddle breaks this freedom to $SL(2,\mathbb R)$, while microscopic effects weakly lift the remaining clock deformations.
+Frame 1: Show a uniform Euclidean-time line carrying an evenly spaced correlation pattern.
+Frame 2: Smoothly stretch and compress the time line while the correlation pattern transforms and preserves its relational structure.
+Frame 3: Wrap the deformed line into a circle and show a small family of equivalent global transformations around a selected clock.
+Frame 4: Add a faint microscopic restoring force that makes broader clock deformations soft but costly, producing one gently fluctuating boundary clock.
+Frame explanation: The sequence illustrates infrared clock deformation, residual global equivalence, spontaneous clock selection, and weak microscopic lifting into a soft mode.
+Canvas and layout: landscape 16:9; exactly four equal panels arranged left to right; use one continuously deforming time coordinate.
+Style: refined editorial scientific illustration, precise mathematical linework, subtle elastic geometry, lightly textured paper.
+Palette: warm ivory background, deep teal, muted burnt orange, charcoal, small white highlights.
+Continuity: preserve identifiable correlation marks as the clock is stretched, wrapped, selected, and softly fluctuated.
+In-image notation: optional short labels only, such as $\tau$, $f(\tau)$, and $SL(2,\mathbb R)$; do not show the full covariance equation.
+Constraints: no paragraph text, no long equation, no caption, no logo, no watermark, no decorative border, no people.
+Avoid: broken mechanical clocks, gears, discontinuous maps, or the suggestion of exact microscopic symmetry.
+
+PROMPT 15: Four-point function and chaos
+
+Use case: scientific-educational
+Asset type: four-frame scientific illustration for a website slide deck
+Primary request: Explain how ladder diagrams encode operator growth and maximal many-body chaos.
+Scientific basis: The connected four-point function is order $1/N$ and is built from ladder diagrams. In the strongly coupled out-of-time-order channel, growth is proportional to $e^{\lambda_L t}/N$ with $\lambda_L=2\pi/\beta$, until scrambling at $t_*$.
+Frame 1: Show two pairs of operator insertions linked by simple propagator rails.
+Frame 2: Add repeated interaction rungs between the rails, building a ladder series from many similar contributions.
+Frame 3: Transform the ladder into real-time evolution where one small local perturbation spreads rapidly through an all-to-all network.
+Frame 4: Show the spread reaching most modes near the scrambling time and then saturating into bounded many-body complexity.
+Frame explanation: The sequence connects the ladder expansion of the four-point function to exponential operator growth, scrambling across the system, and eventual saturation.
+Canvas and layout: landscape 16:9; exactly four equal panels arranged left to right; clear progression from diagrammatic kernel to physical scrambling.
+Style: refined editorial scientific illustration, precise technical linework, luminous network dynamics, lightly textured paper.
+Palette: warm ivory background, deep teal, muted burnt orange, charcoal, small white highlights.
+Continuity: turn the highlighted ladder rung into the perturbation that spreads through the network.
+In-image notation: optional short labels only, such as $1/N$, $\lambda_L$, and $t_*$; do not render the full exponential-growth equation.
+Constraints: no paragraph text, no long equation, no caption, no logo, no watermark, no decorative border, no people.
+Avoid: classical fire, literal explosions, unlimited growth without saturation, or implying that $q=2$ is maximally chaotic.
+
+PROMPT 16: Schwarzian effective theory
+
+Use case: scientific-educational
+Asset type: four-frame scientific illustration for a website slide deck
+Primary request: Explain how the low-energy reparametrization mode of SYK becomes a Schwarzian effective theory.
+Scientific basis: The conformal saddle selects a clock, leaving a soft mode $f(\tau)$ in $\operatorname{Diff}(S^1)/SL(2,\mathbb R)$. Its Schwarzian action has a coefficient proportional to $N/J$ and controls leading low-temperature corrections.
+Frame 1: Show a softly fluctuating thermal clock around a circle, representing the low-energy reparametrization mode.
+Frame 2: Show many nearby clock deformations, with three rigid $SL(2,\mathbb R)$ directions visually factored out.
+Frame 3: Convert the remaining gentle deformations into an effective-action landscape with one especially soft valley.
+Frame 4: Show the soft clock controlling a low-temperature energy curve and an enhanced four-point response.
+Frame explanation: The sequence isolates the reparametrization mode, removes the exact $SL(2,\mathbb R)$ redundancy, and shows how the Schwarzian theory governs low-energy observables.
+Canvas and layout: landscape 16:9; exactly four equal panels arranged left to right; maintain one recognizable clock curve across all panels.
+Style: refined editorial scientific illustration, precise technical linework, elegant abstract dynamics, lightly textured paper.
+Palette: warm ivory background, deep teal, muted burnt orange, charcoal, small white highlights.
+Continuity: carry the same luminous clock deformation through symmetry reduction, the action landscape, and the observable response.
+In-image notation: optional short labels only, such as $f(\tau)$, $SL(2,\mathbb R)$, and $N/J$; do not render the Schwarzian action.
+Constraints: no paragraph text, no long equation, no caption, no logo, no watermark, no decorative border, no people.
+Avoid: gravitational geometry, a rigid perfect clock, or implying that every clock deformation is physically distinct.
+
+PROMPT 17: Jackiw-Teitelboim gravity
+
+Use case: scientific-educational
+Asset type: four-frame scientific illustration for a website slide deck
+Primary request: Explain why nearly-$AdS_2$ Jackiw-Teitelboim gravity reduces to a Schwarzian boundary trajectory.
+Scientific basis: JT gravity is a two-dimensional dilaton theory. The dilaton equation fixes constant negative curvature, the bulk has no propagating graviton, and the regulated nearly-$AdS_2$ boundary curve carries the physical low-energy dynamics.
+Frame 1: Show a clean two-dimensional negatively curved throat with a dilaton field that changes smoothly along its depth.
+Frame 2: Emphasize constant curvature throughout the interior and the absence of propagating bulk waves.
+Frame 3: Introduce a regulated boundary curve near the edge of the throat, with fixed proper spacing but a deformable embedding.
+Frame 4: Reduce the full throat to the luminous boundary clock $f(\tau)$ moving along that curve.
+Frame explanation: The sequence moves from the JT bulk and dilaton constraint to the nearly-$AdS_2$ boundary trajectory that carries the Schwarzian dynamics.
+Canvas and layout: landscape 16:9; exactly four equal panels arranged left to right; progressively shift attention from the full throat to its boundary.
+Style: refined editorial scientific illustration, precise linework, elegant two-dimensional gravitational geometry, lightly textured paper.
+Palette: warm ivory background, deep teal, muted burnt orange, charcoal, small white highlights.
+Continuity: trace one luminous regulated boundary curve through every frame as the bulk details recede.
+In-image notation: optional short labels only, such as $R=-2$, $\phi$, $AdS_2$, and $f(\tau)$; do not render the full JT action.
+Constraints: no paragraph text, no long equation, no caption, no logo, no watermark, no decorative border, no people.
+Avoid: higher-dimensional black holes, propagating gravitational waves, a flat disk, or a literal material funnel.
+
+PROMPT 18: The infrared SYK/JT correspondence
+
+Use case: scientific-educational
+Asset type: four-frame scientific illustration for a website slide deck
+Primary request: Explain the shared Schwarzian sector of low-energy SYK and nearly-$AdS_2$ JT gravity while preserving the distinction between their microscopic theories.
+Scientific basis: Low-energy large-$N$ SYK and the boundary dynamics of nearly-$AdS_2$ JT gravity have the same Schwarzian action. This accounts for matching thermodynamics and maximal chaos, but it is an infrared correspondence rather than a finite-system identity.
+Frame 1: Show a dense random SYK interaction network flowing toward one soft luminous boundary clock.
+Frame 2: Show a two-dimensional JT gravitational throat reducing independently to a matching boundary clock.
+Frame 3: Align the two clocks and connect them to matching low-temperature energy and four-point response curves.
+Frame 4: Pull back to show the shared low-energy boundary sector in the center while the microscopic SYK network and gravitational interior remain visibly separate.
+Frame explanation: The sequence derives the same boundary clock from two different systems, matches their low-energy observables, and states the limited scope of the correspondence visually.
+Canvas and layout: landscape 16:9; exactly four equal panels arranged left to right; use parallel flows that meet in the third frame and separate again in the fourth.
+Style: refined editorial scientific illustration, precise technical linework, elegant nearly-$AdS_2$ geometry, lightly textured paper.
+Palette: warm ivory background, deep teal, muted burnt orange, charcoal, small white highlights.
+Continuity: use the same luminous clock curve on both sides while retaining distinct SYK-network and JT-throat backgrounds.
+In-image notation: optional short labels only, such as $N/J$, $f(\tau)$, $AdS_2$, and $\lambda_L$; do not render either full action.
+Constraints: no paragraph text, no long equation, no caption, no logo, no watermark, no decorative border, no people.
+Avoid: depicting a finite SYK Hamiltonian as literally identical to a classical spacetime, merging the microscopic interiors, or implying an exact correspondence at all energies.
+
+PROMPT 19: Finite-$N$ spectrum
+
+Use case: scientific-educational
+Asset type: four-frame scientific illustration for a website slide deck
+Primary request: Explain the distinct symmetry, global, local, and late-time spectral signatures of finite-$N$ SYK.
+Scientific basis: Symmetries determine the random-matrix class, with an $N\bmod8$ pattern. The global density is smooth, local unfolded levels repel, and the spectral form factor exhibits a dip, ramp, and plateau.
+Frame 1: Show a finite many-body Hamiltonian splitting cleanly into symmetry sectors before diagonalization.
+Frame 2: Display many discrete energy levels under a smooth broad global spectral-density envelope.
+Frame 3: Magnify a small spectral window where neighboring levels repel rather than cluster.
+Frame 4: Transform the spectrum into a time-domain trace with a dip, a long rising ramp, and a final plateau caused by discreteness.
+Frame explanation: The sequence separates symmetry sectors, global spectral density, local level repulsion, and the late-time dip-ramp-plateau signature.
+Canvas and layout: landscape 16:9; exactly four equal panels arranged left to right; use progressive magnification and then a transform into time.
+Style: refined editorial scientific illustration, precise data-inspired linework, subtle dimensional forms, lightly textured paper.
+Palette: warm ivory background, deep teal, muted burnt orange, charcoal, small white highlights.
+Continuity: follow one highlighted symmetry sector into its global density, local spacings, and spectral form factor.
+In-image notation: optional short labels only, such as $N\bmod8$ and $t$; do not add random-matrix class names or formulas.
+Constraints: no paragraph text, no long equation, no caption, no logo, no watermark, no decorative border, no people.
+Avoid: equally spaced levels, merged symmetry sectors, or a continuous spectrum at the latest times.
+
+PROMPT 20: What is established, and what remains
+
+Use case: scientific-educational
+Asset type: four-frame scientific summary illustration for a website slide deck
+Primary request: Summarize the logical chain of established SYK results while clearly distinguishing controlled conclusions from open questions.
+Scientific basis: Random $q$-body interactions lead to melonic closure; bilocal closure leads to conformal dynamics; the soft mode leads to Schwarzian physics and maximal chaos. Local spectral universality and the precise single-sample gravity interpretation remain subtler.
+Frame 1: Show random many-body couplings entering a stable large-$N$ statistical envelope, with a solid foundation suggesting rigorous global results.
+Frame 2: Show dominant melonic diagrams closing into the bilocal $G$ and $\Sigma$ saddle, supported by orderly numerical data points.
+Frame 3: Show the conformal correlation curve producing a soft boundary clock, rapid scrambling, and Schwarzian low-energy dynamics.
+Frame 4: End with a branching horizon: one well-lit path for controlled disorder-averaged predictions and two partially unresolved paths for local spectral universality and single-sample gravity.
+Frame explanation: The sequence summarizes the established chain from random interactions to melonic closure and conformal chaos, then separates controlled results from unresolved questions.
+Canvas and layout: landscape 16:9; exactly four equal panels arranged left to right; use a clear causal chain followed by a branching final panel.
+Style: refined editorial scientific illustration, precise technical linework, subtle dimensional forms, lightly textured paper.
+Palette: warm ivory background, deep teal, muted burnt orange, charcoal, small white highlights.
+Continuity: carry one luminous path from random interactions through melonic closure and conformal dynamics to the final branches.
+In-image notation: optional short labels only, such as $q$, $G$, $\Sigma$, and $1/N$; do not show a long equation or use textual status labels.
+Constraints: no paragraph text, no long equation, no caption, no logo, no watermark, no decorative border, no people.
+Avoid: presenting open questions as settled, using checkmarks or question marks, or implying a complete single-sample gravity equivalence.

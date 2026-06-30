@@ -1,0 +1,196 @@
+%template for IMS extended abstract of talk
+\documentclass[12pt,centertags,oneside]{amsart}
+%\usepackage{showkeys}
+\usepackage{amsmath,amstext,amsthm,amscd,typearea,hyperref}
+\usepackage{amssymb}
+\usepackage{a4wide}
+\usepackage[mathscr]{eucal}
+\usepackage{mathrsfs}
+\usepackage{typearea}
+\usepackage{charter}
+\usepackage{pdfsync}
+\usepackage[a4paper,width=16.2cm,top=3cm,bottom=3cm]{geometry}
+\renewcommand{\baselinestretch}{1.05}
+\numberwithin{equation}{section}
+\pagestyle{empty}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{remarks}[theorem]{Remarks}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{problem}[theorem]{Problem}
+
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\N}{\mathbb N}
+\newcommand{\E}{\mathbb E}
+\renewcommand{\P}{\mathbb P}
+\newcommand{\Cc}{\mathcal C}
+\newcommand{\F}{\mathcal F}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title[]{Equivalence of fluctuations for the SHE and KPZ equation in the subcritical weak disorder regime}
+
+\author{Shuta Nakajima}
+\address{Department of Mathematics, Keio University}
+\email{njima@keio.jp}
+
+\date{}
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\medskip
+
+\noindent 2020 Mathematics Subject Classification: 60H15, 60K37, 60F05, 82D60.
+
+\medskip
+
+\noindent Keywords: stochastic heat equation, KPZ equation, directed polymers, weak disorder, fluctuations.
+
+\medskip
+
+This extended abstract is based on joint work with Stefan Junk (Gakushuin University).
+
+\medskip
+
+The Kardar--Parisi--Zhang equation is the formal stochastic PDE
+$$
+\partial_t h(t,x)=\frac12\Delta h(t,x)+\frac12|\nabla h(t,x)|^2+\beta \xi(t,x),
+$$
+where $\xi$ denotes space-time white noise. Since $\xi$ is a Schwartz distribution, the nonlinear term must be defined by a regularization and renormalization procedure. If the noise is mollified in space at scale $\epsilon$ by $\xi^\epsilon=\phi^\epsilon*\xi$, one considers
+$$
+\partial_t h_\epsilon(t,x)=\frac12\Delta h_\epsilon(t,x)+\frac12|\nabla h_\epsilon(t,x)|^2
++\beta_\epsilon \xi^\epsilon(t,x)-C_\epsilon.
+$$
+The Cole--Hopf transform $u_\epsilon=\exp(h_\epsilon)$ maps this equation to the multiplicative stochastic heat equation
+$$
+\partial_t u_\epsilon(t,x)=\frac12\Delta u_\epsilon(t,x)+\beta_\epsilon \xi^\epsilon(t,x)u_\epsilon(t,x)-C_\epsilon u_\epsilon(t,x).
+$$
+With flat initial data, the Feynman--Kac formula identifies $u_\epsilon$ with the partition function of a continuum directed polymer \cite{MukherjeeShamovZeitouni2016}. Thus the relation between the SHE and KPZ equation can be studied by comparing a partition function with its logarithm.
+
+We first recall the known phase diagram. In $d=1$, Bertini and Giacomin constructed the Cole--Hopf solution of the KPZ equation as the scaling limit of weakly asymmetric particle systems \cite{BertiniGiacomin1997}. In $d=2$, the mollified KPZ equation has a nontrivial subcritical regime: Caravenna, Sun, and Zygouras proved convergence for $\hat\beta<1$ and divergence to $-\infty$ for $\hat\beta>1$ under the logarithmic scaling of the coupling constant \cite{CaravennaSunZygouras2020}. In dimensions $d\geq 3$, the natural weak-noise scaling is $\beta_\epsilon=\hat\beta\epsilon^{(d-2)/2}$ \cite{MukherjeeShamovZeitouni2016,CoscoNakajimaNakashima2022}. There are critical parameters $0<\hat\beta_{L^2}\leq \hat\beta_c$. For $\hat\beta<\hat\beta_c$, the SHE partition functions satisfy a law of large numbers, whereas for $\hat\beta>\hat\beta_c$ they converge to zero \cite{MukherjeeShamovZeitouni2016,CoscoNakajimaNakashima2022}. In the $L^2$ region, $\hat\beta<\hat\beta_{L^2}$, the centered fluctuations of $u_\epsilon$ and $h_\epsilon=\log u_\epsilon$ converge to Edwards--Wilkinson type Gaussian limits \cite{GuRyzhikZeitouni2018,CoscoNakajimaNakashima2022}. The main motivation is the weak disorder region beyond the $L^2$ region, where non-Gaussian fluctuations are expected.
+
+The main results are joint work with Stefan Junk and are stated for the discrete directed polymer model. Let $(\omega(n,x))_{n\in\N,x\in\Z^d}$ be i.i.d. random variables with compact support, and set
+$$
+\lambda(\beta)=\log \E[e^{\beta\omega(n,x)}].
+$$
+For the simple random walk $(X_k)$ on $\Z^d$, define the polymer partition function starting from $x$ by
+$$
+Z_N(x)=\mathrm E_x\left[\exp\left(\beta\sum_{k=1}^N\omega(k,X_k)-N\lambda(\beta)\right)\right].
+$$
+For brevity, we write $Z_N=Z_N(0)$. The weak disorder regime is the set of $\beta$ for which $\P(\liminf_N Z_N>0)=1$. Let
+$$
+p_*(\beta)=\sup\{p\geq 0:\sup_N \E[Z_N^p]<\infty\}
+$$
+be the moment exponent. Junk proved that throughout weak disorder one has $p_*(\beta)\geq (d+2)/d$, and for a large class of finite-support environments the strict inequality $p_*(\beta)>(d+2)/d$ is equivalent to $\beta<\beta_c$ \cite{Junk2025AOP}.
+
+For a compactly supported test function $f:\R^d\to\R$, define the discrete SHE fluctuation
+$$
+\chi_N(f)=N^{-d/2}\sum_{x\in\Z^d}f(x/\sqrt N)(Z_N(x)-\E Z_N(x)).
+$$
+Put
+$$
+\xi(\beta)=-\frac d2+\frac{d+2}{2(p_*(\beta)\wedge 2)}.
+$$
+Junk proved that, in weak disorder, for every $\epsilon>0$ and $f\not\equiv 0$ \cite{Junk2025AOP},
+$$
+\P\left(N^{-\xi(\beta)-\epsilon}<|\chi_N(f)|<N^{-\xi(\beta)+\epsilon}\right)\longrightarrow 1.
+$$
+We then focused on the corresponding KPZ fluctuation
+$$
+\kappa_N(f)=N^{-d/2}\sum_{x\in\Z^d}f(x/\sqrt N)
+\left(\log Z_N(x)-\E\log Z_N(x)\right).
+$$
+Our main theorem asserts that, in the subcritical weak disorder regime, the two fluctuation fields are asymptotically equivalent up to an error of lower polynomial order than their common magnitude \cite{JunkNakajima2025}. More precisely, if $p_*(\beta)>(d+2)/d$, then there exists $\delta>0$ such that
+$$
+\P\left(|\chi_N(f)-\kappa_N(f)|\leq N^{-\xi(\beta)-\delta}\right)\longrightarrow 1.
+$$
+Consequently,
+$$
+\P\left(
+\frac{|\chi_N(f)-\kappa_N(f)|}{\min\{|\chi_N(f)|,|\kappa_N(f)|\}}\leq N^{-\delta}
+\right)\longrightarrow 1.
+$$
+In particular, the SHE and KPZ fluctuations have the same polynomial order. This is significant because in the region $\beta_{L^2}<\beta<\beta_c$ the SHE fluctuation is expected to have a stable, non-Gaussian limit, whereas the logarithm has stronger moment and covariance estimates than the partition function itself. The theorem shows that this regularizing effect of the logarithm does not change the leading fluctuation scale.
+
+The common approximation is a martingale argument built from a short backward polymer near the observation time. Let $\ell_k=k^{1/8}$ and
+$$
+E_k(y)=e^{\beta\omega(k,y)-\lambda(\beta)}-1.
+$$
+If $\overleftarrow Z_{[k-\ell_k,k)}((k,y))$ denotes the backward partition function ending at $(k,y)$ over the time interval $[k-\ell_k,k)$ and $p_N(x,y)$ is the simple random walk transition probability, set
+$$
+\rho_N(f)=N^{-d/2}\sum_{x\in\Z^d}f(x/\sqrt N)
+\sum_{k=1}^N\sum_{y\in\Z^d}
+\overleftarrow Z_{[k-\ell_k,k)}((k,y))E_k(y)p_N(x,y).
+$$
+It is proved separately that $\chi_N(f)$ and $\kappa_N(f)$ are both close to $\rho_N(f)$ at the required precision \cite{JunkNakajima2025}.
+
+For $\chi_N(f)$, this follows from expanding $Z_N(x)-1$ according to the first time at which the environment is sampled, followed by a local limit theorem and a coarse-graining estimate for point-to-point polymer partition functions. For $\kappa_N(f)$, one uses a martingale decomposition of $\log Z_N(x)-\E\log Z_N(x)$ along the time coordinate. The increment is
+$$
+\log\frac{Z_k(x)}{Z_{k-1}(x)}
+=\log\left(1+\sum_{y\in\Z^d}\mu_k(x,y)E_k(y)\right),
+$$
+where $\mu_k(x,y)$ is the polymer endpoint distribution at time $k$. The logarithm can be linearized with an error controlled by lower-tail estimates for $Z_N$. The endpoint distribution is then replaced by
+$$
+\overleftarrow Z_{[k-\ell_k,k)}((k,y))p_k(x,y),
+$$
+using a point-to-point factorization result for directed polymers. The main inputs are moment estimates governed by $p_*(\beta)$ and a stretched Gaussian lower-tail bound of the form
+$$
+\P(Z_N<1/u)\leq C\exp\{-(\log u)^2/C\},\qquad u\geq 1.
+$$
+These estimates make it possible to compare the nonlinear KPZ fluctuations with the linear SHE fluctuations throughout the subcritical weak disorder region \cite{JunkNakajima2025}.
+
+\begin{thebibliography}{10}
+
+\bibitem{BertiniGiacomin1997}
+L. Bertini and G. Giacomin.
+\newblock Stochastic Burgers and KPZ equations from particle systems.
+\newblock {\em Comm. Math. Phys.}, 183:571--607, 1997.
+
+\bibitem{CaravennaSunZygouras2020}
+F. Caravenna, R. Sun, and N. Zygouras.
+\newblock The two-dimensional KPZ equation in the entire subcritical regime.
+\newblock {\em Ann. Probab.}, 48:1086--1127, 2020.
+
+\bibitem{CoscoNakajimaNakashima2022}
+C. Cosco, S. Nakajima, and M. Nakashima.
+\newblock Law of large numbers and fluctuations in the sub-critical and $L^2$ regions for SHE and KPZ equation in dimension $d\geq 3$.
+\newblock {\em Stochastic Process. Appl.}, 2022.
+
+\bibitem{GuRyzhikZeitouni2018}
+Y. Gu, L. Ryzhik, and O. Zeitouni.
+\newblock The Edwards--Wilkinson limit of the random heat equation in dimensions three and higher.
+\newblock {\em Comm. Math. Phys.}, 2018.
+
+\bibitem{Junk2025AOP}
+S. Junk.
+\newblock Fluctuations of partition functions of directed polymers in weak disorder beyond the $L^2$-phase.
+\newblock {\em Ann. Probab.}, 2025.
+
+\bibitem{JunkNakajima2025}
+S. Junk and S. Nakajima.
+\newblock Equivalence of fluctuations of discretized SHE and KPZ equations.
+\newblock {\em Probab. Math. Phys.}, 2025.
+
+\bibitem{MukherjeeShamovZeitouni2016}
+D. Mukherjee, A. Shamov, and O. Zeitouni.
+\newblock Weak and strong disorder for the stochastic heat equation and continuous directed polymers in $d\geq 3$.
+\newblock {\em Electron. Commun. Probab.}, 2016.
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,220 @@
+## 20-slide blueprint: the SYK model in detail
+
+Framing line: SYK is a random, all-to-all quantum many-body model whose large-$N$ dynamics closes on a two-point function.
+
+### 1. Model at a glance
+- Let $N$ and $q$ be even. The model contains $N$ Majorana fermions with $\psi_i^*=\psi_i$ and $\{\psi_i,\psi_j\}=\delta_{ij}$.
+- Its Hamiltonian is
+$$
+H=i^{q/2}\sum_{1\leq i_1<\cdots<i_q\leq N}
+J_{i_1\cdots i_q}\psi_{i_1}\cdots\psi_{i_q}.
+$$
+- Every $q$-tuple interacts, so there is no spatial geometry. Randomness replaces locality, while the $N\to\infty$ limit supplies a controlled expansion.
+- The standard interacting model is $q=4$; $q=2$ is a useful free-fermion comparison.
+
+### 2. Majorana algebra and Hilbert space
+- The convention $\{\psi_i,\psi_j\}=\delta_{ij}$ gives $\psi_i^2=1/2$.
+- Pair the Majoranas into $N/2$ complex fermions:
+$$
+c_a=\frac{\psi_{2a-1}+i\psi_{2a}}{\sqrt 2},
+\qquad
+\{c_a,c_b^\dagger\}=\delta_{ab}.
+$$
+- The Hilbert space therefore has dimension $2^{N/2}$.
+- For even $q$, the phase $i^{q/2}$ makes each interaction term Hermitian. Fermion parity $(-1)^F$ is conserved, so the Hamiltonian splits into parity blocks.
+
+### 3. Random couplings and normalization
+- The couplings are independent centered Gaussians, up to antisymmetry:
+$$
+\mathbb E J_I=0,
+\qquad
+\mathbb E J_I^2=\frac{(q-1)!\,J^2}{N^{q-1}}.
+$$
+- A single coupling is of order $N^{-(q-1)/2}$, but each fermion participates in order $N^{q-1}$ interactions.
+- This balance gives a nontrivial extensive large-$N$ limit and keeps the self-energy of order one.
+- The parameter $J$ fixes the microscopic energy scale. Strong coupling means $\beta J\gg 1$.
+
+### 4. Which SYK model?
+- Majorana $q=2$: a random quadratic Hamiltonian, exactly diagonalizable and not maximally chaotic.
+- Majorana $q\geq4$: interacting models with infrared fermion dimension $\Delta=1/q$.
+- Complex SYK: complex fermions and random charge-preserving interactions; it has a $U(1)$ symmetry and supports finite density.
+- Coupled, supersymmetric, and tensor variants isolate different features such as wormhole-like phases, protected structure, or disorder-free melonic limits.
+- The remaining slides concern the standard Majorana model unless stated otherwise.
+
+### 5. Why experimental realization is difficult
+- A literal device needs $N$ coherent modes and a separately disordered coupling for many $q$-tuples:
+$$
+M_q=\binom{N}{q},
+\qquad
+J_I\sim N^{-(q-1)/2}.
+$$
+- For $q=4$, the interaction count grows approximately as $N^4/24$, far faster than the number of control channels in ordinary hardware.
+- The useful dynamics must occur before decoherence, yet strong coupling requires $\beta J\gg1$ and scrambling requires a time of order $\log N$.
+- Experiments therefore emulate selected signatures rather than reproducing an arbitrarily large, ideal Hamiltonian term by term.
+
+### 6. Ultracold-atom route
+- Atomic proposals encode complex fermions in long-lived internal states or orbitals and use optical fields or cavity-mediated processes to generate random couplings.
+- The desired charge-preserving interaction has the form
+$$
+H_{\mathrm{int}}=\sum_{i,j,k,l}
+J_{ij;kl}\,c_i^\dagger c_j^\dagger c_k c_l.
+$$
+- Preparation, tunable interactions, and correlation readout are natural strengths; dense independent four-body couplings are the central engineering challenge.
+- These platforms are best viewed as proposed analog emulators of SYK-like dynamics, not yet as large ideal realizations.
+
+### 7. Majorana nanowires and a quantum dot
+- A solid-state proposal couples many Majorana zero modes $\gamma_i$ to a disordered interacting quantum dot.
+- Projecting to low energy can generate
+$$
+H_{\mathrm{eff}}=\sum_{i<j<k<l}
+J_{ijkl}\gamma_i\gamma_j\gamma_k\gamma_l.
+$$
+- The dot supplies irregular overlaps, while superconducting nanowires supply the Majorana degrees of freedom.
+- The demanding ingredients are many well-isolated zero modes, controlled charging interactions, low temperature, and parity-sensitive readout.
+
+### 8. Programmable quantum simulators
+- Digital processors decompose $e^{-iHt}$ into implementable gates; analog NMR uses shaped radio-frequency pulses to encode a small effective Hamiltonian.
+- Echo and time-reversal protocols can measure the out-of-time-order correlator
+$$
+F(t)=\langle W^\dagger(t)V^\dagger W(t)V\rangle.
+$$
+- The advantage is flexible control over disorder realizations and observables.
+- The limitation is scale: these experiments test finite-$N$ spectra and scrambling signatures rather than the full thermodynamic conformal regime.
+
+### 9. Observables and scale map
+- Thermal partition function and free energy:
+$$
+Z(\beta)=\operatorname{Tr}e^{-\beta H},
+\qquad
+F(\beta)=-\beta^{-1}\log Z(\beta).
+$$
+- Disorder-averaged two-point function:
+$$
+G(\tau)=\frac1N\sum_{i=1}^N
+\mathbb E\langle T_\tau\psi_i(\tau)\psi_i(0)\rangle.
+$$
+- Four-point functions test operator growth; the spectrum tests level repulsion and late-time universality.
+- The main regimes are microscopic times $\tau J\lesssim1$, a conformal window $1\ll\tau J\ll N$, and finite-$N$ late-time physics.
+
+### 10. Averaging the disorder
+- The Euclidean action is quadratic in each Gaussian variable $J_I$. Averaging $Z^n$ therefore produces a deterministic interaction coupling two times and, in the replica method, two replicas.
+- The quenched free energy is formally recovered from
+$$
+\mathbb E\log Z
+=\lim_{n\to0}\frac{\mathbb E Z^n-1}{n}.
+$$
+- At the replica-diagonal large-$N$ saddle, the fundamental variables are not individual fermions but collective two-time fields.
+- Annealed and quenched averages need not agree at every temperature; the replica assumption is part of the analysis, not an identity.
+
+### 11. Bilocal collective fields
+- Introduce
+$$
+G(\tau_1,\tau_2)=\frac1N\sum_i
+\psi_i(\tau_1)\psi_i(\tau_2)
+$$
+and a Lagrange multiplier $\Sigma(\tau_1,\tau_2)$ enforcing this definition.
+- After integrating out the $N$ fermions, the effective action per fermion is
+$$
+\frac{I[G,\Sigma]}N
+=-\log\operatorname{Pf}(\partial_\tau-\Sigma)
++\frac12\int d\tau_1d\tau_2
+\left[\Sigma G-\frac{J^2}{q}G^q\right].
+$$
+- The overall factor $N$ makes the saddle-point approximation exact at leading order. Fluctuations are organized in powers of $1/N$.
+
+### 12. Schwinger-Dyson equations
+- Varying the bilocal action gives
+$$
+G(i\omega_n)=\frac{1}{-i\omega_n-\Sigma(i\omega_n)},
+\qquad
+\Sigma(\tau)=J^2G(\tau)^{q-1}.
+$$
+- Equivalently, $(\partial_\tau-\Sigma)*G=\delta$, where $*$ denotes convolution in Euclidean time.
+- These equations resum the melonic Feynman diagrams that dominate at large $N$.
+- Numerically, one alternates between time and frequency space until $G$ and $\Sigma$ are self-consistent.
+
+### 13. Infrared conformal solution
+- For $\beta J\gg1$ and time separations $J^{-1}\ll|\tau|\ll\beta$, the derivative term is subleading.
+- The saddle then has
+$$
+G_c(\tau)=b\,\frac{\operatorname{sgn}\tau}{|J\tau|^{2\Delta}},
+\qquad
+\Delta=\frac1q,
+$$
+$$
+b^q=\frac{1-2\Delta}{2\pi}\tan(\pi\Delta).
+$$
+- At temperature $1/\beta$, the line is mapped to the thermal circle, replacing $|\tau|^{-2\Delta}$ by $[\pi/(\beta\sin(\pi\tau/\beta))]^{2\Delta}$.
+- The power law describes a non-Fermi liquid: there is no quasiparticle pole.
+
+### 14. Reparametrization symmetry
+- After dropping $\partial_\tau$, the infrared equations are covariant under $\tau\mapsto f(\tau)$:
+$$
+G(\tau_1,\tau_2)\mapsto
+[f'(\tau_1)f'(\tau_2)]^\Delta
+G(f(\tau_1),f(\tau_2)).
+$$
+- A conformal saddle selects one clock and breaks this symmetry to $SL(2,\mathbb R)$.
+- The microscopic derivative term weakly breaks the larger symmetry and turns the reparametrization mode into a soft mode.
+- This soft mode controls the leading low-temperature correction to thermodynamics and correlators.
+
+### 15. Four-point function and chaos
+- The connected four-point function is order $1/N$. Its leading diagrams form a ladder series with a kernel built from the conformal two-point function.
+- In the out-of-time-order channel, the growing contribution behaves as
+$$
+\frac{1}{N}e^{\lambda_L t},
+\qquad
+\lambda_L=\frac{2\pi}{\beta}
+$$
+at strong coupling, up to finite-coupling corrections.
+- The scrambling time is therefore $t_*\sim(\beta/2\pi)\log N$.
+- Saturation of the chaos bound is a property of the interacting low-energy regime, not of the $q=2$ model.
+
+### 16. Schwarzian effective theory
+- The soft clock $f(\tau)$ is governed at low energy by the Schwarzian action
+$$
+I_{\mathrm{Sch}}
+=-\frac{N\alpha_S}{J}\int d\tau\,
+\left\{\tan\frac{\pi f(\tau)}{\beta},\tau\right\}.
+$$
+- Its configuration space is $\operatorname{Diff}(S^1)/SL(2,\mathbb R)$.
+- The coefficient is of order $N/J$, so fluctuations of the soft clock are controlled by the large-$N$ expansion.
+- This one-dimensional theory gives the leading low-temperature correction to thermodynamics and enhances the chaos channel of the four-point function.
+
+### 17. Jackiw-Teitelboim gravity
+- Jackiw-Teitelboim gravity is a two-dimensional dilaton theory whose bulk equation fixes the metric to have constant negative curvature, $R=-2$ in AdS units.
+- The dilaton controls the strength of gravitational effects while the bulk metric has no propagating graviton.
+- With nearly-$AdS_2$ boundary conditions, the physical low-energy degree of freedom is the shape of the regulated boundary curve.
+- After holographic renormalization, the action for that boundary trajectory is a Schwarzian action for its clock $f(\tau)$.
+
+### 18. The infrared SYK/JT correspondence
+- Low-energy SYK and nearly-$AdS_2$ JT gravity therefore share the same Schwarzian boundary theory.
+- Matching the Schwarzian coefficient relates the SYK scale $N/J$ to the renormalized boundary-dilaton coupling in gravity.
+- This common sector explains matching low-temperature thermodynamics, enhanced four-point functions, and maximal Lyapunov growth.
+- The relation is an infrared, large-$N$ correspondence. It does not identify a finite SYK Hamiltonian with one classical spacetime.
+
+### 19. Finite-$N$ spectrum
+- Fermion parity and antiunitary symmetries determine the random-matrix class; the pattern depends periodically on $N$ modulo $8$.
+- The global density is well approximated by a $q$-Hermite form for standard finite-$q$ SYK, while local unfolded spacings show random-matrix level repulsion.
+- The spectral form factor displays the characteristic dip, ramp, and plateau after suitable averaging.
+- Very late times probe discreteness of the $2^{N/2}$-dimensional spectrum and are not captured by the leading conformal saddle.
+
+### 20. What is established, and what remains
+- Rigorous results include limiting global spectral laws in several $q_N$ regimes, central limit theorems for linear statistics, concentration statements, and high-temperature free-energy limits.
+- The large-$N$ bilocal saddle, conformal solution, and ladder analysis are controlled physics calculations with extensive numerical support.
+- Random-matrix universality for local statistics and the precise single-sample meaning of the gravity relation remain subtler than the disorder-averaged saddle suggests.
+- The core mechanism is: random $q$-body interactions lead to melonic closure, melonic closure leads to conformal dynamics, and its soft mode leads to maximal chaos and the Schwarzian theory.
+
+---
+Learn more:
+1. [An introduction to the SYK model](https://arxiv.org/abs/1807.03334)
+2. [Remarks on the Sachdev-Ye-Kitaev model](https://arxiv.org/abs/1610.01569)
+3. [Comments on the Sachdev-Ye-Kitaev model](https://arxiv.org/abs/1604.07818)
+4. [Conformal symmetry and its breaking in nearly AdS2](https://arxiv.org/abs/1606.01857)
+5. [JT gravity as a matrix integral](https://arxiv.org/abs/1903.11115)
+6. [Spectrum of the SYK model](https://arxiv.org/abs/1801.10073)
+7. [Spectrum of the SYK model II](https://arxiv.org/abs/1806.05714)
+8. [The free energy limit of the SYK model at high temperature](https://arxiv.org/abs/2605.02768)
+9. [Creating and probing the SYK model with ultracold gases](https://arxiv.org/abs/1606.02454)
+10. [Approximating the SYK model with Majorana wires](https://arxiv.org/abs/1703.06890)
+11. [Quantum simulation of the non-Fermi-liquid state of the SYK model](https://arxiv.org/abs/1712.06458)

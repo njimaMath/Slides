@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SYK 20-Slide Website</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [["$", "$"]],
+          displayMath: [["$$", "$$"]]
+        },
+        svg: { fontCache: "global" }
+      };
+    </script>
+    <script defer src="vendor/mathjax/tex-svg.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main class="deck-shell" aria-label="Interactive slide deck">
+      <section class="stage" aria-live="polite">
+        <div class="slide-frame" id="slide-frame">
+          <p class="eyebrow" id="slide-kicker">SYK notes</p>
+          <h1 id="slide-title">Loading blueprint</h1>
+          <div class="slide-content-grid">
+            <div class="slide-body" id="slide-body">
+              <p>The deck is reading the local blueprint and preparing the slides.</p>
+            </div>
+            <figure class="slide-figure" id="slide-figure" hidden>
+              <div class="figure-media" id="figure-media"></div>
+              <figcaption id="figure-caption"></figcaption>
+            </figure>
+          </div>
+          <nav class="slide-jump" aria-label="Page navigation">
+            <button type="button" class="slide-jump-button" id="prev-slide" aria-label="Previous slide" title="Previous slide">
+              <span aria-hidden="true">&lsaquo;</span>
+            </button>
+            <div class="progress-block" aria-label="Slide progress">
+              <span id="slide-count">0 / 20</span>
+              <div class="progress-track" aria-hidden="true">
+                <span id="progress-fill"></span>
+              </div>
+            </div>
+            <button type="button" class="slide-jump-button" id="next-slide" aria-label="Next slide" title="Next slide">
+              <span aria-hidden="true">&rsaquo;</span>
+            </button>
+          </nav>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
