@@ -13,17 +13,19 @@ const els = {
   next: document.querySelector("#next-slide"),
   standardMode: document.querySelector("#standard-mode"),
   fourFrameMode: document.querySelector("#four-frame-mode"),
-  imageLink: document.querySelector("#image-link")
+  imageMode: document.querySelector("#image-mode")
 };
 
 let standardSlides = [];
 let fourFrameSlides = [];
+let imageSlides = [];
 let slides = [];
 let current = 0;
 let mode = "standard";
 const currentByMode = {
   standard: 0,
-  fourFrame: 0
+  fourFrame: 0,
+  image: 0
 };
 
 const standardImage = (filename) => `Images/${filename}`;
@@ -695,12 +697,36 @@ function buildFourFrameSlides(sourceSlides) {
   });
 }
 
+function buildImageSlides(sourceSlides) {
+  return standardImageFiles.map((filename, index) => {
+    const title = sourceSlides[index]?.title || `Image ${index + 1}`;
+
+    return {
+      title,
+      body: "",
+      figure: {
+        images: [
+          {
+            src: standardImage(filename),
+            alt: `${title} image`
+          }
+        ],
+        imageDeck: true,
+        caption: ""
+      }
+    };
+  });
+}
+
 function activeSlides(nextMode = mode) {
-  return nextMode === "fourFrame" ? fourFrameSlides : standardSlides;
+  if (nextMode === "fourFrame") return fourFrameSlides;
+  if (nextMode === "image") return imageSlides;
+  return standardSlides;
 }
 
 function initialMode() {
   const requested = new URLSearchParams(window.location.search).get("mode");
+  if (["image", "images"].includes(requested)) return "image";
   return ["4koma", "four-frame", "fourFrame", "yonnkoma", "よんこま", "四コマ"].includes(requested)
     ? "fourFrame"
     : "standard";
@@ -712,6 +738,8 @@ function syncUrl() {
 
   if (mode === "fourFrame") {
     params.set("mode", "4koma");
+  } else if (mode === "image") {
+    params.set("mode", "images");
   } else {
     params.delete("mode");
   }
@@ -723,20 +751,13 @@ function syncUrl() {
 
 function updateModeControls() {
   const isFourFrame = mode === "fourFrame";
-  els.standardMode.classList.toggle("is-active", !isFourFrame);
+  const isImage = mode === "image";
+  els.standardMode.classList.toggle("is-active", mode === "standard");
   els.fourFrameMode.classList.toggle("is-active", isFourFrame);
-  els.standardMode.setAttribute("aria-pressed", String(!isFourFrame));
+  els.imageMode.classList.toggle("is-active", isImage);
+  els.standardMode.setAttribute("aria-pressed", String(mode === "standard"));
   els.fourFrameMode.setAttribute("aria-pressed", String(isFourFrame));
-  els.imageLink.href = standardImageFiles[current]
-    ? standardImage(standardImageFiles[current])
-    : "Images/";
-}
-
-function openFourFrameImage() {
-  const currentImage = fourFrameDeckFiles[current];
-  window.location.href = currentImage
-    ? fourFrameImage(currentImage)
-    : "../four-frame/";
+  els.imageMode.setAttribute("aria-pressed", String(isImage));
 }
 
 function render() {
@@ -752,6 +773,7 @@ function render() {
   els.title.textContent = slide.title;
   els.content.innerHTML = slide.body;
   els.frame.classList.toggle("is-four-frame-deck", mode === "fourFrame");
+  els.frame.classList.toggle("is-image-deck", mode === "image");
   renderFigure(slide);
   updateTitleLayout();
   const renderedTextLength = els.content.textContent.length;
@@ -759,11 +781,11 @@ function render() {
 
   els.content.classList.toggle(
     "dense",
-    mode !== "fourFrame" && (renderedTextLength > 650 || renderedMathCount > 1)
+    mode === "standard" && (renderedTextLength > 650 || renderedMathCount > 1)
   );
   els.content.classList.toggle(
     "extra-dense",
-    mode !== "fourFrame" && (renderedTextLength > 900 || renderedMathCount > 2)
+    mode === "standard" && (renderedTextLength > 900 || renderedMathCount > 2)
   );
   els.content.classList.remove("is-entering");
   void els.content.offsetWidth;
@@ -806,6 +828,7 @@ function renderFigure(slide) {
   els.figure.classList.toggle("figure-gallery", (figure?.images?.length ?? 0) > 1);
   els.figure.classList.toggle("figure-sequence", Boolean(figure?.panels));
   els.figure.classList.toggle("figure-four-frame", Boolean(figure?.fourFrame));
+  els.figure.classList.toggle("figure-image-deck", Boolean(figure?.imageDeck));
 
   if (!figure) return;
 
@@ -914,6 +937,7 @@ async function loadBlueprint() {
 
   standardSlides = parseSlides(text);
   fourFrameSlides = buildFourFrameSlides(standardSlides);
+  imageSlides = buildImageSlides(standardSlides);
   mode = initialMode();
   slides = activeSlides();
   current = initialSlideIndex(slides.length);
@@ -924,7 +948,8 @@ async function loadBlueprint() {
 els.prev.addEventListener("click", () => move(-1));
 els.next.addEventListener("click", () => move(1));
 els.standardMode.addEventListener("click", () => switchMode("standard"));
-els.fourFrameMode.addEventListener("click", openFourFrameImage);
+els.fourFrameMode.addEventListener("click", () => switchMode("fourFrame"));
+els.imageMode.addEventListener("click", () => switchMode("image"));
 
 window.addEventListener("keydown", (event) => {
   if (event.key === "ArrowRight" || event.key === "PageDown") move(1);

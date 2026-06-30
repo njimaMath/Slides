@@ -299,15 +299,19 @@ h1.multiline-title {
 }
 
 .slide-frame.is-four-frame-deck .eyebrow,
-.slide-frame.is-four-frame-deck .slide-body {
+.slide-frame.is-four-frame-deck .slide-body,
+.slide-frame.is-image-deck .eyebrow,
+.slide-frame.is-image-deck .slide-body {
   display: none;
 }
 
-.slide-frame.is-four-frame-deck h1 {
+.slide-frame.is-four-frame-deck h1,
+.slide-frame.is-image-deck h1 {
   max-width: 100%;
 }
 
-.slide-frame.is-four-frame-deck .slide-content-grid {
+.slide-frame.is-four-frame-deck .slide-content-grid,
+.slide-frame.is-image-deck .slide-content-grid {
   padding-left: 22px;
 }
 
@@ -378,7 +382,8 @@ h1.multiline-title {
   aspect-ratio: 4 / 3;
 }
 
-.figure-four-frame .figure-media img {
+.figure-four-frame .figure-media img,
+.figure-image-deck .figure-media img {
   aspect-ratio: auto;
   max-height: none;
   object-fit: contain;
