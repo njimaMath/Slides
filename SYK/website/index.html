@@ -18,14 +18,43 @@
     <script defer src="app.js"></script>
   </head>
   <body>
-    <main class="deck-shell" aria-label="Interactive slide deck">
+    <header class="front-page" aria-label="SYK model introduction">
+      <div class="front-page-media" aria-hidden="true">
+        <img src="assets/all-to-all-network.jpg" alt="">
+      </div>
+      <div class="front-page-content">
+        <p class="front-page-kicker">Interactive notes</p>
+        <h1>Sachdev-Ye-Kitaev model</h1>
+        <p>
+          A guided 20-slide tour of random all-to-all quantum many-body dynamics,
+          large-$N$ saddle equations, infrared conformal physics, scrambling, and
+          the Schwarzian link to nearly-$AdS_2$ gravity.
+        </p>
+        <div class="front-page-actions" aria-label="Start options">
+          <a class="front-page-button primary" href="#deck">Start slides</a>
+          <a class="front-page-button" href="?mode=4koma&slide=1#deck">Open four-frame view</a>
+        </div>
+      </div>
+      <div class="front-page-strip" aria-label="Topics covered">
+        <span>Majorana algebra</span>
+        <span>Disorder averaging</span>
+        <span>Schwinger-Dyson equations</span>
+        <span>Quantum chaos</span>
+      </div>
+    </header>
+
+    <main class="deck-shell" id="deck" aria-label="Interactive slide deck">
       <div class="deck-mode" aria-label="Deck type">
         <button type="button" class="deck-mode-button is-active" id="standard-mode" aria-pressed="true">
           Slide
         </button>
         <button type="button" class="deck-mode-button" id="four-frame-mode" aria-pressed="false">
           four-frame
-         </div>
+        </button>
+        <a class="deck-mode-link" id="four-frame-link" href="?mode=4koma&slide=1">
+          Open as link
+        </a>
+      </div>
       <section class="stage" aria-live="polite">
         <div class="slide-frame" id="slide-frame">
           <p class="eyebrow" id="slide-kicker">SYK notes</p>
