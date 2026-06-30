@@ -1,6 +1,7 @@
 const els = {
   body: document.body,
   frame: document.querySelector("#slide-frame"),
+  kicker: document.querySelector("#slide-kicker"),
   title: document.querySelector("#slide-title"),
   content: document.querySelector("#slide-body"),
   figure: document.querySelector("#slide-figure"),
@@ -9,13 +10,46 @@ const els = {
   count: document.querySelector("#slide-count"),
   fill: document.querySelector("#progress-fill"),
   prev: document.querySelector("#prev-slide"),
-  next: document.querySelector("#next-slide")
+  next: document.querySelector("#next-slide"),
+  standardMode: document.querySelector("#standard-mode"),
+  fourFrameMode: document.querySelector("#four-frame-mode")
 };
 
+let standardSlides = [];
+let fourFrameSlides = [];
 let slides = [];
 let current = 0;
+let mode = "standard";
+const currentByMode = {
+  standard: 0,
+  fourFrame: 0
+};
 
 const fourFrameImage = (filename) => `4frames_images/${filename}`;
+const fourFrameDeckImage = (filename) => `../四コマ/${filename}`;
+
+const fourFrameDeckFiles = [
+  "01-model-at-a-glance.png",
+  "02-majorana-algebra-and-hilbert-space.png",
+  "03-random-couplings-and-normalization.png",
+  "04-which-syk-model.png",
+  "05-why-experimental-realization-is-difficult.png",
+  "06-ultracold-atom-route.png",
+  "07-majorana-nanowires-and-a-quantum-dot.png",
+  "08-programmable-quantum-simulators.png",
+  "09-observables-and-scale-map.png",
+  "10-averaging-the-disorder.png",
+  "11-bilocal-collective-fields.png",
+  "12-schwinger-dyson-equations.png",
+  "13-infrared-conformal-solution.png",
+  "14-reparametrization-symmetry.png",
+  "15-four-point-function-and-chaos.png",
+  "16-schwarzian-effective-theory.png",
+  "17-jackiw-teitelboim-gravity.png",
+  "18-the-infrared-syk-jt-correspondence.png",
+  "19-finite-n-spectrum.png",
+  "20-what-is-established-and-what-remains.png"
+];
 
 const slideFigures = {
   "Model at a glance": {
@@ -636,6 +670,61 @@ function escapeHtml(value) {
     .replace(/'/g, "&#039;");
 }
 
+function buildFourFrameSlides(sourceSlides) {
+  return fourFrameDeckFiles.map((filename, index) => {
+    const title = sourceSlides[index]?.title || `四コマ ${index + 1}`;
+
+    return {
+      title,
+      body: "",
+      figure: {
+        images: [
+          {
+            src: fourFrameDeckImage(filename),
+            alt: `${title} 四コマ`
+          }
+        ],
+        fourFrame: true,
+        caption: ""
+      }
+    };
+  });
+}
+
+function activeSlides(nextMode = mode) {
+  return nextMode === "fourFrame" ? fourFrameSlides : standardSlides;
+}
+
+function initialMode() {
+  const requested = new URLSearchParams(window.location.search).get("mode");
+  return ["4koma", "four-frame", "fourFrame", "yonnkoma", "よんこま", "四コマ"].includes(requested)
+    ? "fourFrame"
+    : "standard";
+}
+
+function syncUrl() {
+  const params = new URLSearchParams(window.location.search);
+  params.set("slide", String(current + 1));
+
+  if (mode === "fourFrame") {
+    params.set("mode", "4koma");
+  } else {
+    params.delete("mode");
+  }
+
+  const query = params.toString();
+  const nextUrl = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`;
+  window.history.replaceState(null, "", nextUrl);
+}
+
+function updateModeControls() {
+  const isFourFrame = mode === "fourFrame";
+  els.standardMode.classList.toggle("is-active", !isFourFrame);
+  els.fourFrameMode.classList.toggle("is-active", isFourFrame);
+  els.standardMode.setAttribute("aria-pressed", String(!isFourFrame));
+  els.fourFrameMode.setAttribute("aria-pressed", String(isFourFrame));
+}
+
 function render() {
   const slide = slides[current];
 
@@ -645,8 +734,10 @@ function render() {
     window.MathJax.typesetClear([els.title, els.content, els.figure]);
   }
 
+  els.kicker.textContent = mode === "fourFrame" ? "四コマ" : "SYK notes";
   els.title.textContent = slide.title;
   els.content.innerHTML = slide.body;
+  els.frame.classList.toggle("is-four-frame-deck", mode === "fourFrame");
   renderFigure(slide);
   updateTitleLayout();
   const renderedTextLength = els.content.textContent.length;
@@ -654,11 +745,11 @@ function render() {
 
   els.content.classList.toggle(
     "dense",
-    renderedTextLength > 650 || renderedMathCount > 1
+    mode !== "fourFrame" && (renderedTextLength > 650 || renderedMathCount > 1)
   );
   els.content.classList.toggle(
     "extra-dense",
-    renderedTextLength > 900 || renderedMathCount > 2
+    mode !== "fourFrame" && (renderedTextLength > 900 || renderedMathCount > 2)
   );
   els.content.classList.remove("is-entering");
   void els.content.offsetWidth;
@@ -668,6 +759,9 @@ function render() {
 
   els.prev.disabled = current === 0;
   els.next.disabled = current === slides.length - 1;
+  currentByMode[mode] = current;
+  updateModeControls();
+  syncUrl();
 
   if (window.MathJax?.typesetPromise) {
     window.MathJax.typesetPromise([els.title, els.content, els.figure]).then(
@@ -689,7 +783,7 @@ function updateTitleLayout() {
 }
 
 function renderFigure(slide) {
-  const figure = slideFigures[slide.title];
+  const figure = slide.figure;
   els.figureMedia.innerHTML = "";
   els.figureCaption.innerHTML = "";
   els.figure.hidden = !figure;
@@ -737,7 +831,7 @@ function renderFigure(slide) {
   const label = figure.label
     ? `<span class="figure-label">${escapeHtml(figure.label)}</span>`
     : "";
-  els.figureCaption.innerHTML = `${label}${figure.caption}`;
+  els.figureCaption.innerHTML = `${label}${figure.caption || ""}`;
 }
 
 function renderPanelVisual(type) {
@@ -771,6 +865,16 @@ function move(delta) {
   render();
 }
 
+function switchMode(nextMode) {
+  if (nextMode === mode) return;
+
+  currentByMode[mode] = current;
+  mode = nextMode;
+  slides = activeSlides();
+  current = Math.min(currentByMode[mode], slides.length - 1);
+  render();
+}
+
 function initialSlideIndex(total) {
   const requested = Number.parseInt(
     new URLSearchParams(window.location.search).get("slide"),
@@ -792,13 +896,19 @@ async function loadBlueprint() {
     text = fallbackText;
   }
 
-  slides = parseSlides(text);
+  standardSlides = parseSlides(text);
+  fourFrameSlides = buildFourFrameSlides(standardSlides);
+  mode = initialMode();
+  slides = activeSlides();
   current = initialSlideIndex(slides.length);
+  currentByMode[mode] = current;
   render();
 }
 
 els.prev.addEventListener("click", () => move(-1));
 els.next.addEventListener("click", () => move(1));
+els.standardMode.addEventListener("click", () => switchMode("standard"));
+els.fourFrameMode.addEventListener("click", () => switchMode("fourFrame"));
 
 window.addEventListener("keydown", (event) => {
   if (event.key === "ArrowRight" || event.key === "PageDown") move(1);

@@ -47,6 +47,46 @@ input {
   padding: 16px;
 }
 
+.deck-mode {
+  width: min(100%, 1540px);
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.deck-mode-button,
+.deck-mode-link {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: rgba(24, 28, 32, 0.72);
+  color: #f1f5f4;
+  text-decoration: none;
+}
+
+.deck-mode-button {
+  cursor: pointer;
+}
+
+.deck-mode-button:hover,
+.deck-mode-button:focus-visible,
+.deck-mode-link:hover,
+.deck-mode-link:focus-visible {
+  border-color: rgba(217, 111, 50, 0.7);
+  outline: none;
+}
+
+.deck-mode-button.is-active {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: rgba(247, 241, 228, 0.92);
+}
+
 .stage {
   min-width: 0;
   display: grid;
@@ -128,6 +168,19 @@ h1.multiline-title {
   justify-content: flex-start;
   padding-block: clamp(34px, 4.5vw, 58px);
   padding-bottom: 88px;
+}
+
+.slide-frame.is-four-frame-deck .eyebrow,
+.slide-frame.is-four-frame-deck .slide-body {
+  display: none;
+}
+
+.slide-frame.is-four-frame-deck h1 {
+  max-width: 100%;
+}
+
+.slide-frame.is-four-frame-deck .slide-content-grid {
+  padding-left: 22px;
 }
 
 .slide-frame.has-figure h1 {
@@ -768,6 +821,15 @@ h1.multiline-title {
 @media (max-width: 560px) {
   body {
     overflow-x: hidden;
+  }
+
+  .deck-mode {
+    flex-wrap: wrap;
+  }
+
+  .deck-mode-button,
+  .deck-mode-link {
+    flex: 1 1 auto;
   }
 
   .deck-shell {
