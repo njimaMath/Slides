@@ -13,7 +13,7 @@ const els = {
   next: document.querySelector("#next-slide"),
   standardMode: document.querySelector("#standard-mode"),
   fourFrameMode: document.querySelector("#four-frame-mode"),
-  fourFrameLink: document.querySelector("#four-frame-link")
+  imageLink: document.querySelector("#image-link")
 };
 
 let standardSlides = [];
@@ -26,8 +26,9 @@ const currentByMode = {
   fourFrame: 0
 };
 
-const fourFrameImage = (filename) => `4frames_images/${filename}`;
-const fourFrameDeckImage = (filename) => `../四コマ/${filename}`;
+const standardImage = (filename) => `Images/${filename}`;
+const fourFrameImage = (filename) => `../four-frame/${filename}`;
+const fourFrameDeckImage = fourFrameImage;
 
 const fourFrameDeckFiles = [
   "01-model-at-a-glance.png",
@@ -51,6 +52,8 @@ const fourFrameDeckFiles = [
   "19-finite-n-spectrum.png",
   "20-what-is-established-and-what-remains.png"
 ];
+
+const standardImageFiles = fourFrameDeckFiles.slice(0, 19);
 
 const slideFigures = {
   "Model at a glance": {
@@ -724,7 +727,16 @@ function updateModeControls() {
   els.fourFrameMode.classList.toggle("is-active", isFourFrame);
   els.standardMode.setAttribute("aria-pressed", String(!isFourFrame));
   els.fourFrameMode.setAttribute("aria-pressed", String(isFourFrame));
-  els.fourFrameLink.href = `?mode=4koma&slide=${current + 1}`;
+  els.imageLink.href = standardImageFiles[current]
+    ? standardImage(standardImageFiles[current])
+    : "Images/";
+}
+
+function openFourFrameImage() {
+  const currentImage = fourFrameDeckFiles[current];
+  window.location.href = currentImage
+    ? fourFrameImage(currentImage)
+    : "../four-frame/";
 }
 
 function render() {
@@ -912,7 +924,7 @@ async function loadBlueprint() {
 els.prev.addEventListener("click", () => move(-1));
 els.next.addEventListener("click", () => move(1));
 els.standardMode.addEventListener("click", () => switchMode("standard"));
-els.fourFrameMode.addEventListener("click", () => switchMode("fourFrame"));
+els.fourFrameMode.addEventListener("click", openFourFrameImage);
 
 window.addEventListener("keydown", (event) => {
   if (event.key === "ArrowRight" || event.key === "PageDown") move(1);
