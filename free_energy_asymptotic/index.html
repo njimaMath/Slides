@@ -1,0 +1,1321 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#081629">
+  <title>Sharp behavior of the free energy for the 2D directed polymer</title>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']],
+        processEscapes: true,
+        macros: {
+          E: '\\mathbb{E}',
+          P: '\\mathbb{P}',
+          Z: '\\mathbb{Z}',
+          F: '\\mathcal{F}',
+          EK: '\\mathcal{E}'
+        }
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script id="MathJax-script" defer src="vendor/mathjax/tex-svg.js"></script>
+  <style>
+    :root {
+      --navy: #081629;
+      --navy-2: #102a43;
+      --ink: #18212d;
+      --slate: #536273;
+      --muted: #7b8794;
+      --paper: #f7f4ed;
+      --paper-2: #fffdf8;
+      --line: #d8d1c3;
+      --coral: #eb5e4b;
+      --amber: #e3a32b;
+      --teal: #087e80;
+      --cyan: #62c8d5;
+      --body-size: clamp(19px, 1.72cqw, 30px);
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #030a12;
+      color: var(--ink);
+      font-family: Inter, "Aptos", "Helvetica Neue", Arial, sans-serif;
+      font-weight: 400;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+    }
+
+    button,
+    table { font: inherit; }
+
+    .deck {
+      position: relative;
+      width: min(100vw, calc(100vh * 16 / 9));
+      height: min(100vh, calc(100vw * 9 / 16));
+      container-type: inline-size;
+      background: var(--paper);
+      box-shadow: 0 24px 90px rgba(0, 0, 0, 0.5);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      padding: 5.5cqw 6.4cqw 4.8cqw;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(8, 22, 41, 0.035) 1px, transparent 1px),
+        linear-gradient(rgba(8, 22, 41, 0.035) 1px, transparent 1px),
+        var(--paper);
+      background-size: 4cqw 4cqw, 4cqw 4cqw, auto;
+      font-size: var(--body-size);
+      line-height: 1.34;
+    }
+
+    .slide.active { display: flex; }
+
+    .slide::before {
+      content: attr(data-kicker);
+      position: absolute;
+      top: 2.15cqw;
+      left: 6.4cqw;
+      color: var(--teal);
+      font-size: 0.47em;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .slide::after {
+      content: attr(data-page);
+      position: absolute;
+      right: 3.2cqw;
+      bottom: 2.1cqw;
+      color: var(--muted);
+      font-size: 0.48em;
+      letter-spacing: 0.12em;
+    }
+
+    h1,
+    h2,
+    h3,
+    p { margin-top: 0; }
+
+    h1,
+    h2,
+    h3 {
+      font-weight: 400;
+    }
+
+    .slide-title {
+      max-width: 19em;
+      margin: 0 0 0.9em;
+      color: var(--navy);
+      font-size: 1.72em;
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .accent { color: var(--coral); }
+    .teal { color: var(--teal); }
+    .muted { color: var(--muted); }
+    .nowrap { white-space: nowrap; }
+
+    .eyebrow {
+      margin: 0 0 0.65em;
+      color: var(--amber);
+      font-size: 0.62em;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .lede {
+      max-width: 36em;
+      margin: 0;
+      color: var(--slate);
+      font-size: 1.03em;
+      line-height: 1.48;
+    }
+
+    .source {
+      margin: auto 0 0;
+      color: var(--muted);
+      font-size: 0.53em;
+      line-height: 1.4;
+    }
+
+    .title-slide {
+      justify-content: center;
+      padding-right: 47cqw;
+      color: #fff;
+      background:
+        linear-gradient(90deg, rgba(3, 12, 24, 0.97) 0%, rgba(4, 15, 30, 0.9) 36%, rgba(4, 15, 30, 0.22) 69%, rgba(4, 15, 30, 0.08) 100%),
+        url("assets/polymer-hero.png") center / cover no-repeat;
+    }
+
+    .title-slide::before {
+      content: "DIRECTED POLYMER  /  CRITICAL DIMENSION";
+      color: var(--cyan);
+    }
+
+    .title-slide::after { color: rgba(255, 255, 255, 0.5); }
+
+    .title-slide h1 {
+      margin: 0;
+      color: #fff;
+      font-size: 2.28em;
+      line-height: 1.03;
+      letter-spacing: 0;
+    }
+
+    .title-rule {
+      width: 5.8cqw;
+      height: 3px;
+      margin: 1.3em 0 1.15em;
+      background: linear-gradient(90deg, var(--coral), var(--amber));
+    }
+
+    .authors {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 0.82em;
+      line-height: 1.55;
+    }
+
+    .authors span {
+      display: block;
+      color: rgba(255, 255, 255, 0.58);
+      font-size: 0.75em;
+      letter-spacing: 0.05em;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 4.3cqw;
+      align-items: start;
+      min-height: 0;
+    }
+
+    .split.equal { grid-template-columns: 1fr 1fr; }
+    .split.wide-left { grid-template-columns: 1.15fr 0.85fr; }
+
+    .model-slide .slide-title { margin-bottom: 0.62em; }
+
+    .model-layout {
+      display: grid;
+      grid-template-columns: 0.78fr 1.04fr 1.18fr;
+      gap: 2cqw;
+      align-items: start;
+      min-height: 0;
+    }
+
+    .model-layout .model-list li {
+      margin-bottom: 0.68em;
+      font-size: 0.77em;
+      line-height: 1.38;
+    }
+
+    .model-layout .formula-panel {
+      padding: 0.92em 1em;
+    }
+
+    .model-layout .big-math { font-size: 0.92em; }
+
+    .model-layout .formula-panel .muted {
+      font-size: 0.68em;
+      line-height: 1.42;
+    }
+
+    .polymer-figure {
+      margin: 0;
+      padding-top: 0.48em;
+      border-top: 3px solid var(--teal);
+    }
+
+    .polymer-figure svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+
+    .polymer-figure figcaption {
+      margin-top: 0.25em;
+      color: var(--slate);
+      font-size: 0.61em;
+      line-height: 1.35;
+      text-align: center;
+    }
+
+    .polymer-figure .lattice-edge {
+      stroke: #c9c2b6;
+      stroke-width: 1.4;
+    }
+
+    .polymer-figure .polymer-path {
+      fill: none;
+      stroke: var(--navy);
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .polymer-figure .vertex {
+      stroke: var(--paper-2);
+      stroke-width: 2.5;
+    }
+
+    .polymer-figure .red-vertex { fill: var(--coral); }
+    .polymer-figure .blue-vertex { fill: #3478b8; }
+
+    .polymer-figure .axis-label,
+    .polymer-figure .legend-label,
+    .polymer-figure .count-label {
+      font-family: Inter, "Aptos", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .polymer-figure .axis-label {
+      fill: var(--muted);
+      font-size: 12px;
+    }
+
+    .polymer-figure .legend-label {
+      fill: var(--slate);
+      font-size: 12px;
+    }
+
+    .polymer-figure .count-label {
+      fill: var(--navy);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .section-label {
+      margin: 0 0 0.5em;
+      color: var(--teal);
+      font-size: 0.67em;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .formula-panel {
+      padding: 1.2em 1.35em;
+      border-top: 3px solid var(--coral);
+      background: rgba(255, 253, 248, 0.86);
+      box-shadow: 0 12px 34px rgba(8, 22, 41, 0.08);
+    }
+
+    .formula-panel p:last-child { margin-bottom: 0; }
+
+    .model-list,
+    .clean-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .model-list li,
+    .clean-list li {
+      position: relative;
+      margin: 0 0 0.92em;
+      padding-left: 1.15em;
+      color: var(--slate);
+    }
+
+    .model-list li::before,
+    .clean-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.52em;
+      width: 0.34em;
+      height: 0.34em;
+      border-radius: 50%;
+      background: var(--coral);
+    }
+
+    .big-math {
+      color: var(--navy);
+      font-size: 1.09em;
+    }
+
+    mjx-container[jax="SVG"] { color: currentColor; }
+
+    mjx-container[jax="SVG"][display="true"] {
+      margin: 0.6em 0 !important;
+      text-align: center;
+    }
+
+    mjx-container[jax="SVG"][display="true"] > svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .research-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      background: rgba(255, 253, 248, 0.76);
+      font-size: 0.76em;
+    }
+
+    .research-table th,
+    .research-table td {
+      padding: 0.75em 0.78em;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      font-weight: 400;
+    }
+
+    .research-table th {
+      color: var(--teal);
+      font-size: 0.79em;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .research-table td:first-child {
+      color: var(--navy);
+      font-size: 1.18em;
+    }
+
+    .research-table tr:last-child td { border-bottom: 0; }
+
+    .research-table .math-cell { color: var(--navy); }
+
+    .critical-strip {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1.15em;
+      align-items: center;
+      margin-top: 1.2em;
+      padding: 0.72em 1em;
+      border-left: 4px solid var(--amber);
+      background: rgba(227, 163, 43, 0.11);
+    }
+
+    .critical-strip .label {
+      color: var(--amber);
+      font-size: 0.72em;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .critical-strip p {
+      margin: 0;
+      color: var(--slate);
+      font-size: 0.84em;
+    }
+
+    .history-grid {
+      display: grid;
+      grid-template-columns: 0.88fr 1.2fr 0.92fr;
+      gap: 2.3cqw;
+      align-items: start;
+      margin-top: 0.2em;
+    }
+
+    .history-grid section {
+      padding-top: 0.9em;
+      border-top: 3px solid var(--line);
+    }
+
+    .history-grid section:nth-child(1) { border-top-color: var(--coral); }
+    .history-grid section:nth-child(2) { border-top-color: var(--teal); }
+    .history-grid section:nth-child(3) { border-top-color: var(--amber); }
+
+    .history-year {
+      display: block;
+      margin-bottom: 0.45em;
+      color: var(--teal);
+      font-size: 0.66em;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .history-grid h3 {
+      margin: 0 0 0.55em;
+      color: var(--navy);
+      font-size: 0.88em;
+      line-height: 1.2;
+    }
+
+    .history-grid p {
+      margin: 0;
+      color: var(--slate);
+      font-size: 0.72em;
+      line-height: 1.45;
+    }
+
+    .history-equation {
+      margin: 0.7em 0;
+      color: var(--navy);
+      font-size: 0.78em;
+    }
+
+    .physics-band {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1em;
+      align-items: center;
+      margin-top: 1.15em;
+      padding: 0.75em 1em;
+      background: var(--navy);
+      color: #fff;
+    }
+
+    .physics-band .label {
+      color: var(--cyan);
+      font-size: 0.66em;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .physics-band p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 0.76em;
+    }
+
+    .statement {
+      position: relative;
+      width: min(100%, 39em);
+      margin: 0.3em auto 0;
+      padding: 1.45em 1.7em 1.35em;
+      border: 1px solid rgba(8, 126, 128, 0.24);
+      background: rgba(255, 253, 248, 0.9);
+      box-shadow: 0 18px 46px rgba(8, 22, 41, 0.1);
+    }
+
+    .statement::before {
+      content: "MAIN THEOREM";
+      position: absolute;
+      top: 0;
+      left: 1.7em;
+      transform: translateY(-50%);
+      padding: 0.3em 0.75em;
+      background: var(--teal);
+      color: #fff;
+      font-size: 0.53em;
+      letter-spacing: 0.14em;
+    }
+
+    .statement .theorem-math {
+      margin: 0.2em 0 0.45em;
+      color: var(--navy);
+      font-size: 1.15em;
+    }
+
+    .statement .qualifier {
+      margin: 0;
+      color: var(--slate);
+      font-size: 0.76em;
+      text-align: center;
+    }
+
+    .result-band {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 1em;
+      align-items: center;
+      margin-top: 1.15em;
+    }
+
+    .result-band .item {
+      min-height: 5.3em;
+      padding: 0.82em 0.9em;
+      border-top: 2px solid var(--line);
+      color: var(--slate);
+      font-size: 0.76em;
+    }
+
+    .result-band .item.current { border-top-color: var(--coral); }
+
+    .result-band .arrow {
+      color: var(--coral);
+      font-size: 1.4em;
+    }
+
+    .result-band .year {
+      display: block;
+      margin-bottom: 0.42em;
+      color: var(--teal);
+      font-size: 0.76em;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .scale-line {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1.1em;
+      align-items: center;
+      margin: 0.6em 0 1.1em;
+      padding: 0.75em 1em;
+      background: var(--navy);
+      color: #fff;
+    }
+
+    .scale-line .index {
+      color: var(--cyan);
+      font-size: 1.5em;
+    }
+
+    .scale-line p { margin: 0; }
+
+    .block-spec {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2em;
+      margin-top: 1em;
+    }
+
+    .block-spec > div {
+      padding-top: 0.7em;
+      border-top: 2px solid var(--line);
+    }
+
+    .block-spec .number {
+      display: block;
+      color: var(--coral);
+      font-size: 1.25em;
+      line-height: 1.1;
+    }
+
+    .block-spec .caption {
+      display: block;
+      margin-top: 0.35em;
+      color: var(--slate);
+      font-size: 0.67em;
+    }
+
+    .proof-mark {
+      position: absolute;
+      top: 2cqw;
+      right: 3.2cqw;
+      color: rgba(8, 126, 128, 0.18);
+      font-size: 1.85em;
+      letter-spacing: -0.04em;
+    }
+
+    .energy-grid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 3.1cqw;
+      align-items: center;
+    }
+
+    .energy-definition {
+      padding: 1em 1.15em;
+      border-left: 4px solid var(--coral);
+      background: rgba(255, 253, 248, 0.84);
+    }
+
+    .energy-definition p { margin: 0; }
+
+    .energy-reading {
+      padding: 1em 1.1em;
+      border: 1px solid var(--line);
+      background: rgba(8, 126, 128, 0.06);
+    }
+
+    .energy-reading h3 {
+      margin: 0 0 0.55em;
+      color: var(--teal);
+      font-size: 0.82em;
+    }
+
+    .energy-reading p {
+      margin: 0;
+      color: var(--slate);
+      font-size: 0.77em;
+    }
+
+    .bridge {
+      display: grid;
+      grid-template-columns: 0.8fr auto 1.2fr;
+      gap: 1em;
+      align-items: stretch;
+      margin-top: 0.55em;
+    }
+
+    .bridge .bridge-side {
+      padding: 1em 1.05em;
+      background: rgba(255, 253, 248, 0.88);
+      border-top: 3px solid var(--teal);
+    }
+
+    .bridge .bridge-side:last-child { border-top-color: var(--coral); }
+
+    .bridge .bridge-arrow {
+      align-self: center;
+      color: var(--coral);
+      font-size: 1.45em;
+    }
+
+    .bridge h3 {
+      margin: 0 0 0.55em;
+      color: var(--navy);
+      font-size: 0.78em;
+    }
+
+    .bridge p {
+      margin: 0;
+      color: var(--slate);
+      font-size: 0.68em;
+    }
+
+    .covariance {
+      margin-top: 1.05em;
+      padding: 0.72em 1em;
+      border-left: 4px solid var(--amber);
+      background: rgba(227, 163, 43, 0.1);
+      color: var(--navy);
+      font-size: 0.76em;
+    }
+
+    .perco-layout {
+      display: grid;
+      grid-template-columns: 1.04fr 0.96fr;
+      gap: 2.5cqw;
+      align-items: center;
+      min-height: 0;
+    }
+
+    .perco-figure {
+      margin: 0;
+      padding: 0.35em;
+      background: #fffdf8;
+      box-shadow: 0 14px 38px rgba(8, 22, 41, 0.11);
+    }
+
+    .perco-figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .perco-copy .clean-list li { font-size: 0.77em; }
+
+    .closing-bound {
+      margin-top: 0.7em;
+      padding: 0.8em 0.95em;
+      border-top: 3px solid var(--coral);
+      background: rgba(255, 253, 248, 0.85);
+      color: var(--navy);
+      font-size: 0.78em;
+    }
+
+    .result-stack {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.3cqw;
+      margin-top: 0.2em;
+    }
+
+    .result-stack section {
+      padding: 1em 1.15em;
+      border-top: 3px solid var(--teal);
+      background: rgba(255, 253, 248, 0.82);
+    }
+
+    .result-stack section:last-child { border-top-color: var(--coral); }
+
+    .result-stack h3 {
+      margin: 0 0 0.55em;
+      color: var(--navy);
+      font-size: 0.82em;
+    }
+
+    .result-stack p {
+      margin: 0.35em 0;
+      color: var(--slate);
+      font-size: 0.72em;
+    }
+
+    .takeaway {
+      justify-content: center;
+      background:
+        linear-gradient(130deg, rgba(8, 22, 41, 0.98), rgba(16, 42, 67, 0.95)),
+        var(--navy);
+      color: #fff;
+    }
+
+    .takeaway::before { color: var(--cyan); }
+    .takeaway::after { color: rgba(255, 255, 255, 0.45); }
+
+    .takeaway .slide-title {
+      color: #fff;
+      font-size: 2.05em;
+    }
+
+    .takeaway-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.15cqw;
+      margin-top: 1.2em;
+    }
+
+    .takeaway-list div {
+      padding-top: 0.85em;
+      border-top: 2px solid rgba(255, 255, 255, 0.24);
+    }
+
+    .takeaway-list .n {
+      display: block;
+      margin-bottom: 0.4em;
+      color: var(--coral);
+      font-size: 1.3em;
+    }
+
+    .takeaway-list p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 0.72em;
+      line-height: 1.45;
+    }
+
+    .takeaway .closing {
+      margin: 1.8em 0 0;
+      color: rgba(255, 255, 255, 0.58);
+      font-size: 0.64em;
+    }
+
+    .controls {
+      position: fixed;
+      left: 50%;
+      bottom: 1.2cqw;
+      z-index: 20;
+      display: flex;
+      gap: 0.45em;
+      align-items: center;
+      transform: translateX(-50%);
+      padding: 0.35em 0.45em;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 999px;
+      background: rgba(3, 10, 18, 0.7);
+      color: #fff;
+      opacity: 0.18;
+      transition: opacity 160ms ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .controls:hover,
+    .controls:focus-within { opacity: 1; }
+
+    .controls button {
+      width: 2.2em;
+      height: 2.2em;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 400;
+    }
+
+    .controls button:hover { background: rgba(255, 255, 255, 0.12); }
+
+    #counter {
+      min-width: 4.8em;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-align: center;
+    }
+
+    .progress {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 15;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .progress span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--coral), var(--amber));
+      transition: width 180ms ease;
+    }
+
+    @media (max-aspect-ratio: 4/5) {
+      .slide { padding: 7cqw 6cqw 6cqw; }
+      .split,
+      .split.equal,
+      .split.wide-left,
+      .model-layout,
+      .energy-grid,
+      .perco-layout,
+      .result-stack { grid-template-columns: 1fr; gap: 1em; }
+      .title-slide { padding-right: 10cqw; }
+      .research-table { font-size: 0.69em; }
+      .perco-figure { max-width: 62%; margin: 0 auto; }
+      .polymer-figure { width: 70%; margin: 0 auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" id="deck" aria-live="polite">
+    <section class="slide title-slide active" data-kicker="" data-page="01 / 12">
+      <h1>Sharp behavior of the free energy for the two-dimensional directed polymer</h1>
+      <div class="title-rule"></div>
+      <p class="authors">
+        Quentin Berger · Shuta Nakajima
+        <span>Sorbonne Paris Nord · Keio University</span>
+      </p>
+    </section>
+
+    <section class="slide" data-kicker="Historical background" data-page="02 / 12">
+      <h2 class="slide-title">From disordered interfaces to the KPZ universality class</h2>
+      <div class="history-grid">
+        <section>
+          <span class="history-year">1985 / Huse-Henley</span>
+          <h3>Random Ising interfaces</h3>
+          <p>Directed polymers arose as effective models for domain walls pinned and roughened by quenched impurities. The path balances elastic wandering against favorable disorder.</p>
+        </section>
+        <section>
+          <span class="history-year">Discrete KPZ</span>
+          <h3>A Hopf-Cole discretization</h3>
+          <p>The point-to-point partition function obeys a random heat recursion:</p>
+          <div class="history-equation">
+            $$Z_{n+1}(x)=e^{\beta\omega_{n+1,x}-\lambda(\beta)}
+            \sum_y p(y,x)Z_n(y).$$
+          </div>
+          <p>Thus $h_n(x)=\log Z_n(x)$ is a discrete counterpart of the KPZ height field.</p>
+        </section>
+        <section>
+          <span class="history-year">Why physicists care</span>
+          <h3>Universality and localization</h3>
+          <p>The model connects interface growth, transport in random media, pinning, and localization. Its free energy records the macroscopic cost of disorder.</p>
+        </section>
+      </div>
+      <div class="physics-band">
+        <span class="label">Central question</span>
+        <p>How does microscopic randomness change large-scale geometry, fluctuations, and thermodynamic behavior?</p>
+      </div>
+      <p class="source">Huse-Henley, Phys. Rev. Lett. 54 (1985); Kardar-Parisi-Zhang, Phys. Rev. Lett. 56 (1986); Alberts-Khanin-Quastel, Ann. Probab. 42 (2014).</p>
+    </section>
+
+    <section class="slide model-slide" data-kicker="The model" data-page="03 / 12">
+      <h2 class="slide-title">A random walk rewarded by a random environment</h2>
+      <div class="model-layout">
+        <div>
+          <p class="section-label">Ingredients</p>
+          <ul class="model-list">
+            <li>$S=(S_n)_{n\ge 0}$: simple random walk on $\Z^d$.</li>
+            <li>$\omega=(\omega_{n,x})$: i.i.d. centered disorder with finite exponential moments.</li>
+            <li>$\beta$: inverse temperature; large $\beta$ favors energetic paths.</li>
+          </ul>
+        </div>
+        <figure class="polymer-figure" aria-labelledby="bernoulli-polymer-caption">
+          <p class="section-label">Bernoulli example</p>
+          <svg viewBox="0 0 380 245" role="img" aria-label="Directed random walk through red and blue Bernoulli vertices, visiting four red sites">
+            <g aria-hidden="true">
+              <g class="lattice-edge">
+                <path d="M35 55 L85 88 M35 118 L85 88 M35 118 L85 148 M35 181 L85 148" />
+                <path d="M85 88 L135 55 M85 88 L135 118 M85 148 L135 118 M85 148 L135 181" />
+                <path d="M135 55 L185 88 M135 118 L185 88 M135 118 L185 148 M135 181 L185 148" />
+                <path d="M185 88 L235 55 M185 88 L235 118 M185 148 L235 118 M185 148 L235 181" />
+                <path d="M235 55 L285 88 M235 118 L285 88 M235 118 L285 148 M235 181 L285 148" />
+                <path d="M285 88 L335 55 M285 88 L335 118 M285 148 L335 118 M285 148 L335 181" />
+              </g>
+              <polyline class="polymer-path" points="35,118 85,88 135,118 185,148 235,118 285,88 335,118" />
+
+              <g class="blue-vertex">
+                <circle class="vertex" cx="35" cy="55" r="8" /><circle class="vertex" cx="35" cy="118" r="9" /><circle class="vertex" cx="35" cy="181" r="8" />
+                <circle class="vertex" cx="85" cy="148" r="8" />
+                <circle class="vertex" cx="135" cy="55" r="8" /><circle class="vertex" cx="135" cy="118" r="9" /><circle class="vertex" cx="135" cy="181" r="8" />
+                <circle class="vertex" cx="185" cy="88" r="8" />
+                <circle class="vertex" cx="235" cy="55" r="8" /><circle class="vertex" cx="235" cy="181" r="8" />
+                <circle class="vertex" cx="285" cy="88" r="9" />
+                <circle class="vertex" cx="335" cy="55" r="8" /><circle class="vertex" cx="335" cy="181" r="8" />
+              </g>
+              <g class="red-vertex">
+                <circle class="vertex" cx="85" cy="88" r="9" />
+                <circle class="vertex" cx="185" cy="148" r="9" />
+                <circle class="vertex" cx="235" cy="118" r="9" />
+                <circle class="vertex" cx="285" cy="148" r="8" />
+                <circle class="vertex" cx="335" cy="118" r="9" />
+              </g>
+
+              <text class="axis-label" x="31" y="209">0</text><text class="axis-label" x="81" y="209">1</text>
+              <text class="axis-label" x="131" y="209">2</text><text class="axis-label" x="181" y="209">3</text>
+              <text class="axis-label" x="231" y="209">4</text><text class="axis-label" x="281" y="209">5</text>
+              <text class="axis-label" x="331" y="209">6</text><text class="axis-label" x="351" y="209">time</text>
+
+              <circle class="red-vertex" cx="48" cy="229" r="6" /><text class="legend-label" x="59" y="233">&#958; = 1</text>
+              <circle class="blue-vertex" cx="115" cy="229" r="6" /><text class="legend-label" x="126" y="233">&#958; = 0</text>
+              <text class="count-label" x="198" y="233">R&#8326; = 4 red sites</text>
+            </g>
+          </svg>
+          <figcaption id="bernoulli-polymer-caption">$\xi_{n,x}\sim\operatorname{Ber}(p)$ and $\omega_{n,x}=\xi_{n,x}-p$.</figcaption>
+        </figure>
+        <div class="formula-panel">
+          <p class="section-label">Normalized partition function</p>
+          <div class="big-math">
+            $$Z_N^{\beta,\omega}
+            = \E\!\left[\exp\!\left\{\sum_{k=1}^{N}
+            \big(\beta\omega_{k,S_k}-\lambda(\beta)\big)\right\}\right]$$
+          </div>
+          <p class="muted">Here $\lambda(\beta)=\log \E[e^{\beta\omega_{1,0}}]$, so $\E[Z_N^{\beta,\omega}]=1$.</p>
+        </div>
+      </div>
+      <div class="critical-strip">
+        <span class="label">Free energy</span>
+        <p>$f(\beta)=\displaystyle\lim_{N\to\infty}\frac1N\log Z_N^{\beta,\omega}\le 0$ measures the exponential loss caused by localization.</p>
+      </div>
+      <p class="source">Model introduced in $1+1$ dimensions by Huse and Henley (1985); see Comets (2017) for a general account.</p>
+    </section>
+
+    <section class="slide" data-kicker="Previous research" data-page="04 / 12">
+      <h2 class="slide-title">Dimension decides the phase transition</h2>
+      <table class="research-table" aria-label="Critical behavior by dimension">
+        <colgroup>
+          <col style="width: 11%">
+          <col style="width: 18%">
+          <col style="width: 42%">
+          <col style="width: 29%">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Dimension</th>
+            <th>Critical point</th>
+            <th>Known critical behavior</th>
+            <th>Selected work</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>$d=1$</td>
+            <td class="math-cell">$\beta_c=0$</td>
+            <td class="math-cell">$f(\beta)=-(1+o(1))\,\beta^4/6$</td>
+            <td>Comets-Vargas; Lacoin; Nakajima (2019)</td>
+          </tr>
+          <tr>
+            <td>$d=2$</td>
+            <td class="math-cell">$\beta_c=0$</td>
+            <td class="math-cell">$f(\beta)=-\exp\{-(1+o(1))\pi/\beta^2\}$</td>
+            <td>Lacoin; Nakajima; Berger-Lacoin (2017); BCT (2025)</td>
+          </tr>
+          <tr>
+            <td>$d\ge3$</td>
+            <td class="math-cell">$\beta_c>0$</td>
+            <td>Behavior as $\beta\downarrow\beta_c$ remains much less precise.</td>
+            <td>Bolthausen; Junk-Lacoin (2026); Lacoin (2025)</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="critical-strip">
+        <span class="label">Threshold</span>
+        <p>$\beta_c:=\sup\{\beta:f(\beta)=0\}$, with $f(\beta)<0$ exactly in the localized phase $\beta>\beta_c$.</p>
+      </div>
+      <p class="source">Statements and citations follow the introduction of the manuscript.</p>
+    </section>
+
+    <section class="slide" data-kicker="Main result" data-page="05 / 12">
+      <h2 class="slide-title">The correct 2D scale, up to constants</h2>
+      <div class="statement">
+        <div class="theorem-math">
+          $$c\,e^{-\pi/\sigma^2(\beta)}
+          \le -f(\beta)\le
+          c'\,e^{-\pi/\sigma^2(\beta)}$$
+        </div>
+        <p class="qualifier">for $\beta\in(0,\beta_0/4)$, where $c,c'>0$ and</p>
+        <div class="theorem-math">
+          $$\sigma^2(\beta)=e^{\lambda(2\beta)-2\lambda(\beta)}-1\sim\beta^2.$$
+        </div>
+      </div>
+      <div class="result-band">
+        <div class="item">
+          <span class="year">Berger-Lacoin 2017</span>
+          Found the leading exponential rate $\pi/\beta^2$, with an $o(1)$ in the exponent.
+        </div>
+        <div class="arrow">→</div>
+        <div class="item current">
+          <span class="year">This work + BCT 2025</span>
+          Replaces $\beta^2$ by the exact variance parameter $\sigma^2(\beta)$ and closes the polynomial gap.
+        </div>
+      </div>
+      <p class="source">The new contribution is the lower bound. The matching upper bound is Theorem 2.8 of BCT (2025).</p>
+    </section>
+
+    <section class="slide" data-kicker="Proof sketch" data-page="06 / 12">
+      <div class="proof-mark">1 / 4</div>
+      <h2 class="slide-title">Choose the correlation scale and coarse-grain</h2>
+      <div class="scale-line">
+        <span class="index">$N$</span>
+        <p>Take $N=N(\beta)\asymp \varepsilon\,e^{\pi/\sigma^2(\beta)}$ with fixed small $\varepsilon$.</p>
+      </div>
+      <p class="lede">Partition time-space into blocks. A block has time length $N$ and spatial width of order $\sqrt N$. The random walk can move only to a neighboring block in the next layer.</p>
+      <div class="block-spec">
+        <div>
+          <span class="number">$N$</span>
+          <span class="caption">time length</span>
+        </div>
+        <div>
+          <span class="number">$\sqrt N$</span>
+          <span class="caption">diffusive spatial width</span>
+        </div>
+        <div>
+          <span class="number">$x\to x\pm e_i$</span>
+          <span class="caption">oriented neighboring blocks</span>
+        </div>
+      </div>
+      <div class="critical-strip">
+        <span class="label">Obstacle</span>
+        <p>The point-to-plane second moment grows like $\log N$ at this scale. Small variance requires a regular initial distribution, not a point mass.</p>
+      </div>
+    </section>
+
+    <section class="slide" data-kicker="Proof sketch" data-page="07 / 12">
+      <div class="proof-mark">2 / 4</div>
+      <h2 class="slide-title">Measure diffusive regularity by log-energy</h2>
+      <div class="energy-grid">
+        <div class="energy-definition">
+          <p class="section-label">Kernel and energy</p>
+          $$K_N(x)=\left(1+\log_+\frac{N}{1+|x|^2}\right)e^{-|x|^2/(2N)}$$
+          $$\EK_{K_N}(\mu)=\sum_{u,v}\mu(u)K_N(v-u)\mu(v).$$
+        </div>
+        <div class="energy-reading">
+          <h3>What does bounded energy say?</h3>
+          <p>If $\EK_{K_N}(\mu)\le A$, then $\mu$ cannot put too much mass inside balls much smaller than $\sqrt N$.</p>
+          <p style="margin-top:0.75em">The uniform law on a block has bounded log-energy, uniformly in $N$.</p>
+        </div>
+      </div>
+      <div class="critical-strip">
+        <span class="label">Purpose</span>
+        <p>Log-energy is the state variable carried from one open block to the next. It records exactly the regularity needed for the variance estimate.</p>
+      </div>
+    </section>
+
+    <section class="slide" data-kicker="Proof sketch" data-page="08 / 12">
+      <div class="proof-mark">3 / 4</div>
+      <h2 class="slide-title">Regularity propagates with high probability</h2>
+      <div class="bridge">
+        <div class="bridge-side">
+          <h3>Input at a block</h3>
+          <p>$\mu$ is supported in the current box and satisfies $\EK_{K_N}(\mu)\le A$.</p>
+        </div>
+        <div class="bridge-arrow">→</div>
+        <div class="bridge-side">
+          <h3>Output in a neighboring block</h3>
+          <p>With probability at least $1-\delta$, the constrained partition function is at least $c_\star/2$ and the normalized endpoint law $\nu$ still satisfies $\EK_{K_N}(\nu)\le A$.</p>
+        </div>
+      </div>
+      <div class="covariance">
+        The key estimate factorizes the dependence between starting and ending points:
+        $$\operatorname{Cov}\!\big(Z_N^\beta(u,z),Z_N^\beta(v,w)\big)
+        \le \frac{C\,\mathcal V(e^{\vartheta_0})}{N^2}
+        K_N(v-u)K_N(w-z).$$
+      </div>
+      <p class="source">Choosing $\vartheta_0<0$ makes $\mathcal V(e^{\vartheta_0})$ small. Chebyshev and Markov bounds then give the propagation statement.</p>
+    </section>
+
+    <section class="slide" data-kicker="Proof sketch" data-page="09 / 12">
+      <div class="proof-mark">4 / 4</div>
+      <h2 class="slide-title">Open blocks dominate oriented percolation</h2>
+      <div class="perco-layout">
+        <figure class="perco-figure">
+          <img src="assets/oriented-percolation.png" alt="Oriented block lattice with one highlighted surviving polymer path">
+        </figure>
+        <div class="perco-copy">
+          <ul class="clean-list">
+            <li>An edge is open when its block mass is at least $c_\star/2$ and its endpoint law has energy at most $A$.</li>
+            <li>Open indicators have finite-range dependence and conditional probability at least $1-\delta$.</li>
+            <li>LSS domination gives an infinite oriented open path with positive probability.</li>
+          </ul>
+          <div class="closing-bound">
+            Along a path of $m$ blocks,
+            $$Z_{mN}^{\beta,\omega}\gtrsim (c_\star/2)^m,$$
+            hence
+            $$f(\beta)\ge \frac{\log(c_\star/2)}{N}
+            \gtrsim -e^{-\pi/\sigma^2(\beta)}.$$
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-kicker="Further results" data-page="10 / 12">
+      <h2 class="slide-title">The same scale governs moments</h2>
+      <div class="result-stack">
+        <section>
+          <h3>Exact second-moment exponent</h3>
+          <p>For $\F_2(\beta)=\lim_N N^{-1}\log \E[(Z_N^{\beta,\omega})^2]$,</p>
+          $$\F_2(\beta)\sim 16e^{-\pi}\,e^{-\pi/\sigma^2(\beta)}.$$
+          <p>Therefore $-f(\beta)\asymp \F_2(\beta)$ as $\beta\downarrow0$.</p>
+        </section>
+        <section>
+          <h3>Critical window and Lyapunov exponents</h3>
+          <p>The scale $N|f(\beta_N)|\asymp1$ is equivalent to</p>
+          $$\sigma^2(\beta_N)\frac{\log N}{\pi}
+          =1+O\!\left(\frac1{\log N}\right).$$
+          <p>For fixed $p\ne1$, $\F_p(\beta)$ also has size $e^{-\pi/\sigma^2(\beta)}$ in the ranges proved in the manuscript.</p>
+        </section>
+      </div>
+      <p class="source">The second moment is reduced by the replica trick to a two-dimensional homogeneous pinning model.</p>
+    </section>
+
+    <section class="slide" data-kicker="Proof architecture" data-page="11 / 12">
+      <h2 class="slide-title">One stable quantity links analysis to geometry</h2>
+      <div class="scale-line">
+        <span class="index">$\EK$</span>
+        <p>Bounded log-energy survives a good block and makes the next good block likely.</p>
+      </div>
+      <div class="result-band">
+        <div class="item current">
+          <span class="year">Analytic input</span>
+          Factorized covariance controls the partition function and the endpoint energy for regular initial laws.
+        </div>
+        <div class="arrow">→</div>
+        <div class="item current">
+          <span class="year">Geometric output</span>
+          High-density finite-range open edges create a surviving coarse-grained path.
+        </div>
+      </div>
+      <div class="critical-strip">
+        <span class="label">Payoff</span>
+        <p>Multiplying block contributions along that path converts survival into the sharp lower bound at scale $N^{-1}$.</p>
+      </div>
+      <p class="source">This is the main new mechanism of the proof: log-energy is propagated inside the oriented percolation construction.</p>
+    </section>
+
+    <section class="slide takeaway" data-kicker="Takeaways" data-page="12 / 12">
+      <h2 class="slide-title">At the 2D critical scale, regularity is enough to percolate</h2>
+      <div class="takeaway-list">
+        <div>
+          <span class="n">01</span>
+          <p>The high-temperature free energy has size $e^{-\pi/\sigma^2(\beta)}$ up to constants.</p>
+        </div>
+        <div>
+          <span class="n">02</span>
+          <p>Log-energy captures diffusive spread and is stable across good polymer blocks.</p>
+        </div>
+        <div>
+          <span class="n">03</span>
+          <p>Oriented percolation turns local high-probability control into a global free-energy bound.</p>
+        </div>
+      </div>
+      <p class="closing">Quentin Berger · Shuta Nakajima</p>
+    </section>
+
+    <nav class="controls" aria-label="Slide controls">
+      <button type="button" id="prev" aria-label="Previous slide">←</button>
+      <span id="counter">01 / 12</span>
+      <button type="button" id="next" aria-label="Next slide">→</button>
+    </nav>
+    <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+  </main>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const counter = document.getElementById('counter');
+    const progressBar = document.getElementById('progress-bar');
+    let current = 0;
+    let fitFrame = null;
+
+    function clampIndex(value) {
+      return Math.max(0, Math.min(slides.length - 1, value));
+    }
+
+    function indexFromHash() {
+      const match = window.location.hash.match(/slide-(\d+)/);
+      return match ? clampIndex(Number(match[1]) - 1) : 0;
+    }
+
+    function overflows(slide) {
+      return slide.scrollHeight > slide.clientHeight + 1 || slide.scrollWidth > slide.clientWidth + 1;
+    }
+
+    function fitSlide(slide) {
+      slide.style.removeProperty('--body-size');
+      const base = parseFloat(getComputedStyle(slide).fontSize);
+      if (!overflows(slide)) return;
+
+      let low = Math.max(14, base * 0.75);
+      let high = base;
+      slide.style.setProperty('--body-size', `${low}px`);
+      if (overflows(slide)) return;
+
+      for (let i = 0; i < 10; i += 1) {
+        const mid = (low + high) / 2;
+        slide.style.setProperty('--body-size', `${mid}px`);
+        if (overflows(slide)) high = mid;
+        else low = mid;
+      }
+      slide.style.setProperty('--body-size', `${low}px`);
+    }
+
+    function typesetAndFit(slide) {
+      const run = () => requestAnimationFrame(() => fitSlide(slide));
+      if (window.MathJax?.typesetPromise) {
+        MathJax.typesetPromise([slide]).then(run).catch(run);
+      } else {
+        run();
+      }
+    }
+
+    function showSlide(index, updateHash = true) {
+      current = clampIndex(index);
+      slides.forEach((slide, i) => slide.classList.toggle('active', i === current));
+      counter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+      progressBar.style.width = `${((current + 1) / slides.length) * 100}%`;
+      document.title = `${slides[current].dataset.kicker || 'Directed polymer'} · ${current + 1}/${slides.length}`;
+      if (updateHash) history.replaceState(null, '', `#slide-${current + 1}`);
+      typesetAndFit(slides[current]);
+    }
+
+    document.getElementById('prev').addEventListener('click', () => showSlide(current - 1));
+    document.getElementById('next').addEventListener('click', () => showSlide(current + 1));
+
+    document.addEventListener('keydown', (event) => {
+      if (['ArrowRight', 'PageDown', ' '].includes(event.key)) {
+        event.preventDefault();
+        showSlide(current + 1);
+      }
+      if (['ArrowLeft', 'PageUp'].includes(event.key)) {
+        event.preventDefault();
+        showSlide(current - 1);
+      }
+      if (event.key === 'Home') showSlide(0);
+      if (event.key === 'End') showSlide(slides.length - 1);
+    });
+
+    window.addEventListener('hashchange', () => showSlide(indexFromHash(), false));
+    window.addEventListener('resize', () => {
+      if (fitFrame) cancelAnimationFrame(fitFrame);
+      fitFrame = requestAnimationFrame(() => {
+        fitFrame = null;
+        fitSlide(slides[current]);
+      });
+    });
+
+    window.addEventListener('load', () => typesetAndFit(slides[current]));
+    showSlide(indexFromHash(), false);
+  </script>
+</body>
+</html>

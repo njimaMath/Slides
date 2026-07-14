@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>演習問題</title>
+  <style>
+    :root { --ink: #17212b; --blue: #174a7a; --line: #b7c3cd; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f2f5f7; color: var(--ink); font-family: "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif; font-size: 16px; line-height: 1.9; }
+    main { width: min(900px, calc(100% - 32px)); margin: 32px auto; padding: 56px 68px; background: #fff; box-shadow: 0 8px 28px rgb(23 33 43 / 12%); }
+    h1 { margin: 0 0 24px; color: var(--blue); font-size: 24px; }
+    section + section { border-top: 1px solid var(--line); margin-top: 40px; padding-top: 40px; }
+    p { margin: 12px 0; }
+    .label { color: var(--blue); font-weight: 700; }
+    .points { margin-left: 0.6em; color: #52616d; font-size: 16px; font-weight: 400; }
+    .formula { margin: 20px auto; color: #101820; font-family: "Times New Roman", "Noto Serif JP", serif; font-size: 23px; text-align: center; }
+    ol { margin: 18px 0 0; padding-left: 1.7em; }
+    @media print { body { background: #fff; } main { width: auto; margin: 0; padding: 12mm 16mm; box-shadow: none; } }
+  </style>
+</head>
+<body>
+  <main>
+    <section>
+      <h1>1. 陰関数の微分 <span class="points">（計50点）</span></h1>
+      <p>曲線</p>
+      <p class="formula">x<sup>2</sup> + xy + y<sup>2</sup> = 7</p>
+      <p>によって <i>y</i> を <i>x</i> の関数とみなす。</p>
+      <ol>
+        <li>dy/dx を求めよ。<span class="points">（25点）</span></li>
+        <li>点 (1, 2) における接線の方程式を求めよ。<span class="points">（25点）</span></li>
+      </ol>
+    </section>
+    <section>
+      <h1>2. ラグランジュ未定乗数法（最大値） <span class="points">（40点）</span></h1>
+      <p class="label">制約条件</p>
+      <p class="formula">x<sup>2</sup> + y<sup>2</sup> = 1</p>
+      <p>のもとで、関数</p>
+      <p class="formula"><i>f</i>(x, y) = 3x + 4y</p>
+      <p>の最大値と、それを与える (x, y) を求めよ。</p>
+    </section>
+    <section>
+      <h1>3. 感想 <span class="points">（10点）</span></h1>
+      <p>今までを通して理解できたこと、難しかったこと、または印象に残ったことを自由に述べよ。</p>
+    </section>
+  </main>
+</body>
+</html>

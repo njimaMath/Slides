@@ -1145,8 +1145,8 @@
             transform: translateX(-50%);
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
+            gap: 12px;
+            padding: 12px 16px;
             background: rgba(20, 20, 20, 0.75);
             color: #fff;
             border-radius: 999px;
@@ -1159,13 +1159,13 @@
             border: none;
             background: linear-gradient(135deg, #3498db, #2980b9);
             color: #fff;
-            font-size: 0.85rem;
+            font-size: 1rem;
             font-weight: 600;
-            padding: 7px 11px;
+            padding: 10px 14px;
             border-radius: 999px;
             cursor: pointer;
             transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
-            min-width: 68px;
+            min-width: 90px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             touch-action: manipulation;
         }
@@ -1183,10 +1183,10 @@
         }
 
         .nav-status {
-            font-size: 0.8rem;
+            font-size: 0.95rem;
             letter-spacing: 0.05em;
             color: #e6e6e6;
-            min-width: 82px;
+            min-width: 110px;
             text-align: center;
         }
 
@@ -1229,6 +1229,40 @@
         <div class="date">2025年</div>
     </div>
 
+    <!-- Slide 1 -->
+    <div class="slide">
+        <h1><span>経歴</span></h1>
+        <div class="timeline">
+            <div class="timeline-item">
+                <span class="year">2014–2019</span>
+                <div class="content">
+                    京都大学数理解析研究所　修士・博士
+                    <small>指導教官: 福島竜輝先生 / 副指導教官: 熊谷隆先生</small>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <span class="year">2019–2020</span>
+                <div class="content">名古屋大学　ポスドク</div>
+            </div>
+            <div class="timeline-item">
+                <span class="year">2020–2022</span>
+                <div class="content">
+                    バーゼル大学　ポスドク
+                    <small>パーセプトロンの研究に従事</small>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <span class="year">2022–2025</span>
+                <div class="content">明治大学　講師</div>
+            </div>
+            <div class="timeline-item">
+                <span class="year">2025–</span>
+                <div class="content current">慶應義塾大学　准教授</div>
+            </div>
+        </div>
+        <span class="page-num">01 / 22</span>
+    </div>
+
     <!-- Slide 2 -->
     <div class="slide">
         <h1><span>プロフィール</span></h1>
@@ -1243,6 +1277,13 @@
                     子供のころは物理学者になりたかった。<br>
                     才能がなかったのと、高校の時は数学のほうが<br>
                     面白そうと思い数学科に進む。
+                </p>
+            </div>
+            <div class="profile-section">
+                <h2>趣味？</h2>
+                <p>
+                    大学まで野球をやっていた。<br>
+                    あんまり上手ではない。
                 </p>
             </div>
         </div>
@@ -1370,9 +1411,9 @@
                 <span class="vector">(3, 1, 20)</span>
             </div>
             <div class="example">
-                <span class="word">TARO</span>
+                <span class="word">HARUTO</span>
                 <span class="arrow">→</span>
-                <span class="vector">(20, 1, 18, 15)</span>
+                <span class="vector">(8, 1, 18, 21, 20, 15)</span>
             </div>
         </div>
         
@@ -1587,7 +1628,7 @@
         <div style="margin-top: 3vh; font-size: 1.4vw; color: #444;">
             <p>名前をBinaryで表すと...</p>
             <div style="font-family: 'Courier New', monospace; margin-top: 1vh; font-size: 1.8vw;">
-                \( \vec{x} \in \Sigma \mapsto y_{\vec{x}} \in \{0, 1\} \)
+                \( \mathbf{x} \in \Sigma \mapsto y_{\mathbf{x}} \in \{0, 1\} \)
             </div>
         </div>
         
@@ -1602,10 +1643,10 @@
         <div class="definition-box">
             <h3>📐 設定</h3>
             <p>
-                \( \Sigma = \{\vec{x}_1, \ldots, \vec{x}_M\} \) : M個の名前（二進数化されたもの）の集合<br>
-                \( \vec{x}_i \in \{0, 1\}^{50} \) : 10文字の名前の二進数化<br>
-                \( \vec{1} = (1, 1, \ldots, 1) \) : 50次元のベクトル<br>
-                \( 2\vec{x} - \vec{1} = (2x_1 - 1, \ldots, 2x_{50} - 1) \in \{-1, 1\}^{50} \)
+                \( \Sigma = \{\mathbf{x}_1, \ldots, \mathbf{x}_M\} \) : M個の名前（二進数化されたもの）の集合<br>
+                \( \mathbf{x}_i \in \{0, 1\}^{50} \) : 10文字の名前の二進数化<br>
+                \( \mathbf{1} = (1, 1, \ldots, 1) \) : 50次元のベクトル<br>
+                \( 2\mathbf{x} - \mathbf{1} = (2x_1 - 1, \ldots, 2x_{50} - 1) \in \{-1, 1\}^{50} \)
             </p>
         </div>
         
@@ -1628,8 +1669,8 @@
         </div>
         
         <div class="formula-box">
-            <strong>目標: 次を満たす</strong> \( \vec{w} = (w_1, \ldots, w_{50}) \in \{-1, 1\}^{50} \) を見つける<br>
-            <span class="highlight">\( \mathbf{1}\{ \vec{w} \cdot (2\vec{x} - \vec{1}) \ge 0 \} = y_{\vec{x}} \)</span>　　∀ \( \vec{x} \in \Sigma \)
+            <strong>目標: 次を満たす</strong> \( \mathbf{w} = (w_1, \ldots, w_{50}) \in \{-1, 1\}^{50} \) を見つける<br>
+            <span class="highlight">\( \mathbf{1}\{ \mathbf{w} \cdot (2\mathbf{x} - \mathbf{1}) \ge 0 \} = y_{\mathbf{x}} \)</span>　　∀ \( \mathbf{x} \in \Sigma \)
         </div>
         
         <span class="page-num">11 / 22</span>
@@ -1640,7 +1681,7 @@
         <span class="section-label">Section 4</span>
         <h1><span>判定の仕組み</span></h1>
         
-        <p>\( \vec{w} \) として <span class="highlight">\( \mathbf{1}\{ \vec{w} \cdot (2\vec{x} - \vec{1}) \ge 0 \} = y_{\vec{x}} \)</span>　∀ \( \vec{x} \in \Sigma \)を満たすものが取れたとする。</p>
+        <p>\( \mathbf{w} \) として <span class="highlight">\( \mathbf{1}\{ \mathbf{w} \cdot (2\mathbf{x} - \mathbf{1}) \ge 0 \} = y_{\mathbf{x}} \)</span>　∀ \( \mathbf{x} \in \Sigma \)を満たすものが取れたとする。</p>
         
         <p style="margin-top: 2vh;">データにない<span class="highlight">新しい名前 x'</span> が来た時の判定方法:</p>
         
@@ -1650,11 +1691,11 @@
             </div>
             <div class="flow-arrow">→</div>
             <div class="flow-box process">
-                二進数化<br>\( \vec{x}' \)
+                二進数化<br>\( \mathbf{x}' \)
             </div>
             <div class="flow-arrow">→</div>
             <div class="flow-box process">
-                内積計算<br>\( \vec{w} \cdot (2\vec{x}' - \vec{1}) \)
+                内積計算<br>\( \mathbf{w} \cdot (2\mathbf{x}' - \mathbf{1}) \)
             </div>
             <div class="flow-arrow">→</div>
             <div class="flow-box output">
@@ -1666,7 +1707,7 @@
             <div class="step">
                 <div class="step-num">1</div>
                 <div class="step-content">
-                    \( \vec{w} \cdot (2\vec{x}' - \vec{1}) \) を計算する
+                    \( \mathbf{w} \cdot (2\mathbf{x}' - \mathbf{1}) \) を計算する
                 </div>
             </div>
             <div class="step">
@@ -1704,7 +1745,7 @@
                 </p>
                 <pre style="background: #1a1a2e; color: #a0e7e5; padding: 1.2vh 1vw; border-radius: 8px; font-size: 1vw; text-align: left; margin: 1vh 0; overflow: hidden; line-height: 1.6;">
 [
-    {"name": "TARO", "sex": 1},
+  {"name": "HARUTO", "sex": 1},
   {"name": "SAKURA", "sex": 0},
   {"name": "YUKI", "sex": 1},
   {"name": "HINATA", "sex": 0},
@@ -1740,12 +1781,12 @@
         <span class="section-label">Section 4</span>
         <h1><span>デモ：名前から性別を予測 🔮</span></h1>
         
-        <p>日本人の名前をローマ字で入力してください（例：TARO、SAKURA）<br>
+        <p>日本人の名前をローマ字で入力してください（例：HARUTO、SAKURA）<br>
         ニューラルネットワークで学習したモデルが性別を予測します（精度：約87%）</p>
         
         <div class="demo-container" style="background: white; padding: 3vh 3vw; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 500px; margin: 3vh auto;">
             <form id="demo-predict-form" style="margin-bottom: 2vh;">
-                <input type="text" id="demo-name-input" placeholder="例：TARO" required
+                <input type="text" id="demo-name-input" placeholder="例：HARUTO" required
                     style="padding: 1vh 1vw; width: 100%; font-size: 1.5vw; border: 2px solid #3498db; border-radius: 8px; box-sizing: border-box;">
                 <button type="submit" style="margin-top: 1.5vh; padding: 1vh 2vw; font-size: 1.3vw; background: linear-gradient(135deg, #3498db, #2980b9); color: white; border: none; border-radius: 8px; cursor: pointer; width: 100%; transition: transform 0.2s;">
                     予測する
@@ -1755,7 +1796,7 @@
         </div>
         
         <div class="formula-box" style="margin-top: 2vh; font-size: 0.9vw; max-width: 700px; margin-left: auto; margin-right: auto;">
-            <strong>学習された重みベクトル \( \vec{w} \in \mathbb{R}^{50} \)：</strong><br>
+            <strong>学習された重みベクトル \( \mathbf{w} \in \mathbb{R}^{50} \)：</strong><br>
             <div style="font-family: monospace; font-size: 0.7vw; max-height: 8vh; overflow-y: auto; background: #f8f9fa; padding: 1vh; border-radius: 4px; margin-top: 1vh; word-break: break-all;">
                 w = [-5.07, -5.07, -5.07, -5.07, -5.07, 76.05, 116.22, 138.04, -180.43, 59.57, -5.07, -5.07, -5.07, -5.07, -5.07, 38.61, 24.25, -4.79, -41.25, -1.37, -5.07, -5.07, -5.07, -5.07, -5.07, 8.61, 1.66, 2.64, -16.63, 0.55, -5.07, -5.07, -5.07, -5.07, -5.07, 16.94, -10.08, 5.41, 17.13, -7.50, -5.07, -5.07, -5.07, -5.07, -5.07, 11.30, -2.92, 8.30, 11.18, 11.10, -5.07, -5.07, -5.07, -5.07, -5.07, 16.82, -11.84, 5.16, 23.58, -35.49, -5.07, -5.07, -5.07, -5.07, -5.07, -10.82, -40.59, -27.64, -31.87, -6.35, -5.07, -5.07, -5.07, -5.07, -5.07, -29.47, -2.93, 30.79, -35.59, 59.11]
             </div>
@@ -1768,40 +1809,167 @@
         
         <span class="page-num">12.5 / 22</span>
     </div>
-    <!-- Slide 13: 二値分類の確率モデル -->
+
+    <!-- Slide 12: 一般のパーセプトロンのモデル -->
     <div class="slide">
         <span class="section-label">Section 5</span>
-        <h1><span>二値分類の確率モデル</span></h1>
+        <h1><span>一般のパーセプトロンのモデル</span></h1>
+        
+        <div class="definition-box">
+            <h3>📐 設定</h3>
+            <p>
+                \( N, M \) を固定する<br>
+                \( \Sigma = (\mathbf{x}^1, \mathbf{x}^2, \ldots, \mathbf{x}^M) \subset \{-1, 1\}^N \) : 入力データ<br>
+                各 \( \mathbf{x} \in \Sigma \) に対し、\( y_{\mathbf{x}} \in \{-1, 1\} \) : ラベル
+            </p>
+        </div>
+        
+        <div class="perceptron-simple">
+            <div class="input-vector">
+                \( \mathbf{x} \in \{-1, 1\}^N \)<br>
+                <small>入力</small>
+            </div>
+            <div class="arrow">×</div>
+            <div class="weight-vector">
+                \( \mathbf{w} \in \{-1, 1\}^N \)<br>
+                <small>重み</small>
+            </div>
+            <div class="arrow">→</div>
+            <div class="output-single">
+                \( y \in \{-1, 1\} \)<br>
+                <small>出力</small>
+            </div>
+        </div>
+        
+        <div class="formula-box conclusion">
+            <strong>解の存在:</strong> 次を満たす \( \mathbf{w} = (w_1, \ldots, w_N) \in \{-1, 1\}^N \) が存在するとき<br>
+            <span class="highlight">\( \mathbf{1}\{ \mathbf{w} \cdot \mathbf{x} \ge 0 \} = y_{\mathbf{x}} \)</span>　　∀ \( \mathbf{x} \in \Sigma \)<br>
+            モデルは<span class="highlight-blue">「解をもつ」</span>という<br>
+            <small style="color: #e74c3c;">※ \( \mathbf{w} \) を見つける問題は<strong>NP困難</strong></small>
+        </div>
+        
+        <span class="page-num">13 / 22</span>
+    </div>
+
+    <!-- Slide 13: ニューラルネットの数学的モデル -->
+    <div class="slide">
+        <span class="section-label">Section 5</span>
+        <h1><span>ニューラルネットの確率モデル</span></h1>
+        
+        <p>ニューラルネットは、<span class="highlight">出力が複数個</span>あるようなパーセプトロン</p>
+        
+        <!-- SVGでニューラルネット図を描画 -->
+        <svg class="nn-svg" viewBox="0 0 400 200">
+            <!-- 入力層 -->
+            <circle cx="50" cy="40" r="15" fill="#3498db"/>
+            <circle cx="50" cy="80" r="15" fill="#3498db"/>
+            <circle cx="50" cy="120" r="15" fill="#95a5a6"/>
+            <circle cx="50" cy="160" r="15" fill="#3498db"/>
+            <text x="50" y="44" text-anchor="middle" fill="white" font-size="10">x₁</text>
+            <text x="50" y="84" text-anchor="middle" fill="white" font-size="10">x₂</text>
+            <text x="50" y="124" text-anchor="middle" fill="white" font-size="8">...</text>
+            <text x="50" y="164" text-anchor="middle" fill="white" font-size="10">xₙ</text>
+            <text x="50" y="190" text-anchor="middle" fill="#888" font-size="10">入力</text>
+            
+            <!-- 出力層 -->
+            <circle cx="350" cy="60" r="15" fill="#27ae60"/>
+            <circle cx="350" cy="100" r="15" fill="#27ae60"/>
+            <circle cx="350" cy="140" r="15" fill="#27ae60"/>
+            <text x="350" y="64" text-anchor="middle" fill="white" font-size="10">y₁</text>
+            <text x="350" y="104" text-anchor="middle" fill="white" font-size="10">y₂</text>
+            <text x="350" y="144" text-anchor="middle" fill="white" font-size="10">y₃</text>
+            <text x="350" y="190" text-anchor="middle" fill="#888" font-size="10">出力</text>
+            
+            <!-- 接続線 -->
+            <line x1="65" y1="40" x2="335" y2="60" stroke="#9b59b6" stroke-width="1" opacity="0.3"/>
+            <line x1="65" y1="40" x2="335" y2="100" stroke="#9b59b6" stroke-width="1" opacity="0.3"/>
+            <line x1="65" y1="40" x2="335" y2="140" stroke="#9b59b6" stroke-width="1" opacity="0.3"/>
+            <line x1="65" y1="80" x2="335" y2="60" stroke="#9b59b6" stroke-width="1" opacity="0.3"/>
+            <line x1="65" y1="80" x2="335" y2="100" stroke="#9b59b6" stroke-width="1" opacity="0.3"/>
+            <line x1="65" y1="80" x2="335" y2="140" stroke="#9b59b6" stroke-width="1" opacity="0.3"/>
+            <line x1="65" y1="160" x2="335" y2="60" stroke="#9b59b6" stroke-width="1" opacity="0.3"/>
+            <line x1="65" y1="160" x2="335" y2="100" stroke="#9b59b6" stroke-width="1" opacity="0.3"/>
+            <line x1="65" y1="160" x2="335" y2="140" stroke="#9b59b6" stroke-width="1" opacity="0.3"/>
+            
+            <!-- 重み行列 -->
+            <text x="200" y="100" text-anchor="middle" fill="#9b59b6" font-size="14" font-weight="bold">W</text>
+            <text x="200" y="115" text-anchor="middle" fill="#888" font-size="9">N × K 行列</text>
+        </svg>
+        
+        <h2 style="margin-top: 2vh;">例：名前から複数属性を判定</h2>
+        <div class="example-table">
+            <div class="example-row">
+                <span class="name">SHUTA</span>
+                <span class="arrow">→</span>
+                <div class="attributes">
+                    <span class="attr-tag male">男</span>
+                    <span class="attr-tag kanto">関東</span>
+                    <span class="attr-tag young">50代以下</span>
+                </div>
+                <span class="arrow">→</span>
+                <span class="vector">\( (1, 1, 0) \)</span>
+            </div>
+            <div class="example-row">
+                <span class="name">TAKASHI</span>
+                <span class="arrow">→</span>
+                <div class="attributes">
+                    <span class="attr-tag male">男</span>
+                    <span class="attr-tag kansai">関西</span>
+                    <span class="attr-tag old">50代以上</span>
+                </div>
+                <span class="arrow">→</span>
+                <span class="vector">\( (1, 0, 1) \)</span>
+            </div>
+            <div class="example-row">
+                <span class="name">REIKA</span>
+                <span class="arrow">→</span>
+                <div class="attributes">
+                    <span class="attr-tag female">女</span>
+                    <span class="attr-tag kanto">関東</span>
+                    <span class="attr-tag unknown">??</span>
+                </div>
+                <span class="arrow">→</span>
+                <span class="vector">\( (0, 1, \, ??) \)</span>
+            </div>
+        </div>
+        
+        <span class="page-num">14 / 22</span>
+    </div>
+
+    <!-- Slide 14: ニューラルネットの確率モデル -->
+    <div class="slide">
+        <span class="section-label">Section 5</span>
+        <h1><span>ニューラルネットの確率モデル</span></h1>
         
         <p>確率論では入力と出力が<span class="highlight">独立な確率変数</span>で与えられる場合を考える</p>
         
         <div class="definition-box">
             <h3>📐 設定</h3>
             <p>
-                \( (\vec{x}^1, y^1), (\vec{x}^2, y^2), \ldots, (\vec{x}^m, y^m) \in \{-1, 1\}^n \times \{-1, 1\} \)<br>
-                <small>\( \vec{x}^i \in \{-1,1\}^n \)、\( y^i \in \{-1,1\} \) を<span class="highlight">一様・独立</span>に選ぶ</small>
+                \( (\mathbf{x}^1, \mathbf{y}^1), (\mathbf{x}^2, \mathbf{y}^2), \ldots, (\mathbf{x}^M, \mathbf{y}^M) \in \{-1, 1\}^N \times \{-1, 1\}^K \)<br>
+                <small>\( \mathbf{x}^i \in \{-1,1\}^N \)、\( \mathbf{y}^i \in \{-1,1\}^K \) を<span class="highlight">一様・独立</span>に選ぶ</small>
             </p>
         </div>
         
         <div class="matrix-display">
             <div style="text-align: center;">
-                <div style="font-size: 1.0vw; margin-bottom: 1vh;">重みベクトル</div>
+                <div style="font-size: 1.0vw; margin-bottom: 1vh;">重み行列</div>
                 <div style="font-size: 1.5vw;">
-                \[ \vec{w} = (w_1, w_2, \ldots, w_n) \in \{-1, 1\}^{n} \]
+                \[ \mathbf{W} = \begin{pmatrix} w_{11} & w_{12} & \cdots & w_{1K} \\ w_{21} & w_{22} & \cdots & w_{2K} \\ \vdots & \vdots & \ddots & \vdots \\ w_{N1} & w_{N2} & \cdots & w_{NK} \end{pmatrix}  \in \{-1, 1\}^{N \times K} \]
                 </div>
             </div>
         </div>
         
         <div class="formula-box conclusion">
-            <strong>解の存在:</strong> 次を満たす重みベクトル \( \vec{w} \) が存在するとき<br>
-            <span class="highlight">\( \operatorname{sgn}(\vec{w}\cdot\vec{x}^i) = y^i \)</span>　　∀ \( i = 1, \ldots, m \)<br>
-            二値分類モデルは<span class="highlight-blue">「解をもつ」</span>という
+            <strong>解の存在:</strong> 次を満たす行列 \( \mathbf{W} \) が存在するとき<br>
+            <span class="highlight">\( \mathbf{1}\{ \mathbf{W}\mathbf{x}^i \ge 0 \} = \mathbf{y}^i \)</span>　　∀ \( i = 1, \ldots, M \)<br>
+            ニューラルネットは<span class="highlight-blue">「解をもつ」</span>という
         </div>
         
         <span class="page-num">15 / 22</span>
     </div>
 
-    <!-- Slide 14: 解の個数の定義 -->
+    <!-- Slide 15: 解の個数の定義 -->
     <div class="slide">
         <span class="section-label">Section 5</span>
         <h1><span>解の個数の定義</span></h1>
@@ -1809,21 +1977,21 @@
         <div class="definition-box">
             <h3>📐 パラメータ設定</h3>
             <p>
-                \( \alpha > 0 \) を固定する<br>
-                \( m = \alpha n \)（データ数）<br>
-                \( \vec{x}^i \in \{-1,1\}^n \)、\( y^i \in \{-1,1\} \) を <span class="highlight">一様・独立</span> に選ぶ
+                \( \alpha, \beta > 0 \) を固定する<br>
+                \( M = \alpha N \)（データ数）、\( K = \beta N \)（出力次元）<br>
+                \( \mathbf{x}^i \in \{-1,1\}^N \)、\( \mathbf{y}^i \in \{-1,1\}^K \) を <span class="highlight">一様・独立</span> に選ぶ
             </p>
         </div>
         
         <div class="formula-box" style="margin: 3vh 0; text-align: center;">
             <strong>解の個数:</strong><br>
-            <span style="font-size: 1.8vw;">\[ Z_{n,m} = \#\left\{ \vec{w} \in \{-1, 1\}^{n} : \operatorname{sgn}(\vec{w}\cdot\vec{x}^i) = y^i, \; \forall i \right\} \]</span>
+            <span style="font-size: 1.8vw;">\[ Z_{N,M,K} = \#\left\{ \mathbf{W} \in \{-1, 1\}^{N \times K} : \mathbf{1}\{ \mathbf{W}\mathbf{x}^i \ge 0 \} = \mathbf{y}^i, \; \forall i \right\} \]</span>
         </div>
         
         <div class="phase-diagram">
             <div class="phase sat">
                 <div class="phase-label">\( \alpha < \alpha_c \)</div>
-                <div class="phase-prob">\( Z_{n,m} > 0 \)</div>
+                <div class="phase-prob">\( Z_{N,M,K} > 0 \) w.h.p.</div>
                 <div style="font-size: 2vw; margin-top: 1vh;">✓</div>
             </div>
             <div class="phase critical" style="width: 2vw; padding: 0;">
@@ -1831,17 +1999,62 @@
             </div>
             <div class="phase unsat">
                 <div class="phase-label">\( \alpha > \alpha_c \)</div>
-                <div class="phase-prob">\( Z_{n,m} = 0 \) </div>
+                <div class="phase-prob">\( Z_{N,M,K} = 0 \) w.h.p.</div>
                 <div style="font-size: 2vw; margin-top: 1vh;">✗</div>
             </div>
         </div>
         <div class="axis-label">\( \alpha \)（データ数 / 次元）→</div>
         
         <div class="note">
-            💡 データが多すぎると（\( \alpha > \alpha_c \)）、すべてを正しく分類する重み \( \vec{w} \) は存在しなくなる！
+            💡 データが多すぎると（\( \alpha > \alpha_c \)）、すべてを正しく分類する重み \( \mathbf{W} \) は存在しなくなる！
         </div>
         
         <span class="page-num">16 / 22</span>
+    </div>
+
+    <!-- Slide 16: 歴史 -->
+    <div class="slide">
+        <span class="section-label">Section 6</span>
+        <h1><span>研究の歴史</span></h1>
+        
+        <div class="future-list">
+            <div class="future-item">
+                <div class="future-icon">🔬</div>
+                <div class="future-content">
+                    <h4>モデルの起源（20世紀中盤）</h4>
+                    <p>McCulloch–Pitts '43, Rosenblatt '58, Gardner '85 など<br>
+                    パーセプトロンは<span class="highlight">単層ニューラルネット</span>として知られる</p>
+                </div>
+            </div>
+            
+            <div class="future-item">
+                <div class="future-icon">🎲</div>
+                <div class="future-content">
+                    <h4>Gardner (1985)</h4>
+                    <p><span class="highlight">レプリカトリック</span>を用いて \( \displaystyle\lim_{N\to \infty} \frac{\log{Z_{N,\alpha N}}}{N} \) を計算：
+                    \[ \mathbb{E}[\log{Z}]=\lim_{n\to 0} n^{-1} (\mathbb{E}[Z^n]-1) \]
+                    これが「<span class="highlight-blue">Gardner 公式</span>」の由来</p>
+                </div>
+            </div>
+            
+            <div class="future-item">
+                <div class="future-icon">📜</div>
+                <div class="future-content">
+                    <h4>Talagrand (1998)</h4>
+                    <p>\( \alpha \ll 1 \) の場合に Gardner 公式を<span class="highlight">数学的に証明</span></p>
+                </div>
+            </div>
+            
+            <div class="future-item">
+                <div class="future-icon">❓</div>
+                <div class="future-content">
+                    <h4>未解決問題</h4>
+                    <p>\( \alpha \) が小さくない場合の問題は<span class="highlight-red">未解決</span></p>
+                </div>
+            </div>
+        </div>
+        
+        <span class="page-num">17 / 22</span>
     </div>
 
     <!-- Slide 17: 予想（RS公式） -->
@@ -1900,52 +2113,124 @@
             <h3 style="color: #2c3e50; font-size: 1.4vw; margin-bottom: 1vh;"> 予想：解の数の漸近挙動</h3>
             <p style="font-size: 1.6vw; color: #333; text-align: center; padding: 1vh 0;">
                 \(\alpha < \alpha_c^*\) のとき：
-                \[ \lim_{n \to \infty} n^{-1} \log Z_{n, \alpha n} = f_{\mathrm{RS}}(\alpha)>0 \]
+                \[ \lim_{N \to \infty} N^{-1} \log Z_{N, \alpha N} = f_{\mathrm{RS}}(\alpha) \]
             </p>
             <p style="font-size: 1.6vw; color: #333; text-align: center; padding: 1vh 0;">
                 \(\alpha > \alpha_c^*\) のとき：
-                \[ \mathbb{P}(Z_{n, \alpha n} = 0) \to 1 \]
+                \[ \mathbb{P}(Z_{N, \alpha N} = 0) \to 1 \]
             </p>
             <p style="font-size: 1.1vw; color: #666;">解の数の対数が RS 公式で正確に計算できる（と予想される）</p>
         </div>
-                
+        
+        <div class="note" style="margin-top: 3vh;">
+            💡 この予想が正しければ、臨界値 \(\alpha_c^*\) で<span class="highlight">シャープな相転移</span>が起こる
+        </div>
+        
         <span class="page-num">19 / 22</span>
     </div>
 
-
-    <!-- Slide: 中島の最近の結果 -->
+    <!-- Slide 19: Talagrandの定理 -->
     <div class="slide">
         <span class="section-label">Section 6</span>
-次を思い出す:
- \[
-                    f_{\mathrm{RS}}(\alpha)
-                    = \inf_{q \in [0,1]} \sup_{r \geq 0} \Phi_\alpha(q,r)
-                    \]
+        <h1><span>Talagrandの定理</span></h1>
+        
         <div class="theorem-box">
-            <h3>定理（臨界点 の一意性）</h3>
-            <div class="authors">S. Nakajima 2025</div>
+            <h3>定理 (Talagrand 1998)</h3>
+            <div class="authors">M. Talagrand (1998)</div>
             <div class="statement">
-                ある定数 \( \alpha_\star > 0 \) が存在して、任意の
-                \( 0 < \alpha < \alpha_\star \) に対し、
+                <span class="highlight">\( \alpha \ll 1 \)</span>（十分小さい \( \alpha \)）に対して、
                 <div class="formula-box" style="margin: 2vh 0; border-left-color: #27ae60; text-align: center;">
-                    \[
-                    \begin{aligned}
-                    \Phi_\alpha(q,r)
-                    ={}& -\frac{r}{2}\log(1-q)
-                    + \alpha \int_{-\infty}^{\infty} \frac{e^{-z^2/2}}{\sqrt{2\pi}}\,dz\,
-                        \log\!\left(\int_{\sqrt{\frac{q}{1-q}}\,z}^{\infty}
-                        \frac{e^{-t^2/2}}{\sqrt{2\pi}}\,dt\right)\\
-                    &+ \int_{-\infty}^{\infty} \frac{e^{-z^2/2}}{\sqrt{2\pi}}\,dz\,
-                        \log\!\left(2\cosh(\sqrt{r}\,z)\right).
-                    \end{aligned}
-                    \]
+                    \[ \lim_{N \to \infty} N^{-2} \log Z_{N, \alpha N,\beta N} = \beta f_{\mathrm{RS}}(\alpha) \]
                 </div>
-                の 臨界点 \( (q_\alpha, r_\alpha) \) は<span class="highlight">一意に定まる</span>。
+                が成り立つ。
             </div>
         </div>
+        
+        <div class="note" style="margin-top: 3vh;">
+            💡 これは RS 公式が<span class="highlight">数学的に正しい</span>ことを示した初めての結果！<br>
+            しかし、\( \alpha \) が小さい場合に限られる。
+        </div>
+        
+        <div class="phase-diagram" style="margin-top: 3vh;">
+            <div class="phase sat" style="flex: 0.3;">
+                <div class="phase-label" style="font-size: 1vw;">\( \alpha \ll 1 \)</div>
+                <div class="phase-prob" style="font-size: 0.9vw;">Talagrand ✓</div>
+            </div>
+            <div class="phase unsat" style="flex: 0.7; background: linear-gradient(135deg, #f5eef8 0%, #ebdef0 100%);">
+                <div class="phase-label" style="color: #9b59b6;">未解決領域</div>
+                <div class="phase-prob" style="color: #8e44ad; font-size: 0.9vw;">Open Problem</div>
+            </div>
+        </div>
+        
+        <span class="page-num">20 / 22</span>
+    </div>
+<!-- Slide: alpha_{N,K}の定義（解の個数 版） -->
+<div class="slide" style="font-size:1.5em;">
+    <span class="section-label" style="color:#2980b9;font-weight:bold;">Section 6</span>
+    <h1 style="margin-bottom:1vh;font-size:2em;"><span>\(\alpha_{N,K}\) の定義</span></h1>
 
+    <div class="definition-box" style="background:#f8fbff;border-left:5px solid #2980b9;padding:2vh 2vw;margin-bottom:2vh;font-size:1.15em;">
+        <h3 style="color:#2980b9;font-size:1.2em;">定義</h3>
+        <div class="statement" style="font-size:1em;">
+            入力：<span style="color:#2c3e50;">\(\mathbb{R}^N\)</span>　
+            出力：<span style="color:#2c3e50;">\(K\)</span> クラス（\(\{1,\dots,K\}\)）<br>
+            <span style="color:#34495e;">\(Z_{N,M,K}\)</span>：\(M\) 個のデータをすべて同時に満たす「解の個数」。<br>臨界点を次で定義する。
+            <div class="formula-box" style="margin:2vh 0;border-left:5px solid #2980b9;background:#eaf6fb;padding:1vh 0;text-align:center;font-size:1.1em;">
+                \[
+                \alpha_{N,K} := \max\left\{ \frac{M}{N} \;\middle|\; Z_{N,M,K} \ge 1 \right\}
+                \]
+            </div>
+        </div>
+    </div>
 
-        <span class="page-num">Recent result</span>
+    <div class="note" style="margin-top:3vh;font-size:1.15em;">
+        💡 <span class="highlight" style="color:#e67e22;">意味：</span>
+        データ密度 \(\alpha = M/N\) を増やしていき、<b>まだ解が少なくとも1つ存在する最大の値</b>。<br>
+    </div>
+
+    <span class="page-num" style="color:#2980b9;font-size:1em;">21 / 22</span>
+</div>
+
+    <!-- Slide 19: Nakajima-Sunの定理 -->
+    <div class="slide">
+        <span class="section-label">Section 6</span>
+        <h1><span>臨界点集中定理</span></h1>
+        
+        <div class="theorem-box">
+            <h3>定理 (Nakajima-Sun 2024)</h3>
+            <div class="authors">S. Nakajima & N. Sun (2024)</div>
+            <div class="statement">
+                ある数列 <span class="highlight">\( (\alpha_c^*(N))_{N\in \mathbb{N}} \)</span> が存在して、
+                任意の \( \delta > 0 \) に対して、
+                <div class="formula-box" style="margin: 2vh 0; border-left-color: #27ae60; text-align: center;">
+                    \[ \mathbb{P}\left( \left| \alpha_{N,\beta N} - \alpha_c^*(N) \right| > \delta \right) \to 0, \quad N\to \infty\]
+                </div>
+            </div>
+        </div>
+        
+        <div class="roadmap">
+            <div class="roadmap-item">
+                <div class="roadmap-circle done">✓</div>
+                <div class="roadmap-label">臨界値の存在</div>
+            </div>
+            <div class="roadmap-arrow">→</div>
+            <div class="roadmap-item">
+                <div class="roadmap-circle current">?</div>
+                <div class="roadmap-label">極限の計算<br><small>\( \alpha_c^*(N) \to \alpha_c^* \)</small></div>
+            </div>
+            <div class="roadmap-arrow">→</div>
+            <div class="roadmap-item">
+                <div class="roadmap-circle future">...</div>
+                <div class="roadmap-label">深層学習への拡張</div>
+            </div>
+        </div>
+        
+        <div class="note">
+            💡 臨界値 \( \alpha_c^*(N) \) が存在することは証明された。次のステップは \( N \to \infty \) での極限！<br>
+            <small>※ \( K = 1 \) の場合は Xu (2021) が同じ定理を証明</small>
+        </div>
+        
+        <span class="page-num">22 / 22</span>
     </div>
 
     <!-- Slide 20: さらなる展開 -->

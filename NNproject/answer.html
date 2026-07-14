@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>解答</title>
+  <style>
+    :root {
+      --ink: #17212b;
+      --blue: #174a7a;
+      --line: #b7c3cd;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: #f2f5f7;
+      font-family: "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+      font-size: 16px;
+      line-height: 1.9;
+    }
+
+    main {
+      width: min(900px, calc(100% - 32px));
+      margin: 32px auto;
+      padding: 56px 68px;
+      background: #fff;
+      box-shadow: 0 8px 28px rgb(23 33 43 / 12%);
+    }
+
+    h1, h2 { color: var(--blue); }
+    h1 { margin: 0 0 28px; font-size: 30px; }
+    h2 { margin: 0 0 16px; font-size: 22px; }
+    section + section { border-top: 1px solid var(--line); margin-top: 40px; padding-top: 40px; }
+    p { margin: 12px 0; }
+
+    .formula {
+      margin: 18px auto;
+      padding: 8px 16px;
+      color: #101820;
+      font-family: "Times New Roman", "Noto Serif JP", serif;
+      font-size: 21px;
+      text-align: center;
+    }
+
+    .answer {
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    figure {
+      max-width: 520px;
+      margin: 28px auto;
+      padding: 18px;
+      border: 1px solid var(--line);
+      background: #fbfcfd;
+    }
+
+    figure svg { display: block; width: 100%; height: auto; }
+    figcaption { margin-top: 10px; font-size: 14px; text-align: center; }
+    .curve { fill: none; stroke: #174a7a; stroke-width: 0.06; }
+    .tangent { fill: none; stroke: #c23b3b; stroke-width: 0.06; }
+    .axis { stroke: #52616d; stroke-width: 0.025; }
+    .point { fill: #c23b3b; }
+
+    @media print {
+      body { background: #fff; }
+      main { width: auto; margin: 0; padding: 12mm 16mm; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>解答</h1>
+
+    <section>
+      <h2>1. 陰関数の微分</h2>
+      <p>与えられた式 <span class="formula">x<sup>2</sup> + xy + y<sup>2</sup> = 7</span> を <i>x</i> で微分する。</p>
+      <p class="formula">2x + x(dy/dx) + y + 2y(dy/dx) = 0</p>
+      <p>したがって、</p>
+      <p class="formula">(x + 2y)(dy/dx) = −(2x + y)</p>
+      <p>より、</p>
+      <p class="formula answer">dy/dx = −(2x + y) / (x + 2y)</p>
+      <p>を得る。</p>
+      <p>点 (1, 2) における傾きは</p>
+      <p class="formula">−(2・1 + 2) / (1 + 2・2) = −4/5</p>
+      <p>である。よって、接線の方程式は</p>
+      <p class="formula answer">y − 2 = −(4/5)(x − 1)</p>
+      <p>である。</p>
+      <figure>
+        <svg viewBox="0 0 460 390" role="img" aria-labelledby="tangent-title tangent-desc">
+          <title id="tangent-title">曲線 x² + xy + y² = 7 と点 (1, 2) における接線</title>
+          <desc id="tangent-desc">青い楕円状の曲線上の点 (1, 2) に、赤い直線 y - 2 = -4/5 (x - 1) が接している。</desc>
+          <rect x="45" y="20" width="370" height="330" fill="#fff" stroke="#d5dde3" />
+          <g transform="translate(230 190) scale(48 -48)">
+            <line class="axis" x1="-3.85" y1="0" x2="3.85" y2="0" />
+            <line class="axis" x1="0" y1="-3.35" x2="0" y2="3.35" />
+            <ellipse class="curve" rx="2.16" ry="3.74" transform="rotate(45)" />
+            <line class="tangent" x1="-0.875" y1="3.5" x2="3.85" y2="-0.28" />
+            <circle class="point" cx="1" cy="2" r="0.11" />
+          </g>
+          <g fill="#17212b" font-family="Noto Sans JP, Yu Gothic, Meiryo, sans-serif" font-size="14">
+            <text x="402" y="184">x</text>
+            <text x="237" y="35">y</text>
+            <text x="278" y="86" fill="#c23b3b">(1, 2)</text>
+            <text x="274" y="316" fill="#c23b3b">接線</text>
+            <text x="68" y="334" fill="#174a7a">x² + xy + y² = 7</text>
+          </g>
+        </svg>
+        <figcaption>青：曲線 $x^2+xy+y^2=7$、赤：点 $(1,2)$ における接線</figcaption>
+      </figure>
+    </section>
+
+    <section>
+      <h2>2. ラグランジュ未定乗数法（最大値）</h2>
+      <p>制約条件を <i>x</i><sup>2</sup> + <i>y</i><sup>2</sup> = 1 とする。ラグランジュ関数を</p>
+      <p class="formula">Φ(x, y, λ) := 3x + 4y − λ(x<sup>2</sup> + y<sup>2</sup> − 1)</p>
+      <p>と定義する。Φ の極値候補は各変数に関する偏微分がすべて 0 となる点だから、</p>
+      <p class="formula">Φ<sub>x</sub> = 3 − 2λx = 0, &nbsp; Φ<sub>y</sub> = 4 − 2λy = 0, &nbsp; Φ<sub>λ</sub> = −(x<sup>2</sup> + y<sup>2</sup> − 1) = 0</p>
+      <p>を連立して解く。最初の二式から <i>x</i> = 3/(2λ), <i>y</i> = 2/λ であり、これを制約条件に代入すると</p>
+      <p class="formula">λ = ±5/2</p>
+      <p>となる。したがって極値候補は</p>
+      <p class="formula">(x, y) = (3/5, 4/5), &nbsp; (−3/5, −4/5)</p>
+      <p>である。それぞれでの関数値は 5 と −5 なので、最大値を与える点は</p>
+      <p class="formula answer">(x, y) = (3/5, 4/5)</p>
+      <p>となる。このとき、</p>
+      <p class="formula">f(3/5, 4/5) = 3・(3/5) + 4・(4/5) = 5</p>
+      <p>したがって、最大値は <span class="answer">5</span> である。</p>
+    </section>
+  </main>
+</body>
+</html>
