@@ -1226,8 +1226,7 @@
         <div class="subtitle">ニューラルネットの基礎と確率の話</div>
         <div class="author">中島 秀太</div>
         <div class="affiliation">慶應義塾大学 理学学部 数理科学科</div>
-        <div class="date">2025年</div>
-    </div>
+     </div>
 
     <!-- Slide 2 -->
     <div class="slide">
@@ -1801,6 +1800,47 @@
         <span class="page-num">15 / 22</span>
     </div>
 
+    <!-- Slide 13.5: 解の存在と臨界値 -->
+    <div class="slide">
+        <span class="section-label">Section 5</span>
+        <h1><span>解はいつ存在するか？</span></h1>
+
+        <div class="definition-box">
+            <h3>考察</h3>
+            <p>
+                データ数 \( m \) が小さいとき、条件をすべて満たす重みベクトルは<span class="highlight-green">存在しそう</span>。<br>
+                一方で \( m \) が大きいとき、条件が多すぎて解は<span class="highlight-red">存在しなさそう</span>。
+            </p>
+        </div>
+
+        <div class="question" style="margin-top: 3vh; font-size: 2vw;">
+            <strong>重要な問題:</strong> どのような \( m \) について解が存在するか？
+        </div>
+
+        <p style="margin-top: 4vh; text-align: center;">
+            <span class="highlight">予想:</span> ある \( \alpha_c > 0 \) が存在して、\( m = \alpha n \) とすると
+        </p>
+
+        <div class="phase-diagram">
+            <div class="phase sat">
+                <div class="phase-label">\( \alpha < \alpha_c \)</div>
+                <div class="phase-prob">解が存在</div>
+                <div style="font-size: 2vw; margin-top: 1vh;">✓</div>
+            </div>
+            <div class="phase critical" style="width: 2vw; padding: 0;">
+                \( \alpha_c \)
+            </div>
+            <div class="phase unsat">
+                <div class="phase-label">\( \alpha > \alpha_c \)</div>
+                <div class="phase-prob">解が存在しない</div>
+                <div style="font-size: 2vw; margin-top: 1vh;">✗</div>
+            </div>
+        </div>
+        <div class="axis-label">データ数と次元の比 \( \alpha = m / n \)</div>
+
+        <span class="page-num">16 / 23</span>
+    </div>
+
     <!-- Slide 14: 解の個数の定義 -->
     <div class="slide">
         <span class="section-label">Section 5</span>
@@ -1819,28 +1859,6 @@
             <strong>解の個数:</strong><br>
             <span style="font-size: 1.8vw;">\[ Z_{n,m} = \#\left\{ \vec{w} \in \{-1, 1\}^{n} : \operatorname{sgn}(\vec{w}\cdot\vec{x}^i) = y^i, \; \forall i \right\} \]</span>
         </div>
-        
-        <div class="phase-diagram">
-            <div class="phase sat">
-                <div class="phase-label">\( \alpha < \alpha_c \)</div>
-                <div class="phase-prob">\( Z_{n,m} > 0 \)</div>
-                <div style="font-size: 2vw; margin-top: 1vh;">✓</div>
-            </div>
-            <div class="phase critical" style="width: 2vw; padding: 0;">
-                \( \alpha_c \)
-            </div>
-            <div class="phase unsat">
-                <div class="phase-label">\( \alpha > \alpha_c \)</div>
-                <div class="phase-prob">\( Z_{n,m} = 0 \) </div>
-                <div style="font-size: 2vw; margin-top: 1vh;">✗</div>
-            </div>
-        </div>
-        <div class="axis-label">\( \alpha \)（データ数 / 次元）→</div>
-        
-        <div class="note">
-            💡 データが多すぎると（\( \alpha > \alpha_c \)）、すべてを正しく分類する重み \( \vec{w} \) は存在しなくなる！
-        </div>
-        
         <span class="page-num">16 / 22</span>
     </div>
 
